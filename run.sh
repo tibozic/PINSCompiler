@@ -1,1 +1,1 @@
-java -classpath /home/betterjimmy/Documents/FRI_VSS/22_2022/PNS/v/v1/PINSCompiler/out/production/PINSCompiler:/home/betterjimmy/Documents/FRI_VSS/22_2022/PNS/v/v1/PINSCompiler/lib/ArgPar-0.1.jar Main PINS src/tests/test14.tst --dump LEX
+java -classpath /home/betterjimmy/Documents/Projects/software/java/PINSCompiler/out/production/PINSCompiler:/home/betterjimmy/Documents/Projects/software/java/PINSCompiler/lib/ArgPar-0.1.jar Main PINS src/tests/test01.tst --dump SYN

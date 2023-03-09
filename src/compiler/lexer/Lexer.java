@@ -159,6 +159,7 @@ public class Lexer {
                 }
                 case Lex_String: {
                     if (ch == '\'' && (i < this.source.length()-1) && (this.source.charAt(i + 1)) != '\'') {
+                        // FIXME: Sometimes strings have wrong location.
                         current_column++;
                         symbols.add(createToken(token.toString(), true));
 
