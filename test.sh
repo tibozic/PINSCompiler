@@ -1,5 +1,5 @@
 
-TESTS="src/tests/*.tst"
+TESTS="src/tests/parser/*.tst"
 
 echo "**** Testing ****"
 for testFile in $TESTS
