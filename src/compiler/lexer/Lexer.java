@@ -161,6 +161,7 @@ public class Lexer {
                     if (ch == '\'' && (i < this.source.length()-1) && (this.source.charAt(i + 1)) != '\'') {
                         // FIXME: Sometimes strings have wrong location.
                         current_column++;
+                        i++;
                         symbols.add(createToken(token.toString(), true));
 
                         token_start_line = current_line;
