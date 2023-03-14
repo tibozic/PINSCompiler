@@ -1,4 +1,3 @@
-```txt
 source -> definitions .
 
 definitions -> definition .
@@ -63,7 +62,7 @@ atom_expression -> str_constant .
 atom_expression -> identifier .
 atom_expression -> identifier "(" expressions ")" .
 atom_expression -> "{" expression "=" expression "}" .
-atom_expression -> "{" if expression ":" expression "}" .
+atom_expression -> "{" if expression then expression "}" .
 atom_expression -> "{" if expression then expression else expression "}" .
 atom_expression -> "{" while expression ":" expression "}" .
 atom_expression -> "{" for identifier "=" expression "," expression "," expression ":" expression "}" .

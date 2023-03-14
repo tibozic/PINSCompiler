@@ -80,8 +80,10 @@ atom_expression2 -> for identifier "=" expression "," expression "," expression 
 atom_expression2 -> if expression atom_expression3 .
 atom_expression2 -> expression "=" expression "}" .
 
-atom_expression3 -> ":" expression "}" .
-atom_expression3 -> then expression else expression "}" .
+atom_expression3 -> then expression atom_expression5 .
+
+atom_expression5 -> "}" .
+atom_expression5 -> else expression "}" .
 
 expressions -> expression expressions2 .
 expressions2 -> .

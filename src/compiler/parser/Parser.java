@@ -44,7 +44,6 @@ public class Parser {
      * Izvedi sintaksno analizo.
      */
     public void parse() {
-        System.out.println(this.symbols);
         symbolIterator = this.symbols.iterator();
         currentSymbol = symbolIterator.next();
 
@@ -66,6 +65,7 @@ public class Parser {
     }
 
     private void skip() {
+        // System.out.println(String.format("Skipped: %s (%s)", check(), currentSymbol.lexeme));
         currentSymbol = symbolIterator.next();
     }
 
@@ -78,13 +78,24 @@ public class Parser {
         // TODO: - rekurzivno spuščanje
         dump("source -> definitions");
         parseDefinitions();
+        if( check() != EOF ) error(String.format("Expected `EOF`, got `%s`\n", this.currentSymbol.lexeme));
     }
 
     private void parseDefinitions() {
         dump("definitions -> definition definitions'");
         parseDefinition();
-        skip();
         parseDefinitions2();
+    }
+
+    private void parseDefinitions2() {
+        if( (check() == OP_SEMICOLON) ) {
+            dump("definitions' -> ; definitions");
+            skip();
+            parseDefinitions();
+        }
+        else {
+            dump("definitions' -> e");
+        }
     }
 
     private void parseDefinition() {
@@ -105,10 +116,11 @@ public class Parser {
                 break;
             }
             default: {
-                error("1) Definition symbols unknown: " + check() + " (" + currentSymbol.lexeme + ")");
+                error("Definition symbols unknown: " + check() + " (" + currentSymbol.lexeme + ")");
             }
         }
     }
+
 
     private void parseFunctionDefinition() {
         dump("function_definition -> fun identifier ( parameters ) : type = expression");
@@ -127,19 +139,6 @@ public class Parser {
         if( (check() != OP_ASSIGN) ) error(String.format("Expected: `OP_ASSIGN`, got `%s`\n", check()));
         skip();
         parseExpression();
-    }
-
-    private void parseDefinitions2() {
-        skip();
-        if( (check() == OP_SEMICOLON) ) {
-            dump("definitions' -> ; definitions");
-            skip();
-            parseDefinitions();
-        }
-        else {
-            dump("definitions' -> e");
-            if( check() != EOF ) error(String.format("Expected `EOF`, got `%s`\n", check()));
-        }
     }
 
     private void parseParameters() {
@@ -168,7 +167,7 @@ public class Parser {
     }
 
     private void parseTypeDefinition() {
-        dump("type_definition -> identifier : type");
+        dump("type_definition -> typ identifier : type");
         skip();
         if( (check() != IDENTIFIER) ) error("Unknown parameter symbol: " + check() + " (should be IDENTIFIER)");
         skip();
@@ -216,7 +215,6 @@ public class Parser {
 
     private void parseVariableDefinition() {
         dump("variable_definition -> var identifier : type");
-        if( (check() != KW_VAR) ) error("Unknown variableDefinition symbol: " + check() + " (expected KW_VAR)");
         skip();
         if( (check() != IDENTIFIER) ) error("Unknown variableDefinition symbol: " + check() + " (should be IDENTIFIER)");
         skip();
@@ -242,7 +240,7 @@ public class Parser {
             skip();
         }
         else {
-            dump("expressions' -> e");
+            dump("expression' -> e");
         }
     }
 
@@ -395,20 +393,24 @@ public class Parser {
         switch(check()) {
             case OP_ADD: {
                 dump("prefix_expression -> + prefix_expression");
+                skip();
                 parsePrefixExpression();
                 break;
             }
             case OP_SUB: {
                 dump("prefix_expression -> - prefix_expression");
+                skip();
                 parsePrefixExpression();
                 break;
             }
             case OP_NOT: {
                 dump("prefix_expression -> ! prefix_expression");
+                skip();
                 parsePrefixExpression();
                 break;
             }
             default: {
+                dump("prefix_expression -> postfix_expression");
                 parsePostfixExpression();
             }
         }
@@ -459,8 +461,9 @@ public class Parser {
                 skip();
                 break;
             }
-            case OP_RBRACE: {
+            case OP_LBRACE: {
                 dump("atom_expression -> { atom_expression2");
+                skip();
                 parseAtomExpression2();
                 break;
             }
@@ -474,7 +477,6 @@ public class Parser {
     }
 
     private void parseAtomExpression4() {
-        skip();
         if( check() == OP_LPARENT ) {
             dump("atom_expression4 -> ( expressions )");
             skip();
@@ -496,7 +498,8 @@ public class Parser {
                 if( check() != OP_COLON ) error(String.format("Expected `OP_COLON`, got %s\n", check()));
                 skip();
                 parseExpression();
-                if( check() != OP_RBRACKET ) error(String.format("Expected `OP_RBRACKET`, got %s\n", check()));
+                if( check() != OP_RBRACE ) error(String.format("Expected `OP_RBRACE`, got %s\n", check()));
+                skip();
                 break;
             }
             case KW_FOR: {
@@ -513,7 +516,7 @@ public class Parser {
                 if( check() != OP_COMMA) error(String.format("Expected `OP_COMMA`, got %s\n", check()));
                 skip();
                 parseExpression();
-                if( check() != OP_ASSIGN ) error(String.format("Expected `OP_ASSIGN`, got %s\n", check()));
+                if( check() != OP_COLON ) error(String.format("Expected `OP_COLON`, got %s\n", check()));
                 skip();
                 parseExpression();
                 if( check() != OP_RBRACE) error(String.format("Expected `OP_RBRACE`, got %s\n", check()));
@@ -525,6 +528,7 @@ public class Parser {
                 skip();
                 parseExpression();
                 parseAtomExpression3();
+                break;
             }
             default: {
                 dump("atom_expression2 -> expression = expression }");
@@ -533,30 +537,33 @@ public class Parser {
                 skip();
                 parseExpression();
                 if( check() != OP_RBRACE ) error(String.format("Expected `OP_RBRACE`, got `%s`\n", check()));
+                skip();
             }
         }
     }
 
     private void parseAtomExpression3() {
-        if( check() == OP_COLON ) {
-            dump("atom_expression3 -> : expression }");
-            skip();
-            parseExpression();
-            if( check() != OP_RBRACE ) error(String.format("Expected `OP_RBRACE`, got `%s`\n", check()));
+        dump("atom_expression3 -> then expression atom_expression5");
+        if( check() != KW_THEN ) error(String.format("Expected `KW_THEN`, got `%s`\n", check()));
+        skip();
+        parseExpression();
+        parseAtomExpression5();
+    }
+
+    private void parseAtomExpression5() {
+        if( check() == OP_RBRACE ) {
+            dump("atom_expression5 -> }");
             skip();
         }
-        else if ( check() == KW_THEN ) {
-            dump("atom_expression3 -> then expression else expression }");
-            skip();
-            parseExpression();
-            if( check() != KW_ELSE ) error(String.format("Expected `KW_ELSE`, got `%s`\n", check()));
+        else if ( check() == KW_ELSE ) {
+            dump("atom_expression5 -> else expression }");
             skip();
             parseExpression();
             if( check() != OP_RBRACE ) error(String.format("Expected `OP_RBRACE`, got `%s`\n", check()));
             skip();
         }
         else {
-            error(String.format("Unknown atomExpression3 symbol: `%s`\n", check()));
+            error(String.format("Unknown atomExpression5 symbol: `%s`\n", check()));
         }
     }
 
