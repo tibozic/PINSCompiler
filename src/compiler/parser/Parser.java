@@ -52,13 +52,6 @@ public class Parser {
         return ast;
     }
 
-    private Ast parseSource() {
-        // TODO: - rekurzivno spuščanje
-        throw new RuntimeException("Not implemented");
-    }
-
-
-
     /**
      * Izpiše produkcijo na izhodni tok.
      */
@@ -83,11 +76,11 @@ public class Parser {
         System.exit(99);
     }
 
-    private void parseSource() {
-        // TODO: - rekurzivno spuščanje
+    private Ast parseSource() {
         dump("source -> definitions");
         parseDefinitions();
         if( check() != EOF ) error(String.format("Expected `EOF`, got `%s`\n", this.currentSymbol.lexeme));
+        return null;
     }
 
     private void parseDefinitions() {
@@ -465,7 +458,7 @@ public class Parser {
             case OP_LPARENT: {
                 dump("atom_expression -> ( expression )");
                 skip();
-                parseExpression();
+                parseExpressions();
                 if( check() != OP_RPARENT ) error(String.format("Expected `OP_RPARENT`, got %s\n", check()));
                 skip();
                 break;
@@ -533,10 +526,13 @@ public class Parser {
                 break;
             }
             case KW_IF: {
-                dump("atom_expression2 -> if expression atom_expression3");
+                dump("atom_expression2 -> if expression then expression atom_expression5");
                 skip();
                 parseExpression();
-                parseAtomExpression3();
+                if( check() != KW_THEN ) error(String.format("Expected `KW_THEN`, got `%s`\n", check()));
+                skip();
+                parseExpression();
+                parseAtomExpression5();
                 break;
             }
             default: {
@@ -549,14 +545,6 @@ public class Parser {
                 skip();
             }
         }
-    }
-
-    private void parseAtomExpression3() {
-        dump("atom_expression3 -> then expression atom_expression5");
-        if( check() != KW_THEN ) error(String.format("Expected `KW_THEN`, got `%s`\n", check()));
-        skip();
-        parseExpression();
-        parseAtomExpression5();
     }
 
     private void parseAtomExpression5() {

@@ -3,8 +3,8 @@ source -> definitions .
 definitions -> definition .
 definitions -> definitions ";" definition .
 
-definition -> function_definition .
 definition -> type_definition .
+definition -> function_definition .
 definition -> variable_definition .
 
 type_definition -> typ identifier ":" type .
@@ -66,7 +66,7 @@ atom_expression -> "{" if expression then expression "}" .
 atom_expression -> "{" if expression then expression else expression "}" .
 atom_expression -> "{" while expression ":" expression "}" .
 atom_expression -> "{" for identifier "=" expression "," expression "," expression ":" expression "}" .
-atom_expression -> "(" expression ")" .
+atom_expression -> "(" expressions ")" .
 
 expressions -> expression .
 expressions -> expressions "," expression .

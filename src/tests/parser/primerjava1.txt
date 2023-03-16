@@ -268,5 +268,3 @@ logical_and_expression2 -> e
 logical_ior_expression2 -> e
 expression2 -> e
 definitions2 -> e
-
-Process finished with exit code 0
