@@ -16,6 +16,7 @@ import common.Report;
 import compiler.lexer.Position;
 import compiler.lexer.Symbol;
 import compiler.lexer.TokenType;
+import compiler.parser.ast.Ast;
 
 import java.util.Iterator;
 
@@ -43,12 +44,20 @@ public class Parser {
     /**
      * Izvedi sintaksno analizo.
      */
-    public void parse() {
+    public Ast parse() {
+
         symbolIterator = this.symbols.iterator();
         currentSymbol = symbolIterator.next();
-
-        parseSource();
+        var ast = parseSource();
+        return ast;
     }
+
+    private Ast parseSource() {
+        // TODO: - rekurzivno spuščanje
+        throw new RuntimeException("Not implemented");
+    }
+
+
 
     /**
      * Izpiše produkcijo na izhodni tok.
