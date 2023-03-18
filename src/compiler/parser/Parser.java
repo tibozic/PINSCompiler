@@ -11,12 +11,16 @@ import static common.RequireNonNull.requireNonNull;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Optional;
+import java.util.ArrayList;
 
 import common.Report;
 import compiler.lexer.Position;
 import compiler.lexer.Symbol;
 import compiler.lexer.TokenType;
-import compiler.parser.ast.Ast;
+import compiler.parser.ast.*;
+import compiler.parser.ast.type.*;
+import compiler.parser.ast.expr.*;
+import compiler.parser.ast.def.*;
 
 import java.util.Iterator;
 
@@ -124,44 +128,65 @@ public class Parser {
     }
 
 
-    private void parseFunctionDefinition() {
+    private FunDef parseFunctionDefinition() {
         dump("function_definition -> fun identifier ( parameters ) : type = expression");
+        Position.Location start = currentSymbol.position.start;
         if( (check() != KW_FUN) ) error(String.format("Expected: `KW_FUN`, got `%s`\n", check()));
         skip();
+
         if( (check() != IDENTIFIER) ) error(String.format("Expected: `IDENTIFIER`, got `%s`\n", check()));
+        String functionName = currentSymbol.lexeme;
         skip();
+
         if( (check() != OP_LPARENT) ) error(String.format("Expected: `OP_LPARENT`, got `%s`\n", check()));
         skip();
-        parseParameters();
+        List<FunDef.Parameter> functionParameters = parseParameters();
+
         if( (check() != OP_RPARENT) ) error(String.format("2) Expected: `OP_RPARENT`, got `%s`\n", check()));
         skip();
+
         if( (check() != OP_COLON) ) error(String.format("Expected: `OP_COLON`, got `%s`\n", check()));
         skip();
-        parseType();
+        Type functionType = parseType();
+
         if( (check() != OP_ASSIGN) ) error(String.format("Expected: `OP_ASSIGN`, got `%s`\n", check()));
+        Position newPosition = new Position(start, currentSymbol.position.end);
         skip();
-        parseExpression();
+
+        Expr functionBody = parseExpression();
+
+        return new FunDef(newPosition, functionName, functionParameters, functionType, functionBody);
     }
 
-    private void parseParameters() {
+    private List<FunDef.Parameter> parseParameters() {
         dump("parameters -> parameter parameters'");
-        parseParameter();
-        parseParameters2();
+        List<FunDef.Parameter> parameters = new ArrayList<FunDef.Parameter>();
+
+        parameters.add(parseParameter());
+        parseParameters2(parameters);
+
+        return parameters;
     }
 
-    private void parseParameter() {
+    private FunDef.Parameter parseParameter() {
         dump("parameter -> identifier : type");
+        Position.Location start = currentSymbol.position.start;
         if( (check() != IDENTIFIER) ) error(String.format("Expected: `IDENTIFIER`, got `%s`\n", check()));
+        String parameterName = currentSymbol.lexeme;
         skip();
+
         if( (check() != OP_COLON) ) error(String.format("Expected: `COLON`, got `%s`\n", check()));
+        Position newPosition = new Position(start, currentSymbol.position.end);
         skip();
-        parseType();
+
+        return new FunDef.Parameter(newPosition, parameterName, parseType());
     }
-    private void parseParameters2() {
+    private void parseParameters2(List<FunDef.Parameter> parameters) {
         if( check() == OP_COMMA ) {
             dump("parameters -> , parameters");
             skip();
-            parseParameters();
+            parameters.add(parseParameter());
+            parseParameters2(parameters);
         }
         else {
             dump("parameters -> e");
@@ -178,39 +203,50 @@ public class Parser {
         parseType();
     }
 
-    private void parseType() {
+    private Type parseType() {
         switch( check() ) {
             case IDENTIFIER: {
                 dump("type -> identifier");
+                Type type = new TypeName(currentSymbol.position, currentSymbol.lexeme);
                 skip();
-                break;
+                return type;
             }
             case AT_LOGICAL: {
                 dump("type -> logical");
+                Type type = Atom.LOG(currentSymbol.position);
                 skip();
-                break;
+                return type;
             }
             case AT_INTEGER: {
                 dump("type -> integer");
+                Type type = Atom.INT(currentSymbol.position);
                 skip();
-                break;
+                return type;
             }
             case AT_STRING: {
                 dump("type -> string");
+                Type type = Atom.STR(currentSymbol.position);
                 skip();
-                break;
+                return type;
             }
             case KW_ARR: {
                 dump("type -> arr [ int_conts ] type");
+                Position.Location start = currentSymbol.position.start;
                 skip();
                 if( check() != OP_LBRACKET ) error(String.format("Expected: `OP_LBRACKET`, got `%s`\n", check()));
                 skip();
                 if( check() != C_INTEGER ) error(String.format("Expected: `C_INTEGER`, got `%s`\n", check()));
+                int arraySize = Integer.valueOf(currentSymbol.lexeme);
                 skip();
                 if( check() != OP_RBRACKET ) error(String.format("Expected: `OP_RBRACKET`, got `%s`\n", check()));
+                Position newPosition = new Position(start, currentSymbol.position.end);
                 skip();
-                parseType();
-                break;
+                Type arrayType = parseType();
+                return new Array(newPosition, arraySize, arrayType);
+            }
+            default: {
+                error(String.format("Unknown type: `%s`\n", check()));
+                return null; // we never get here, because error() exits the program
             }
         }
     }

@@ -20,7 +20,7 @@ function_definition -> fun identifier "(" parameters ")" ":" type "=" expression
 
 parameters -> parameter parameters2 .
 parameters2 -> .
-parameters2 -> "," parameters .
+parameters2 -> "," parameter parameters2 .
 
 parameter -> identifier ":" type .
 
