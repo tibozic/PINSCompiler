@@ -8,6 +8,7 @@ package compiler.parser;
 import static compiler.lexer.TokenType.*;
 import static common.RequireNonNull.requireNonNull;
 
+import java.io.PipedOutputStream;
 import java.io.PrintStream;
 import java.util.List;
 import java.util.Optional;
@@ -82,47 +83,56 @@ public class Parser {
 
     private Ast parseSource() {
         dump("source -> definitions");
-        parseDefinitions();
+        var defs = parseDefinitions();
         if( check() != EOF ) error(String.format("Expected `EOF`, got `%s`\n", this.currentSymbol.lexeme));
-        return null;
+        return defs;
     }
 
-    private void parseDefinitions() {
+    private Defs parseDefinitions() {
         dump("definitions -> definition definitions'");
-        parseDefinition();
-        parseDefinitions2();
+
+        List<Def> defs = new ArrayList<Def>();
+
+        Position.Location start = currentSymbol.position.start;
+
+        defs.add(parseDefinition());
+        parseDefinitions2(defs);
+
+        Position newPosition = new Position(start, currentSymbol.position.end);
+
+        return new Defs(newPosition, defs);
     }
 
-    private void parseDefinitions2() {
+    private void parseDefinitions2(List<Def> defs) {
         if( (check() == OP_SEMICOLON) ) {
             dump("definitions' -> ; definitions");
             skip();
-            parseDefinitions();
+
+            defs.add(parseDefinition());
+            parseDefinitions2(defs);
         }
         else {
             dump("definitions' -> e");
         }
     }
 
-    private void parseDefinition() {
+    private Def parseDefinition() {
         switch( check() ) {
             case KW_FUN: {
                 dump("definition -> function_definition");
-                parseFunctionDefinition();
-                break;
+                return parseFunctionDefinition();
             }
             case KW_VAR: {
                 dump("definition -> variable_definition");
-                parseVariableDefinition();
-                break;
+                return parseVariableDefinition();
             }
             case KW_TYP: {
                 dump("definition -> type_definition");
-                parseTypeDefinition();
-                break;
+                return parseTypeDefinition();
             }
             default: {
                 error("Definition symbols unknown: " + check() + " (" + currentSymbol.lexeme + ")");
+                return null;
             }
         }
     }
@@ -150,10 +160,10 @@ public class Parser {
         Type functionType = parseType();
 
         if( (check() != OP_ASSIGN) ) error(String.format("Expected: `OP_ASSIGN`, got `%s`\n", check()));
-        Position newPosition = new Position(start, currentSymbol.position.end);
         skip();
 
         Expr functionBody = parseExpression();
+        Position newPosition = new Position(start, functionBody.position.end);
 
         return new FunDef(newPosition, functionName, functionParameters, functionType, functionBody);
     }
@@ -170,21 +180,27 @@ public class Parser {
 
     private FunDef.Parameter parseParameter() {
         dump("parameter -> identifier : type");
+
         Position.Location start = currentSymbol.position.start;
+
         if( (check() != IDENTIFIER) ) error(String.format("Expected: `IDENTIFIER`, got `%s`\n", check()));
         String parameterName = currentSymbol.lexeme;
         skip();
 
         if( (check() != OP_COLON) ) error(String.format("Expected: `COLON`, got `%s`\n", check()));
-        Position newPosition = new Position(start, currentSymbol.position.end);
         skip();
 
-        return new FunDef.Parameter(newPosition, parameterName, parseType());
+        var paramType = parseType();
+
+        Position newPosition = new Position(start, paramType.position.end);
+
+        return new FunDef.Parameter(newPosition, parameterName, paramType);
     }
     private void parseParameters2(List<FunDef.Parameter> parameters) {
         if( check() == OP_COMMA ) {
             dump("parameters -> , parameters");
             skip();
+
             parameters.add(parseParameter());
             parseParameters2(parameters);
         }
@@ -193,14 +209,23 @@ public class Parser {
         }
     }
 
-    private void parseTypeDefinition() {
+    private Def parseTypeDefinition() {
         dump("type_definition -> typ identifier : type");
+        Position.Location start = currentSymbol.position.start;
         skip();
+
         if( (check() != IDENTIFIER) ) error("Unknown parameter symbol: " + check() + " (should be IDENTIFIER)");
+        String typeName = currentSymbol.lexeme;
         skip();
+
         if( (check() != OP_COLON) ) error("Unknown TypeDefinition symbol: " + check());
         skip();
-        parseType();
+
+        var typeType = parseType();
+
+        Position newPosition = new Position(start, typeType.position.end);
+
+        return new TypeDef(newPosition, typeName, typeType);
     }
 
     private Type parseType() {
@@ -233,15 +258,21 @@ public class Parser {
                 dump("type -> arr [ int_conts ] type");
                 Position.Location start = currentSymbol.position.start;
                 skip();
+
                 if( check() != OP_LBRACKET ) error(String.format("Expected: `OP_LBRACKET`, got `%s`\n", check()));
                 skip();
+
                 if( check() != C_INTEGER ) error(String.format("Expected: `C_INTEGER`, got `%s`\n", check()));
-                int arraySize = Integer.valueOf(currentSymbol.lexeme);
+                int arraySize = Integer.parseInt(currentSymbol.lexeme);
                 skip();
+
                 if( check() != OP_RBRACKET ) error(String.format("Expected: `OP_RBRACKET`, got `%s`\n", check()));
-                Position newPosition = new Position(start, currentSymbol.position.end);
                 skip();
+
                 Type arrayType = parseType();
+
+                Position newPosition = new Position(start, arrayType.position.end);
+
                 return new Array(newPosition, arraySize, arrayType);
             }
             default: {
@@ -251,366 +282,562 @@ public class Parser {
         }
     }
 
-    private void parseVariableDefinition() {
+    private Def parseVariableDefinition() {
         dump("variable_definition -> var identifier : type");
+        Position.Location start = currentSymbol.position.start;
         skip();
+
         if( (check() != IDENTIFIER) ) error("Unknown variableDefinition symbol: " + check() + " (should be IDENTIFIER)");
+        String varName = currentSymbol.lexeme;
         skip();
+
         if( (check() != OP_COLON) ) error("Unknown variableDefinition symbol: " + check() + " (expected OP_COLON)");
         skip();
-        parseType();
+
+        var varType = parseType();
+
+        Position newPosition = new Position(start, varType.position.end);
+
+        return new VarDef(newPosition, varName, varType);
     }
 
-    private void parseExpression() {
+    private Expr parseExpression() {
         dump("expression -> logical_ior_expression expression'");
-        parseLogicalIorExpression();
-        parseExpression2();
+        Expr left = parseLogicalIorExpression();
+        return parseExpression2(left);
     }
 
-    private void parseExpression2() {
+    private Expr parseExpression2(Expr left) {
         if( check() == OP_LBRACE ) {
             dump("expression2 -> { WHERE definitions }");
+            Position.Location start = currentSymbol.position.start;
             skip();
+
             if( check() != KW_WHERE ) error(String.format("Expected `KW_WHERE`, got: `%s`\n", check()));
             skip();
-            parseDefinitions();
+
+            var innerDefs = parseDefinitions();
+
             if( check() != OP_RBRACE ) error(String.format("Expected `OP_RBRACE`, got: `%s`\n", check()));
             skip();
+
+            Position newPosition = new Position(start, currentSymbol.position.end);
+
+            return new Where(newPosition, left, innerDefs);
         }
         else {
             dump("expression' -> e");
+            return left;
         }
     }
 
-    private void parseLogicalIorExpression() {
+    private Expr parseLogicalIorExpression() {
         dump("logical_ior_expression -> logical_and_expression logical_ior_expression'");
-        parseLogicalAndExpression();
-        parseLogicalIorExpression2();
+        var left = parseLogicalAndExpression();
+        return parseLogicalIorExpression2(left);
     }
 
-    private void parseLogicalIorExpression2() {
+    private Expr parseLogicalIorExpression2(Expr left) {
         if( check() == OP_OR ) {
             dump("logical_ior_expression' -> | logical_ior_expression");
+            Position.Location start = currentSymbol.position.start;
             skip();
-            parseLogicalIorExpression();
+
+            var right = parseLogicalAndExpression();
+            Position newPosition = new Position(start, right.position.end);
+            Binary bin = new Binary(newPosition, left, Binary.Operator.OR, right);
+
+            return parseLogicalIorExpression2(bin);
         }
         else {
             dump("logical_ior_expression' -> e");
+            return left;
         }
     }
 
-    private void parseLogicalAndExpression() {
+    private Expr parseLogicalAndExpression() {
         dump("logical_and_expression -> compare_expression logical_and_expression'");
-        parseCompareExpression();
-        parseLogicalAndExpression2();
+        var left = parseCompareExpression();
+        return parseLogicalAndExpression2(left);
     }
 
-    private void parseLogicalAndExpression2() {
+    private Expr parseLogicalAndExpression2(Expr left) {
         if( check() == OP_AND ) {
             dump("logical_and_expression2 -> & logical_and_expression");
+            Position.Location start = currentSymbol.position.start;
             skip();
-            parseLogicalAndExpression();
+
+            var right = parseCompareExpression();
+            Position newPosition = new Position(start, right.position.end);
+            Binary bin = new Binary(newPosition, left, Binary.Operator.AND, right);
+
+            return parseLogicalAndExpression2(bin);
         }
         else {
             dump("logical_and_expression' -> e");
+            return left;
         }
     }
 
-    private void parseCompareExpression() {
+    private Expr parseCompareExpression() {
         dump("compare_expression -> additive_expression compare_expression'");
-        parseAdditiveExpression();
-        parseCompareExpression2();
+        var left = parseAdditiveExpression();
+        return parseCompareExpression2(left);
     }
 
-    private void parseCompareExpression2() {
+    private Expr parseCompareExpression2(Expr left) {
         switch( check() ) {
             case OP_EQ: {
                 dump("compare_expression' -> == additive_expression");
                 skip();
-                parseAdditiveExpression();
-                break;
+
+                var right = parseAdditiveExpression();
+                Position newPosition = new Position(left.position.start, right.position.end);
+
+                return new Binary(newPosition, left, Binary.Operator.EQ, right);
             }
             case OP_NEQ: {
                 dump("compare_expression' -> != additive_expression");
                 skip();
-                parseAdditiveExpression();
-                break;
+
+                var right = parseAdditiveExpression();
+                Position newPosition = new Position(left.position.start, right.position.end);
+
+                return new Binary(newPosition, left, Binary.Operator.NEQ, right);
             }
             case OP_LEQ: {
                 dump("compare_expression' -> <= additive_expression");
                 skip();
-                parseAdditiveExpression();
-                break;
+
+                var right = parseAdditiveExpression();
+                Position newPosition = new Position(left.position.start, right.position.end);
+
+                return new Binary(newPosition, left, Binary.Operator.LEQ, right);
             }
             case OP_GEQ: {
                 dump("compare_expression' -> >= additive_expression");
                 skip();
-                parseAdditiveExpression();
-                break;
+
+                var right = parseAdditiveExpression();
+                Position newPosition = new Position(left.position.start, right.position.end);
+
+                return new Binary(newPosition, left, Binary.Operator.GEQ, right);
             }
             case OP_LT: {
                 dump("compare_expression' -> < additive_expression");
                 skip();
-                parseAdditiveExpression();
-                break;
+
+                var right = parseAdditiveExpression();
+                Position newPosition = new Position(left.position.start, right.position.end);
+
+                return new Binary(newPosition, left, Binary.Operator.LT, right);
             }
             case OP_GT: {
                 dump("compare_expression' -> > additive_expression");
                 skip();
-                parseAdditiveExpression();
-                break;
+
+                var right = parseAdditiveExpression();
+                Position newPosition = new Position(left.position.start, right.position.end);
+
+                return new Binary(newPosition, left, Binary.Operator.GT, right);
             }
             default: {
                 dump("compare_expression' -> e");
-                break;
+                return left;
             }
         }
     }
 
-    private void parseAdditiveExpression() {
+    private Expr parseAdditiveExpression() {
         dump("additive_expression -> multiplicative_expression additive_expression'");
-        parseMultiplicativeExpression();
-        parseAdditiveExpression2();
+        var left = parseMultiplicativeExpression();
+        return parseAdditiveExpression2(left);
     }
 
-    private void parseAdditiveExpression2() {
+    private Expr parseAdditiveExpression2(Expr left) {
         switch( check() ) {
             case OP_ADD: {
                 dump("additive_expression' -> + additive_expression");
                 skip();
-                parseAdditiveExpression();
-                break;
+
+                var right = parseMultiplicativeExpression();
+                Position newPosition = new Position(left.position.start, right.position.end);
+                Binary bin = new Binary(newPosition, left, Binary.Operator.ADD, right);
+
+                return parseAdditiveExpression2(bin);
             }
             case OP_SUB: {
                 dump("additive_expression' -> - additive_expression");
                 skip();
-                parseAdditiveExpression();
-                break;
+
+                var right = parseMultiplicativeExpression();
+                Position newPosition = new Position(left.position.start, right.position.end);
+                Binary bin = new Binary(newPosition, left, Binary.Operator.SUB, right);
+
+                return parseAdditiveExpression2(bin);
             }
             default: {
                 dump("additive_expression' -> e");
-                break;
+                return left;
             }
         }
     }
 
-    private void parseMultiplicativeExpression() {
+    private Expr parseMultiplicativeExpression() {
         dump("multiplicative_expression -> prefix_expression multiplicative_expression'");
-        parsePrefixExpression();
-        parseMultiplicativeExpression2();
+        var left = parsePrefixExpression();
+        return parseMultiplicativeExpression2(left);
     }
 
-    private void parseMultiplicativeExpression2() {
+    private Expr parseMultiplicativeExpression2(Expr left) {
         switch( check() ) {
             case OP_MUL: {
                 dump("multiplicative_expression' -> * multiplicative_expression");
                 skip();
-                parseMultiplicativeExpression();
-                break;
+
+                var right = parsePrefixExpression();
+                Position newPosition = new Position(left.position.start, right.position.end);
+                Binary bin = new Binary(newPosition, left, Binary.Operator.MUL, right);
+
+                return parseMultiplicativeExpression2(bin);
             }
             case OP_DIV: {
                 dump("multiplicative_expression' -> / multiplicative_expression");
                 skip();
-                parseMultiplicativeExpression();
-                break;
+
+                var right = parsePrefixExpression();
+                Position newPosition = new Position(left.position.start, right.position.end);
+                Binary bin = new Binary(newPosition, left, Binary.Operator.DIV, right);
+
+                return parseMultiplicativeExpression2(bin);
             }
             case OP_MOD: {
                 dump("multiplicative_expression' -> % multiplicative_expression");
                 skip();
-                parseMultiplicativeExpression();
-                break;
+
+                var right = parsePrefixExpression();
+                Position newPosition = new Position(left.position.start, right.position.end);
+                Binary bin = new Binary(newPosition, left, Binary.Operator.MOD, right);
+
+                return parseMultiplicativeExpression2(bin);
             }
             default: {
                 dump("multiplicative_expression' -> e");
-                break;
+                return left;
             }
         }
     }
 
-    private void parsePrefixExpression() {
+    private Expr parsePrefixExpression() {
         switch(check()) {
             case OP_ADD: {
                 dump("prefix_expression -> + prefix_expression");
+                Position.Location start = currentSymbol.position.start;
                 skip();
-                parsePrefixExpression();
-                break;
+
+                var innerExpr = parsePrefixExpression();
+                Position newPosition = new Position(start, innerExpr.position.end);
+
+                return new Unary(newPosition, innerExpr, Unary.Operator.ADD);
             }
             case OP_SUB: {
                 dump("prefix_expression -> - prefix_expression");
+                Position.Location start = currentSymbol.position.start;
                 skip();
-                parsePrefixExpression();
-                break;
+
+                var innerExpr = parsePrefixExpression();
+                Position newPosition = new Position(start, innerExpr.position.end);
+
+                return new Unary(newPosition, innerExpr, Unary.Operator.SUB);
             }
             case OP_NOT: {
                 dump("prefix_expression -> ! prefix_expression");
+                Position.Location start = currentSymbol.position.start;
                 skip();
-                parsePrefixExpression();
-                break;
+
+                var innerExpr = parsePrefixExpression();
+                Position newPosition = new Position(start, innerExpr.position.end);
+
+                return new Unary(newPosition, innerExpr, Unary.Operator.NOT);
             }
             default: {
                 dump("prefix_expression -> postfix_expression");
-                parsePostfixExpression();
+                return parsePostfixExpression();
             }
         }
     }
 
-    private void parsePostfixExpression() {
+    private Expr parsePostfixExpression() {
         dump("postfix_expression -> atom_expression postfix_expression'");
-        parseAtomExpression();
-        parsePostfixExpression2();
+        var left = parseAtomExpression();
+        return parsePostfixExpression2(left);
     }
 
-    private void parsePostfixExpression2() {
+    private Expr parsePostfixExpression2(Expr left) {
         if( check() == OP_LBRACKET ) {
             dump("postfix_expression' -> [ expression ] postfix_expression'");
+            Position.Location start = currentSymbol.position.start;
             skip();
-            parseExpression();
+
+            var right = parseExpression();
+
             if( check() != OP_RBRACKET ) error(String.format("Expected `OP_RBRACKET`, got `%s`\n", check()));
             skip();
-            parsePostfixExpression2();
+
+            Position newPosition = new Position(start, currentSymbol.position.end);
+            Binary bin = new Binary(newPosition, left, Binary.Operator.ARR, right);
+
+            return parsePostfixExpression2(bin);
         }
         else {
             dump("postfix_expression' -> e");
+            return left;
         }
     }
 
-    private void parseAtomExpression() {
+    private Expr parseAtomExpression() {
+        Position.Location start = currentSymbol.position.start;
         switch(check()) {
             case C_LOGICAL: {
                 dump("atom_expression -> log_constant");
+                var symbol =  currentSymbol.lexeme;
                 skip();
-                break;
+
+                Position newPosition = new Position(start, currentSymbol.position.end);
+
+                return new Literal(newPosition, symbol, Atom.Type.LOG);
             }
             case C_INTEGER: {
                 dump("atom_expression -> int_constant");
+                var symbol =  currentSymbol.lexeme;
                 skip();
-                break;
+
+                Position newPosition = new Position(start, currentSymbol.position.end);
+
+                return new Literal(newPosition, symbol, Atom.Type.INT);
             }
             case C_STRING: {
                 dump("atom_expression -> str_constant");
+                var symbol =  currentSymbol.lexeme;
                 skip();
-                break;
+
+                Position newPosition = new Position(start, currentSymbol.position.end);
+
+                return new Literal(newPosition, symbol, Atom.Type.STR);
             }
             case OP_LPARENT: {
                 dump("atom_expression -> ( expression )");
                 skip();
-                parseExpressions();
+
+                var innerExprs = parseExpressions();
+
                 if( check() != OP_RPARENT ) error(String.format("Expected `OP_RPARENT`, got %s\n", check()));
                 skip();
-                break;
+
+                Position newPosition = new Position(start, currentSymbol.position.end);
+
+                return new Block(newPosition, innerExprs);
             }
             case OP_LBRACE: {
-                dump("atom_expression -> { atom_expression2");
-                skip();
-                parseAtomExpression2();
-                break;
+                // TODO: Check if the position here needs to be fixed
+                return parseAtomExpression2();
             }
             case IDENTIFIER: {
                 dump("atom_expression -> identifier atom_expression4");
+                var name = currentSymbol;
                 skip();
-                parseAtomExpression4();
-                break;
+
+                var exprs = parseAtomExpression4();
+
+                if( exprs != null ) {
+                    // NOTE: We are dealing with a function call
+                    Position newPosition = new Position(start, currentSymbol.position.end);
+                    return new Call(newPosition, exprs, name.lexeme);
+                }
+                else {
+                    return new Name(name.position, name.lexeme);
+                }
+            }
+            default: {
+                error(String.format("Unknown symbol in atomExpression: `%s`\n", check()));
+                return null;
             }
         }
     }
 
-    private void parseAtomExpression4() {
+    private List<Expr> parseAtomExpression4() {
+        /*
+            null is returned when this is not a function call
+         */
         if( check() == OP_LPARENT ) {
+            // NOTE: this is a function call
             dump("atom_expression4 -> ( expressions )");
+            Position.Location start = currentSymbol.position.start;
             skip();
-            parseExpressions();
+
+            var innerExprs = parseExpressions();
+
             if( check() != OP_RPARENT ) error(String.format("Expected `OP_RPARENT`, got %s\n", check()));
             skip();
+
+            return innerExprs;
+
         }
         else {
             dump("atom_expression4 -> e");
+
+            return null;
         }
     }
 
-    private void parseAtomExpression2() {
+    private Expr parseAtomExpression2() {
+        dump("atom_expression -> { atom_expression2");
+        Position.Location start = currentSymbol.position.start;
+        skip();
+
         switch( check() ) {
             case KW_WHILE: {
                 dump("atom_expression2 -> while expression : expression }");
                 skip();
-                parseExpression();
+
+                var cond = parseExpression();
+
                 if( check() != OP_COLON ) error(String.format("Expected `OP_COLON`, got %s\n", check()));
                 skip();
-                parseExpression();
+
+                var body = parseExpression();
+
                 if( check() != OP_RBRACE ) error(String.format("Expected `OP_RBRACE`, got %s\n", check()));
                 skip();
-                break;
+
+                Position newPosition = new Position(start, currentSymbol.position.end);
+
+                return new While(newPosition, cond, body);
             }
             case KW_FOR: {
                 dump("atom_expression2 -> for identifier = expression , expression , expression : expression }");
                 skip();
+
                 if( check() != IDENTIFIER ) error(String.format("Expected `IDENTIFIER`, got %s\n", check()));
+                var counterName = new Name(currentSymbol.position, currentSymbol.lexeme);
                 skip();
+
                 if( check() != OP_ASSIGN ) error(String.format("Expected `OP_ASSIGN`, got %s\n", check()));
                 skip();
-                parseExpression();
+
+                var low = parseExpression();
+
                 if( check() != OP_COMMA) error(String.format("Expected `OP_COMMA`, got %s\n", check()));
                 skip();
-                parseExpression();
+
+                var high = parseExpression();
+
                 if( check() != OP_COMMA) error(String.format("Expected `OP_COMMA`, got %s\n", check()));
                 skip();
-                parseExpression();
+
+                var step = parseExpression();
+
                 if( check() != OP_COLON ) error(String.format("Expected `OP_COLON`, got %s\n", check()));
                 skip();
-                parseExpression();
+
+                var body = parseExpression();
+
                 if( check() != OP_RBRACE) error(String.format("Expected `OP_RBRACE`, got %s\n", check()));
                 skip();
-                break;
+
+                Position newPosition = new Position(start, currentSymbol.position.end);
+
+                return new For(newPosition, counterName, low, high, step, body);
             }
             case KW_IF: {
                 dump("atom_expression2 -> if expression then expression atom_expression5");
                 skip();
-                parseExpression();
+
+                var ifCond = parseExpression();
+
                 if( check() != KW_THEN ) error(String.format("Expected `KW_THEN`, got `%s`\n", check()));
                 skip();
-                parseExpression();
-                parseAtomExpression5();
-                break;
+
+                var ifThen = parseExpression();
+
+                var ifElse = parseAtomExpression5();
+
+
+                IfThenElse ifComplete;
+
+                if( ifElse != null ) {
+                    Position newPosition = new Position(start, ifElse.position.end);
+                    ifComplete = new IfThenElse(newPosition, ifCond, ifThen, ifElse);
+                }
+                else {
+                    Position newPosition = new Position(start, currentSymbol.position.end);
+                    ifComplete = new IfThenElse(newPosition, ifCond, ifThen);
+                }
+
+                return ifComplete;
             }
             default: {
                 dump("atom_expression2 -> expression = expression }");
-                parseExpression();
+                var left = parseExpression();
+
                 if( check() != OP_ASSIGN ) error(String.format("Expected `OP_ASSIGN`, got `%s`\n", check()));
                 skip();
-                parseExpression();
+
+                var right = parseExpression();
+
                 if( check() != OP_RBRACE ) error(String.format("Expected `OP_RBRACE`, got `%s`\n", check()));
                 skip();
+
+                Position newPosition = new Position(start, currentSymbol.position.end);
+
+                return new Binary(newPosition, left, Binary.Operator.ASSIGN, right);
             }
         }
     }
 
-    private void parseAtomExpression5() {
+    private Expr parseAtomExpression5() {
+        /*
+            null is returned when there is no else expression
+         */
+
         if( check() == OP_RBRACE ) {
             dump("atom_expression5 -> }");
             skip();
+            return null;
         }
         else if ( check() == KW_ELSE ) {
             dump("atom_expression5 -> else expression }");
             skip();
-            parseExpression();
+
+            var ifElse = parseExpression();
+
             if( check() != OP_RBRACE ) error(String.format("Expected `OP_RBRACE`, got `%s`\n", check()));
             skip();
+
+            return ifElse;
         }
         else {
             error(String.format("Unknown atomExpression5 symbol: `%s`\n", check()));
+            return null; // this is never returned, in this case the program exits
         }
     }
 
-    private void parseExpressions() {
+    private List<Expr> parseExpressions() {
         dump("expressions -> expression expressions'");
-        parseExpression();
-        parseExpressions2();
+        Position.Location start = currentSymbol.position.start;
+        List<Expr> exprs = new ArrayList<Expr>();
+        exprs.add(parseExpression());
+        parseExpressions2(exprs);
+
+        return exprs;
     }
 
-    private void parseExpressions2() {
+    private void parseExpressions2(List<Expr> exprs) {
         if( check() == OP_COMMA ) {
             dump("expressions' -> , expressions");
             skip();
-            parseExpressions();
+            exprs.add(parseExpression());
+            parseExpressions2(exprs);
         }
         else {
             dump("expressions' -> e");
