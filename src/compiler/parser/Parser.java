@@ -76,15 +76,10 @@ public class Parser {
         currentSymbol = symbolIterator.next();
     }
 
-    private void error(String message) {
-        System.out.printf("ERROR: %s\n", message);
-        System.exit(99);
-    }
-
     private Ast parseSource() {
         dump("source -> definitions");
         var defs = parseDefinitions();
-        if( check() != EOF ) error(String.format("Expected `EOF`, got `%s`\n", this.currentSymbol.lexeme));
+        if( check() != EOF ) Report.error(currentSymbol.position, String.format("Expected `EOF`, got `%s`\n", this.currentSymbol.lexeme));
         return defs;
     }
 
@@ -131,7 +126,7 @@ public class Parser {
                 return parseTypeDefinition();
             }
             default: {
-                error("Definition symbols unknown: " + check() + " (" + currentSymbol.lexeme + ")");
+                Report.error(currentSymbol.position, "Definition symbols unknown: " + check() + " (" + currentSymbol.lexeme + ")");
                 return null;
             }
         }
@@ -141,25 +136,25 @@ public class Parser {
     private FunDef parseFunctionDefinition() {
         dump("function_definition -> fun identifier ( parameters ) : type = expression");
         Position.Location start = currentSymbol.position.start;
-        if( (check() != KW_FUN) ) error(String.format("Expected: `KW_FUN`, got `%s`\n", check()));
+        if( (check() != KW_FUN) ) Report.error(currentSymbol.position, String.format("Expected: `KW_FUN`, got `%s`\n", check()));
         skip();
 
-        if( (check() != IDENTIFIER) ) error(String.format("Expected: `IDENTIFIER`, got `%s`\n", check()));
+        if( (check() != IDENTIFIER) ) Report.error(currentSymbol.position, String.format("Expected: `IDENTIFIER`, got `%s`\n", check()));
         String functionName = currentSymbol.lexeme;
         skip();
 
-        if( (check() != OP_LPARENT) ) error(String.format("Expected: `OP_LPARENT`, got `%s`\n", check()));
+        if( (check() != OP_LPARENT) ) Report.error(currentSymbol.position, String.format("Expected: `OP_LPARENT`, got `%s`\n", check()));
         skip();
         List<FunDef.Parameter> functionParameters = parseParameters();
 
-        if( (check() != OP_RPARENT) ) error(String.format("2) Expected: `OP_RPARENT`, got `%s`\n", check()));
+        if( (check() != OP_RPARENT) ) Report.error(currentSymbol.position, String.format("2) Expected: `OP_RPARENT`, got `%s`\n", check()));
         skip();
 
-        if( (check() != OP_COLON) ) error(String.format("Expected: `OP_COLON`, got `%s`\n", check()));
+        if( (check() != OP_COLON) ) Report.error(currentSymbol.position, String.format("Expected: `OP_COLON`, got `%s`\n", check()));
         skip();
         Type functionType = parseType();
 
-        if( (check() != OP_ASSIGN) ) error(String.format("Expected: `OP_ASSIGN`, got `%s`\n", check()));
+        if( (check() != OP_ASSIGN) ) Report.error(currentSymbol.position, String.format("Expected: `OP_ASSIGN`, got `%s`\n", check()));
         skip();
 
         Expr functionBody = parseExpression();
@@ -178,24 +173,6 @@ public class Parser {
         return parameters;
     }
 
-    private FunDef.Parameter parseParameter() {
-        dump("parameter -> identifier : type");
-
-        Position.Location start = currentSymbol.position.start;
-
-        if( (check() != IDENTIFIER) ) error(String.format("Expected: `IDENTIFIER`, got `%s`\n", check()));
-        String parameterName = currentSymbol.lexeme;
-        skip();
-
-        if( (check() != OP_COLON) ) error(String.format("Expected: `COLON`, got `%s`\n", check()));
-        skip();
-
-        var paramType = parseType();
-
-        Position newPosition = new Position(start, paramType.position.end);
-
-        return new FunDef.Parameter(newPosition, parameterName, paramType);
-    }
     private void parseParameters2(List<FunDef.Parameter> parameters) {
         if( check() == OP_COMMA ) {
             dump("parameters -> , parameters");
@@ -209,16 +186,34 @@ public class Parser {
         }
     }
 
+    private FunDef.Parameter parseParameter() {
+        dump("parameter -> identifier : type");
+
+        Position.Location start = currentSymbol.position.start;
+
+        if( (check() != IDENTIFIER) ) Report.error(currentSymbol.position, String.format("Expected: `IDENTIFIER`, got `%s`\n", check()));
+        String parameterName = currentSymbol.lexeme;
+        skip();
+
+        if( (check() != OP_COLON) ) Report.error(currentSymbol.position, String.format("Expected: `COLON`, got `%s`\n", check()));
+        skip();
+
+        var paramType = parseType();
+
+        Position newPosition = new Position(start, paramType.position.end);
+
+        return new FunDef.Parameter(newPosition, parameterName, paramType);
+    }
     private Def parseTypeDefinition() {
         dump("type_definition -> typ identifier : type");
         Position.Location start = currentSymbol.position.start;
         skip();
 
-        if( (check() != IDENTIFIER) ) error("Unknown parameter symbol: " + check() + " (should be IDENTIFIER)");
+        if( (check() != IDENTIFIER) ) Report.error(currentSymbol.position, "Unknown parameter symbol: " + check() + " (should be IDENTIFIER)");
         String typeName = currentSymbol.lexeme;
         skip();
 
-        if( (check() != OP_COLON) ) error("Unknown TypeDefinition symbol: " + check());
+        if( (check() != OP_COLON) ) Report.error(currentSymbol.position, "Unknown TypeDefinition symbol: " + check());
         skip();
 
         var typeType = parseType();
@@ -259,14 +254,14 @@ public class Parser {
                 Position.Location start = currentSymbol.position.start;
                 skip();
 
-                if( check() != OP_LBRACKET ) error(String.format("Expected: `OP_LBRACKET`, got `%s`\n", check()));
+                if( check() != OP_LBRACKET ) Report.error(currentSymbol.position, String.format("Expected: `OP_LBRACKET`, got `%s`\n", check()));
                 skip();
 
-                if( check() != C_INTEGER ) error(String.format("Expected: `C_INTEGER`, got `%s`\n", check()));
+                if( check() != C_INTEGER ) Report.error(currentSymbol.position, String.format("Expected: `C_INTEGER`, got `%s`\n", check()));
                 int arraySize = Integer.parseInt(currentSymbol.lexeme);
                 skip();
 
-                if( check() != OP_RBRACKET ) error(String.format("Expected: `OP_RBRACKET`, got `%s`\n", check()));
+                if( check() != OP_RBRACKET ) Report.error(currentSymbol.position, String.format("Expected: `OP_RBRACKET`, got `%s`\n", check()));
                 skip();
 
                 Type arrayType = parseType();
@@ -276,8 +271,8 @@ public class Parser {
                 return new Array(newPosition, arraySize, arrayType);
             }
             default: {
-                error(String.format("Unknown type: `%s`\n", check()));
-                return null; // we never get here, because error() exits the program
+                Report.error(currentSymbol.position, String.format("Unknown type: `%s`\n", check()));
+                return null; // we never get here, because Report.error(currentSymbol.position, ) exits the program
             }
         }
     }
@@ -287,11 +282,11 @@ public class Parser {
         Position.Location start = currentSymbol.position.start;
         skip();
 
-        if( (check() != IDENTIFIER) ) error("Unknown variableDefinition symbol: " + check() + " (should be IDENTIFIER)");
+        if( (check() != IDENTIFIER) ) Report.error(currentSymbol.position, "Unknown variableDefinition symbol: " + check() + " (should be IDENTIFIER)");
         String varName = currentSymbol.lexeme;
         skip();
 
-        if( (check() != OP_COLON) ) error("Unknown variableDefinition symbol: " + check() + " (expected OP_COLON)");
+        if( (check() != OP_COLON) ) Report.error(currentSymbol.position, "Unknown variableDefinition symbol: " + check() + " (expected OP_COLON)");
         skip();
 
         var varType = parseType();
@@ -313,12 +308,12 @@ public class Parser {
             Position.Location start = currentSymbol.position.start;
             skip();
 
-            if( check() != KW_WHERE ) error(String.format("Expected `KW_WHERE`, got: `%s`\n", check()));
+            if( check() != KW_WHERE ) Report.error(currentSymbol.position, String.format("Expected `KW_WHERE`, got: `%s`\n", check()));
             skip();
 
             var innerDefs = parseDefinitions();
 
-            if( check() != OP_RBRACE ) error(String.format("Expected `OP_RBRACE`, got: `%s`\n", check()));
+            if( check() != OP_RBRACE ) Report.error(currentSymbol.position, String.format("Expected `OP_RBRACE`, got: `%s`\n", check()));
             skip();
 
             Position newPosition = new Position(start, currentSymbol.position.end);
@@ -581,7 +576,7 @@ public class Parser {
 
             var right = parseExpression();
 
-            if( check() != OP_RBRACKET ) error(String.format("Expected `OP_RBRACKET`, got `%s`\n", check()));
+            if( check() != OP_RBRACKET ) Report.error(currentSymbol.position, String.format("Expected `OP_RBRACKET`, got `%s`\n", check()));
             skip();
 
             Position newPosition = new Position(start, currentSymbol.position.end);
@@ -631,7 +626,7 @@ public class Parser {
 
                 var innerExprs = parseExpressions();
 
-                if( check() != OP_RPARENT ) error(String.format("Expected `OP_RPARENT`, got %s\n", check()));
+                if( check() != OP_RPARENT ) Report.error(currentSymbol.position, String.format("Expected `OP_RPARENT`, got %s\n", check()));
                 skip();
 
                 Position newPosition = new Position(start, currentSymbol.position.end);
@@ -659,7 +654,7 @@ public class Parser {
                 }
             }
             default: {
-                error(String.format("Unknown symbol in atomExpression: `%s`\n", check()));
+                Report.error(currentSymbol.position, String.format("Unknown symbol in atomExpression: `%s`\n", check()));
                 return null;
             }
         }
@@ -677,7 +672,7 @@ public class Parser {
 
             var innerExprs = parseExpressions();
 
-            if( check() != OP_RPARENT ) error(String.format("Expected `OP_RPARENT`, got %s\n", check()));
+            if( check() != OP_RPARENT ) Report.error(currentSymbol.position, String.format("Expected `OP_RPARENT`, got %s\n", check()));
             skip();
 
             return innerExprs;
@@ -702,12 +697,12 @@ public class Parser {
 
                 var cond = parseExpression();
 
-                if( check() != OP_COLON ) error(String.format("Expected `OP_COLON`, got %s\n", check()));
+                if( check() != OP_COLON ) Report.error(currentSymbol.position, String.format("Expected `OP_COLON`, got %s\n", check()));
                 skip();
 
                 var body = parseExpression();
 
-                if( check() != OP_RBRACE ) error(String.format("Expected `OP_RBRACE`, got %s\n", check()));
+                if( check() != OP_RBRACE ) Report.error(currentSymbol.position, String.format("Expected `OP_RBRACE`, got %s\n", check()));
                 skip();
 
                 Position newPosition = new Position(start, currentSymbol.position.end);
@@ -718,31 +713,31 @@ public class Parser {
                 dump("atom_expression2 -> for identifier = expression , expression , expression : expression }");
                 skip();
 
-                if( check() != IDENTIFIER ) error(String.format("Expected `IDENTIFIER`, got %s\n", check()));
+                if( check() != IDENTIFIER ) Report.error(currentSymbol.position, String.format("Expected `IDENTIFIER`, got %s\n", check()));
                 var counterName = new Name(currentSymbol.position, currentSymbol.lexeme);
                 skip();
 
-                if( check() != OP_ASSIGN ) error(String.format("Expected `OP_ASSIGN`, got %s\n", check()));
+                if( check() != OP_ASSIGN ) Report.error(currentSymbol.position, String.format("Expected `OP_ASSIGN`, got %s\n", check()));
                 skip();
 
                 var low = parseExpression();
 
-                if( check() != OP_COMMA) error(String.format("Expected `OP_COMMA`, got %s\n", check()));
+                if( check() != OP_COMMA) Report.error(currentSymbol.position, String.format("Expected `OP_COMMA`, got %s\n", check()));
                 skip();
 
                 var high = parseExpression();
 
-                if( check() != OP_COMMA) error(String.format("Expected `OP_COMMA`, got %s\n", check()));
+                if( check() != OP_COMMA) Report.error(currentSymbol.position, String.format("Expected `OP_COMMA`, got %s\n", check()));
                 skip();
 
                 var step = parseExpression();
 
-                if( check() != OP_COLON ) error(String.format("Expected `OP_COLON`, got %s\n", check()));
+                if( check() != OP_COLON ) Report.error(currentSymbol.position, String.format("Expected `OP_COLON`, got %s\n", check()));
                 skip();
 
                 var body = parseExpression();
 
-                if( check() != OP_RBRACE) error(String.format("Expected `OP_RBRACE`, got %s\n", check()));
+                if( check() != OP_RBRACE) Report.error(currentSymbol.position, String.format("Expected `OP_RBRACE`, got %s\n", check()));
                 skip();
 
                 Position newPosition = new Position(start, currentSymbol.position.end);
@@ -755,7 +750,7 @@ public class Parser {
 
                 var ifCond = parseExpression();
 
-                if( check() != KW_THEN ) error(String.format("Expected `KW_THEN`, got `%s`\n", check()));
+                if( check() != KW_THEN ) Report.error(currentSymbol.position, String.format("Expected `KW_THEN`, got `%s`\n", check()));
                 skip();
 
                 var ifThen = parseExpression();
@@ -780,12 +775,12 @@ public class Parser {
                 dump("atom_expression2 -> expression = expression }");
                 var left = parseExpression();
 
-                if( check() != OP_ASSIGN ) error(String.format("Expected `OP_ASSIGN`, got `%s`\n", check()));
+                if( check() != OP_ASSIGN ) Report.error(currentSymbol.position, String.format("Expected `OP_ASSIGN`, got `%s`\n", check()));
                 skip();
 
                 var right = parseExpression();
 
-                if( check() != OP_RBRACE ) error(String.format("Expected `OP_RBRACE`, got `%s`\n", check()));
+                if( check() != OP_RBRACE ) Report.error(currentSymbol.position, String.format("Expected `OP_RBRACE`, got `%s`\n", check()));
                 skip();
 
                 Position newPosition = new Position(start, currentSymbol.position.end);
@@ -811,13 +806,13 @@ public class Parser {
 
             var ifElse = parseExpression();
 
-            if( check() != OP_RBRACE ) error(String.format("Expected `OP_RBRACE`, got `%s`\n", check()));
+            if( check() != OP_RBRACE ) Report.error(currentSymbol.position, String.format("Expected `OP_RBRACE`, got `%s`\n", check()));
             skip();
 
             return ifElse;
         }
         else {
-            error(String.format("Unknown atomExpression5 symbol: `%s`\n", check()));
+            Report.error(currentSymbol.position, String.format("Unknown atomExpression5 symbol: `%s`\n", check()));
             return null; // this is never returned, in this case the program exits
         }
     }
