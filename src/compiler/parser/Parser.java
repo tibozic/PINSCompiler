@@ -93,7 +93,7 @@ public class Parser {
         defs.add(parseDefinition());
         parseDefinitions2(defs);
 
-        Position newPosition = new Position(start, currentSymbol.position.end);
+        Position newPosition = new Position(start, defs.get(defs.size() - 1).position.end);
 
         return new Defs(newPosition, defs);
     }
@@ -136,6 +136,7 @@ public class Parser {
     private FunDef parseFunctionDefinition() {
         dump("function_definition -> fun identifier ( parameters ) : type = expression");
         Position.Location start = currentSymbol.position.start;
+
         if( (check() != KW_FUN) ) Report.error(currentSymbol.position, String.format("Expected: `KW_FUN`, got `%s`\n", check()));
         skip();
 
@@ -158,6 +159,7 @@ public class Parser {
         skip();
 
         Expr functionBody = parseExpression();
+
         Position newPosition = new Position(start, functionBody.position.end);
 
         return new FunDef(newPosition, functionName, functionParameters, functionType, functionBody);
@@ -305,18 +307,18 @@ public class Parser {
     private Expr parseExpression2(Expr left) {
         if( check() == OP_LBRACE ) {
             dump("expression2 -> { WHERE definitions }");
-            Position.Location start = currentSymbol.position.start;
             skip();
 
-            if( check() != KW_WHERE ) Report.error(currentSymbol.position, String.format("Expected `KW_WHERE`, got: `%s`\n", check()));
+            if( check() != KW_WHERE ) Report.error(currentSymbol.position, String.format("Expected `KW_WHERE`, got: `%s`\n", currentSymbol.lexeme));
             skip();
 
             var innerDefs = parseDefinitions();
 
             if( check() != OP_RBRACE ) Report.error(currentSymbol.position, String.format("Expected `OP_RBRACE`, got: `%s`\n", check()));
+            Position.Location end = currentSymbol.position.end;
             skip();
 
-            Position newPosition = new Position(start, currentSymbol.position.end);
+            Position newPosition = new Position(left.position.start, end);
 
             return new Where(newPosition, left, innerDefs);
         }
@@ -335,11 +337,10 @@ public class Parser {
     private Expr parseLogicalIorExpression2(Expr left) {
         if( check() == OP_OR ) {
             dump("logical_ior_expression' -> | logical_ior_expression");
-            Position.Location start = currentSymbol.position.start;
             skip();
 
             var right = parseLogicalAndExpression();
-            Position newPosition = new Position(start, right.position.end);
+            Position newPosition = new Position(left.position.start, right.position.end);
             Binary bin = new Binary(newPosition, left, Binary.Operator.OR, right);
 
             return parseLogicalIorExpression2(bin);
@@ -359,11 +360,10 @@ public class Parser {
     private Expr parseLogicalAndExpression2(Expr left) {
         if( check() == OP_AND ) {
             dump("logical_and_expression2 -> & logical_and_expression");
-            Position.Location start = currentSymbol.position.start;
             skip();
 
             var right = parseCompareExpression();
-            Position newPosition = new Position(start, right.position.end);
+            Position newPosition = new Position(left.position.start, right.position.end);
             Binary bin = new Binary(newPosition, left, Binary.Operator.AND, right);
 
             return parseLogicalAndExpression2(bin);
@@ -571,15 +571,15 @@ public class Parser {
     private Expr parsePostfixExpression2(Expr left) {
         if( check() == OP_LBRACKET ) {
             dump("postfix_expression' -> [ expression ] postfix_expression'");
-            Position.Location start = currentSymbol.position.start;
             skip();
 
             var right = parseExpression();
 
             if( check() != OP_RBRACKET ) Report.error(currentSymbol.position, String.format("Expected `OP_RBRACKET`, got `%s`\n", check()));
+            Position.Location end = currentSymbol.position.end;
             skip();
 
-            Position newPosition = new Position(start, currentSymbol.position.end);
+            Position newPosition = new Position(left.position.start, end);
             Binary bin = new Binary(newPosition, left, Binary.Operator.ARR, right);
 
             return parsePostfixExpression2(bin);
@@ -596,27 +596,30 @@ public class Parser {
             case C_LOGICAL: {
                 dump("atom_expression -> log_constant");
                 var symbol =  currentSymbol.lexeme;
+                Position.Location end = currentSymbol.position.end;
                 skip();
 
-                Position newPosition = new Position(start, currentSymbol.position.end);
+                Position newPosition = new Position(start, end);
 
                 return new Literal(newPosition, symbol, Atom.Type.LOG);
             }
             case C_INTEGER: {
                 dump("atom_expression -> int_constant");
                 var symbol =  currentSymbol.lexeme;
+                Position.Location end = currentSymbol.position.end;
                 skip();
 
-                Position newPosition = new Position(start, currentSymbol.position.end);
+                Position newPosition = new Position(start, end);
 
                 return new Literal(newPosition, symbol, Atom.Type.INT);
             }
             case C_STRING: {
                 dump("atom_expression -> str_constant");
                 var symbol =  currentSymbol.lexeme;
+                Position.Location end = currentSymbol.position.end;
                 skip();
 
-                Position newPosition = new Position(start, currentSymbol.position.end);
+                Position newPosition = new Position(start, end);
 
                 return new Literal(newPosition, symbol, Atom.Type.STR);
             }
@@ -627,9 +630,10 @@ public class Parser {
                 var innerExprs = parseExpressions();
 
                 if( check() != OP_RPARENT ) Report.error(currentSymbol.position, String.format("Expected `OP_RPARENT`, got %s\n", check()));
+                Position.Location end = currentSymbol.position.end;
                 skip();
 
-                Position newPosition = new Position(start, currentSymbol.position.end);
+                Position newPosition = new Position(start, end);
 
                 return new Block(newPosition, innerExprs);
             }
@@ -645,8 +649,11 @@ public class Parser {
                 var exprs = parseAtomExpression4();
 
                 if( exprs != null ) {
+                    Position.Location end = currentSymbol.position.end;
+                    skip(); // Inside parseAtomExpression4(), we don't skip the last RPAREN, so we skip it here
+
                     // NOTE: We are dealing with a function call
-                    Position newPosition = new Position(start, currentSymbol.position.end);
+                    Position newPosition = new Position(start, end);
                     return new Call(newPosition, exprs, name.lexeme);
                 }
                 else {
@@ -664,6 +671,7 @@ public class Parser {
         /*
             null is returned when this is not a function call
          */
+        // TODO: Possibly fix positions
         if( check() == OP_LPARENT ) {
             // NOTE: this is a function call
             dump("atom_expression4 -> ( expressions )");
@@ -673,7 +681,7 @@ public class Parser {
             var innerExprs = parseExpressions();
 
             if( check() != OP_RPARENT ) Report.error(currentSymbol.position, String.format("Expected `OP_RPARENT`, got %s\n", check()));
-            skip();
+            // NOTE: Here we don't skip the parent, because we need the position outside this function in function call
 
             return innerExprs;
 
@@ -703,9 +711,10 @@ public class Parser {
                 var body = parseExpression();
 
                 if( check() != OP_RBRACE ) Report.error(currentSymbol.position, String.format("Expected `OP_RBRACE`, got %s\n", check()));
+                Position.Location end = currentSymbol.position.end;
                 skip();
 
-                Position newPosition = new Position(start, currentSymbol.position.end);
+                Position newPosition = new Position(start, end);
 
                 return new While(newPosition, cond, body);
             }
@@ -738,13 +747,15 @@ public class Parser {
                 var body = parseExpression();
 
                 if( check() != OP_RBRACE) Report.error(currentSymbol.position, String.format("Expected `OP_RBRACE`, got %s\n", check()));
+                Position.Location end = currentSymbol.position.end;
                 skip();
 
-                Position newPosition = new Position(start, currentSymbol.position.end);
+                Position newPosition = new Position(start, end);
 
                 return new For(newPosition, counterName, low, high, step, body);
             }
             case KW_IF: {
+                // TODO: Possibly fix positions
                 dump("atom_expression2 -> if expression then expression atom_expression5");
                 skip();
 
@@ -756,16 +767,17 @@ public class Parser {
                 var ifThen = parseExpression();
 
                 var ifElse = parseAtomExpression5();
-
+                Position.Location end = currentSymbol.position.end;
+                skip(); // Here we skip the RBRACE, because we didn't skip it inside parseAtomExpression5()
 
                 IfThenElse ifComplete;
 
                 if( ifElse != null ) {
-                    Position newPosition = new Position(start, ifElse.position.end);
+                    Position newPosition = new Position(start, end);
                     ifComplete = new IfThenElse(newPosition, ifCond, ifThen, ifElse);
                 }
                 else {
-                    Position newPosition = new Position(start, currentSymbol.position.end);
+                    Position newPosition = new Position(start, end);
                     ifComplete = new IfThenElse(newPosition, ifCond, ifThen);
                 }
 
@@ -781,9 +793,10 @@ public class Parser {
                 var right = parseExpression();
 
                 if( check() != OP_RBRACE ) Report.error(currentSymbol.position, String.format("Expected `OP_RBRACE`, got `%s`\n", check()));
+                Position.Location end = currentSymbol.position.end;
                 skip();
 
-                Position newPosition = new Position(start, currentSymbol.position.end);
+                Position newPosition = new Position(start, end);
 
                 return new Binary(newPosition, left, Binary.Operator.ASSIGN, right);
             }
@@ -797,7 +810,7 @@ public class Parser {
 
         if( check() == OP_RBRACE ) {
             dump("atom_expression5 -> }");
-            skip();
+            // NOTE: Here we don't skip the RBRACE, because we need the position outside this function
             return null;
         }
         else if ( check() == KW_ELSE ) {
@@ -807,7 +820,7 @@ public class Parser {
             var ifElse = parseExpression();
 
             if( check() != OP_RBRACE ) Report.error(currentSymbol.position, String.format("Expected `OP_RBRACE`, got `%s`\n", check()));
-            skip();
+            // NOTE: Here we don't skip the RBRACE, because we need the position outside this function
 
             return ifElse;
         }
@@ -819,8 +832,8 @@ public class Parser {
 
     private List<Expr> parseExpressions() {
         dump("expressions -> expression expressions'");
-        Position.Location start = currentSymbol.position.start;
-        List<Expr> exprs = new ArrayList<Expr>();
+
+        List<Expr> exprs = new ArrayList<>();
         exprs.add(parseExpression());
         parseExpressions2(exprs);
 
