@@ -1,7 +1,7 @@
 typ i:integer;
 var j:string;
-fun prestejCrke (i:integer, j:string): integer = {
-    while (i < j):
+fun prestejCrke (i:integer, j:arr[1] string): integer = {
+    while (i < j[100/2]):
         {
             for i = (j + 5), i < 100, i + 1:
                 {

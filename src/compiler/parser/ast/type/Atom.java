@@ -48,4 +48,16 @@ public class Atom extends Type {
     public static enum Type {
         INT, LOG, STR
     }
+
+    @Override
+    public String toString() {
+        if( this.type == Type.INT )
+            return "ATOM INT";
+        else if (this.type == Type.LOG)
+            return "ATOM LOG";
+        else if (this.type == Type.STR)
+            return "ATOM STR";
+
+        return "UNKNOWN";
+    }
 }

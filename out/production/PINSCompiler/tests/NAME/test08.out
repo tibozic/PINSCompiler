@@ -1,0 +1,12 @@
+Defs [1:1-2:40]
+  VarDef [1:1-1:16]: x
+    Atom [1:9-1:16]: INT
+  FunDef [2:1-2:40]: f
+    Parameter [2:9-2:20]: y
+      Atom [2:13-2:20]: INT
+    Atom [2:25-2:32]: LOG
+    Binary [2:35-2:40]: ADD
+      Name [2:35-2:36]: x
+        # defined at: [1:1-1:16]
+      Name [2:39-2:40]: y
+        # defined at: [2:9-2:20]

@@ -1,3 +1,4 @@
+B
 Defs [1:1-13:35]
   TypeDef [1:1-1:14]: i
     Atom [1:7-1:14]: INT
@@ -6,23 +7,29 @@ Defs [1:1-13:35]
   FunDef [3:1-11:2]: prestejCrke
     Parameter [3:18-3:27]: i
       Atom [3:20-3:27]: INT
-    Parameter [3:29-3:37]: j
-      Atom [3:31-3:37]: STR
-    Atom [3:40-3:47]: INT
-    While [3:50-11:2]
-      Block [4:11-4:18]
-        Binary [4:12-4:17]: LT
+    Parameter [3:29-3:44]: j
+      Array [3:31-3:44]
+        [1]
+        Atom [3:38-3:44]: STR
+    Atom [3:47-3:54]: INT
+    While [3:57-11:2]
+      Block [4:11-4:25]
+        Binary [4:12-4:24]: LT
           Name [4:12-4:13]: i
             # defined at: [3:18-3:27]
-          Name [4:16-4:17]: j
-            # defined at: [3:29-3:37]
+          Binary [4:16-4:24]: ARR
+            Name [4:16-4:17]: j
+              # defined at: [3:29-3:44]
+            Binary [4:18-4:23]: DIV
+              Literal [4:18-4:21]: INT(100)
+              Literal [4:22-4:23]: INT(2)
       For [5:9-10:10]
         Name [6:17-6:18]: i
           # defined at: [3:18-3:27]
         Block [6:21-6:28]
           Binary [6:22-6:27]: ADD
             Name [6:22-6:23]: j
-              # defined at: [3:29-3:37]
+              # defined at: [3:29-3:44]
             Literal [6:26-6:27]: INT(5)
         Binary [6:30-6:37]: LT
           Name [6:30-6:31]: i

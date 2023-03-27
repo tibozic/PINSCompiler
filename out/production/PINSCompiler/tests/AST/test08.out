@@ -43,13 +43,13 @@ Defs [5:1-77:55]
           [420]
           Atom [16:74-16:80]: STR
     Atom [16:83-16:90]: INT
-    Where [52:1-54:2]
+    Where [17:5-54:2]
       Defs [52:9-53:62]
         FunDef [52:9-53:62]: secondfunction
           Parameter [52:28-52:38]: x
             Atom [52:31-52:38]: INT
           Atom [52:40-52:47]: INT
-          Where [52:70-53:62]
+          Where [52:50-53:62]
             Defs [53:1-53:60]
               FunDef [53:1-53:60]: thirdfunction
                 Parameter [53:19-53:28]: y
