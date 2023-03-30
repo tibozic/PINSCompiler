@@ -1,0 +1,8 @@
+Defs [1:1-1:42]
+  FunDef [1:1-1:42]: neki
+    Parameter [1:10-1:19]: a
+      Atom [1:12-1:19]: INT
+    Atom [1:23-1:30]: INT
+    Binary [1:33-1:42]: ASSIGN
+      Name [1:35-1:36]: a
+      Name [1:39-1:40]: b

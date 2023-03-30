@@ -1,0 +1,13 @@
+Defs [1:1-6:18]
+  VarDef [1:1-1:15]: x
+    Atom [1:8-1:15]: INT
+  VarDef [2:1-2:15]: y
+    Atom [2:8-2:15]: LOG
+  VarDef [3:1-3:14]: z
+    Atom [3:8-3:14]: STR
+  TypeDef [4:1-4:19]: MyInt
+    Atom [4:12-4:19]: INT
+  TypeDef [5:1-5:19]: MyLog
+    Atom [5:12-5:19]: LOG
+  TypeDef [6:1-6:18]: MyStr
+    Atom [6:12-6:18]: STR

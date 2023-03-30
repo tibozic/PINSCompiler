@@ -1,0 +1,19 @@
+Defs [1:1-4:38]
+  TypeDef [1:1-1:15]: x
+    Atom [1:8-1:15]: INT
+  VarDef [2:1-2:25]: j
+    Array [2:8-2:25]
+      [10]
+      Array [2:16-2:25]
+        [20]
+        TypeName [2:24-2:25]: x
+          # defined at: [1:1-1:15]
+  FunDef [4:1-4:38]: f
+    Parameter [4:7-4:17]: a
+      Atom [4:10-4:17]: INT
+    Atom [4:20-4:27]: INT
+    Binary [4:30-4:38]: ARR
+      Binary [4:30-4:34]: ARR
+        Literal [4:30-4:31]: INT(5)
+        Literal [4:32-4:33]: INT(5)
+      Literal [4:35-4:37]: INT(10)

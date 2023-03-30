@@ -1,0 +1,24 @@
+Defs [1:1-4:2]
+  VarDef [1:1-1:21]: izraz1
+    Atom [1:14-1:21]: INT
+  FunDef [2:1-4:2]: main
+    Parameter [2:12-2:23]: x
+      Atom [2:16-2:23]: INT
+    Atom [2:28-2:35]: INT
+    Block [2:38-4:2]
+      Binary [3:5-3:42]: ASSIGN
+        Name [3:6-3:12]: izraz1
+          # defined at: [1:1-1:21]
+        Binary [3:16-3:41]: ADD
+          Block [3:16-3:27]
+            Binary [3:17-3:26]: ADD
+              Binary [3:17-3:22]: MUL
+                Literal [3:17-3:18]: INT(1)
+                Literal [3:21-3:22]: INT(2)
+              Literal [3:25-3:26]: INT(3)
+          Block [3:30-3:41]
+            Binary [3:31-3:40]: ADD
+              Literal [3:31-3:32]: INT(4)
+              Binary [3:35-3:40]: DIV
+                Literal [3:35-3:36]: INT(5)
+                Literal [3:39-3:40]: INT(6)

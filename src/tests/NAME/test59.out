@@ -1,0 +1,67 @@
+Defs [1:1-27:2]
+  FunDef [1:1-27:2]: main
+    Parameter [1:11-1:21]: x
+      Atom [1:14-1:21]: INT
+    Atom [1:26-1:33]: INT
+    Block [1:36-27:2]
+      IfThenElse [2:5-26:6]
+        Binary [2:10-2:43]: OR
+          Binary [2:10-2:34]: OR
+            Binary [2:10-2:25]: AND
+              Binary [2:10-2:16]: EQ
+                Literal [2:10-2:11]: INT(1)
+                Literal [2:15-2:16]: INT(1)
+              Binary [2:19-2:25]: EQ
+                Literal [2:19-2:20]: INT(2)
+                Literal [2:24-2:25]: INT(2)
+            Binary [2:28-2:34]: EQ
+              Literal [2:28-2:29]: INT(3)
+              Literal [2:33-2:34]: INT(3)
+          Binary [2:37-2:43]: EQ
+            Literal [2:37-2:38]: INT(4)
+            Literal [2:42-2:43]: INT(4)
+        Where [4:9-15:10]
+          Defs [13:13-14:28]
+            VarDef [13:13-13:28]: k
+              Atom [13:21-13:28]: INT
+            VarDef [14:13-14:28]: i
+              Atom [14:21-14:28]: INT
+          Block [4:9-12:10]
+            For [5:13-11:14]
+              Name [5:19-5:20]: i
+                # defined at: [14:13-14:28]
+              Literal [5:23-5:24]: INT(0)
+              Literal [5:26-5:28]: INT(10)
+              Literal [5:30-5:31]: INT(1)
+              Where [6:17-10:18]
+                Defs [9:21-9:36]
+                  VarDef [9:21-9:36]: k
+                    Atom [9:29-9:36]: INT
+                Block [6:17-8:18]
+                  Binary [7:21-7:32]: ASSIGN
+                    Name [7:22-7:23]: k
+                      # defined at: [9:21-9:36]
+                    Binary [7:26-7:31]: ADD
+                      Name [7:26-7:27]: k
+                        # defined at: [9:21-9:36]
+                      Name [7:30-7:31]: i
+                        # defined at: [14:13-14:28]
+        Where [17:9-25:10]
+          Defs [24:13-24:28]
+            VarDef [24:13-24:28]: k
+              Atom [24:21-24:28]: INT
+          Block [17:9-23:10]
+            While [18:13-22:14]
+              Binary [18:21-18:27]: LT
+                Name [18:21-18:22]: k
+                  # defined at: [24:13-24:28]
+                Literal [18:25-18:27]: INT(20)
+              Block [19:17-21:18]
+                Binary [20:21-20:32]: ASSIGN
+                  Name [20:22-20:23]: k
+                    # defined at: [24:13-24:28]
+                  Binary [20:26-20:31]: ADD
+                    Name [20:26-20:27]: k
+                      # defined at: [24:13-24:28]
+                    Literal [20:30-20:31]: INT(1)
+      Literal [26:8-26:9]: INT(0)

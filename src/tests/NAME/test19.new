@@ -1,0 +1,23 @@
+Defs [1:1-4:2]
+  TypeDef [1:1-1:18]: int
+    Atom [1:11-1:18]: INT
+  FunDef [2:1-4:2]: f
+    Parameter [2:7-2:18]: x
+      Atom [2:11-2:18]: INT
+    Atom [2:22-2:29]: INT
+    Block [2:32-4:2]
+      Where [3:5-3:63]
+        Defs [3:18-3:61]
+          VarDef [3:18-3:29]: x
+            TypeName [3:26-3:29]: int
+              # defined at: [3:44-3:61]
+          VarDef [3:31-3:42]: y
+            TypeName [3:39-3:42]: int
+              # defined at: [3:44-3:61]
+          TypeDef [3:44-3:61]: int
+            Atom [3:54-3:61]: INT
+        Binary [3:5-3:10]: ADD
+          Name [3:5-3:6]: x
+            # defined at: [3:18-3:29]
+          Name [3:9-3:10]: y
+            # defined at: [3:31-3:42]

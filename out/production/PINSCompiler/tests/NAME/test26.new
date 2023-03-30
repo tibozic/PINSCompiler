@@ -1,0 +1,12 @@
+Defs [1:1-2:28]
+  FunDef [1:1-1:29]: f
+    Parameter [1:7-1:16]: x
+      Atom [1:9-1:16]: INT
+    Atom [1:18-1:25]: INT
+    Literal [1:27-1:29]: INT(42)
+  FunDef [2:1-2:28]: g
+    Parameter [2:7-2:16]: x
+      Atom [2:9-2:16]: INT
+    Atom [2:18-2:25]: INT
+    Name [2:27-2:28]: f
+      # defined at: [1:1-1:29]

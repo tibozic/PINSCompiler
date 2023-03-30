@@ -1,5 +1,6 @@
-
 TEST_PART="NAME"
+DIFF_PARAMS=""
+
 TESTS_PATH="src/tests/$TEST_PART"
 TEST_FILES="$TESTS_PATH/*.tst"
 
@@ -20,5 +21,5 @@ do
 	echo "----- Results of file: $testFile -----"
 	testNum=${testFile//[^0-9]/}
 	testNum=${testFile//[^0-9]/}
-	diff $testFile "$TESTS_PATH/test$testNum.new"
+	diff $DIFF_PARAMS $testFile "$TESTS_PATH/test$testNum.new"
 done

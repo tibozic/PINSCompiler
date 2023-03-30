@@ -1,0 +1,311 @@
+Defs [1:1-45:6]
+  TypeDef [1:1-1:17]: prvic
+    Atom [1:11-1:17]: STR
+  TypeDef [2:1-2:21]: drugic
+    Atom [2:14-2:21]: INT
+  TypeDef [3:1-3:23]: tretjic
+    TypeName [3:15-3:23]: besedilo
+      # defined at: [6:1-6:21]
+  TypeDef [4:1-4:35]: cetrtic
+    Array [4:14-4:35]
+      [7]
+      Array [4:21-4:35]
+        [7]
+        Atom [4:28-4:35]: LOG
+  VarDef [5:1-5:31]: petic
+    Array [5:13-5:31]
+      [10]
+      Atom [5:24-5:31]: INT
+  TypeDef [6:1-6:21]: besedilo
+    Atom [6:15-6:21]: STR
+  TypeDef [7:1-7:18]: void
+    Atom [7:11-7:18]: INT
+  VarDef [8:1-8:18]: nekaj
+    Atom [8:12-8:18]: STR
+  VarDef [9:1-9:23]: blablabla
+    Atom [9:16-9:23]: LOG
+  VarDef [10:1-10:22]: nekajbla
+    Atom [10:15-10:22]: LOG
+  VarDef [11:1-11:17]: bla
+    Atom [11:10-11:17]: LOG
+  FunDef [13:1-45:6]: prvafunkcija
+    Parameter [13:19-13:31]: prvic
+      Atom [13:25-13:31]: STR
+    Parameter [13:33-13:47]: drugic
+      Atom [13:40-13:47]: INT
+    Parameter [13:49-13:71]: cetrtic
+      Array [13:57-13:71]
+        [7]
+        Atom [13:64-13:71]: LOG
+    Atom [13:75-13:82]: INT
+    Where [14:1-45:6]
+      Defs [17:5-44:11]
+        FunDef [17:5-44:11]: drugafunkcija
+          Parameter [17:23-17:36]: nekaj
+            Atom [17:29-17:36]: INT
+          Atom [17:38-17:45]: INT
+          Binary [18:9-44:11]: ASSIGN
+            Where [19:13-26:43]
+              Defs [26:24-26:41]
+                VarDef [26:24-26:41]: haha
+                  Atom [26:34-26:41]: INT
+              Block [19:13-26:15]
+                IfThenElse [19:14-26:14]
+                  Name [19:19-19:23]: haha
+                    # defined at: [26:24-26:41]
+                  IfThenElse [19:29-25:18]
+                    Name [20:24-20:29]: nekaj
+                      # defined at: [17:23-17:36]
+                    Binary [20:35-20:51]: ADD
+                      Binary [20:35-20:42]: SUB
+                        Binary [20:35-20:40]: SUB
+                          Binary [20:35-20:38]: ADD
+                            Literal [20:35-20:36]: INT(5)
+                            Literal [20:37-20:38]: INT(3)
+                          Literal [20:39-20:40]: INT(1)
+                        Literal [20:41-20:42]: INT(4)
+                      Binary [20:43-20:51]: MUL
+                        Literal [20:43-20:44]: INT(2)
+                        Literal [20:47-20:51]: LOG(true)
+                    While [20:57-24:22]
+                      Binary [21:31-21:67]: GEQ
+                        Name [21:31-21:36]: nekaj
+                          # defined at: [17:23-17:36]
+                        Binary [21:40-21:67]: ADD
+                          Binary [21:40-21:58]: MUL
+                            Name [21:40-21:45]: nekaj
+                              # defined at: [17:23-17:36]
+                            Block [21:48-21:58]
+                              Unary [21:49-21:57]: SUB
+                                Literal [21:50-21:57]: INT(5323223)
+                          Unary [21:61-21:67]: SUB
+                            Literal [21:62-21:67]: INT(44545)
+                      For [21:73-23:26]
+                        Name [22:33-22:38]: nekaj
+                          # defined at: [17:23-17:36]
+                        Literal [22:41-22:42]: INT(1)
+                        Binary [22:44-22:61]: GEQ
+                          Name [22:44-22:49]: nekaj
+                            # defined at: [17:23-17:36]
+                          Unary [22:53-22:61]: SUB
+                            Literal [22:54-22:61]: INT(9999999)
+                        Binary [22:63-22:82]: SUB
+                          Binary [22:63-22:80]: SUB
+                            Binary [22:63-22:78]: SUB
+                              Binary [22:63-22:76]: SUB
+                                Binary [22:63-22:74]: SUB
+                                  Name [22:63-22:68]: nekaj
+                                    # defined at: [17:23-17:36]
+                                  Name [22:69-22:74]: nekaj
+                                    # defined at: [17:23-17:36]
+                                Literal [22:75-22:76]: INT(1)
+                              Literal [22:77-22:78]: INT(1)
+                            Literal [22:79-22:80]: INT(1)
+                          Literal [22:81-22:82]: INT(1)
+                        Name [22:83-22:88]: nekaj
+                          # defined at: [17:23-17:36]
+            Where [27:11-43:14]
+              Defs [28:13-42:53]
+                FunDef [28:13-41:144]: epicbubblesort
+                  Parameter [28:32-28:52]: polje
+                    Array [28:38-28:52]
+                      [10]
+                      Atom [28:45-28:52]: INT
+                  TypeName [28:54-28:58]: void
+                    # defined at: [7:1-7:18]
+                  Where [28:61-41:144]
+                    Defs [41:28-41:143]
+                      VarDef [41:28-41:53]: dolzinapolja
+                        Atom [41:46-41:53]: INT
+                      VarDef [41:55-41:69]: n
+                        Atom [41:62-41:69]: INT
+                      VarDef [41:71-41:88]: temp
+                        Atom [41:81-41:88]: INT
+                      VarDef [41:90-41:104]: i
+                        Atom [41:97-41:104]: INT
+                      VarDef [41:106-41:120]: j
+                        Atom [41:113-41:120]: INT
+                      VarDef [41:122-41:143]: blablabla
+                        Atom [41:137-41:143]: STR
+                    Block [28:61-41:19]
+                      Binary [29:17-41:18]: AND
+                        Binary [29:17-30:26]: AND
+                          Binary [29:17-29:34]: EQ
+                            Name [29:17-29:18]: n
+                              # defined at: [41:55-41:69]
+                            Name [29:22-29:34]: dolzinapolja
+                              # defined at: [41:28-41:53]
+                          Binary [30:17-30:26]: EQ
+                            Name [30:17-30:21]: temp
+                              # defined at: [41:71-41:88]
+                            Literal [30:25-30:26]: INT(0)
+                        For [30:29-41:18]
+                          Name [31:21-31:22]: i
+                            # defined at: [41:90-41:104]
+                          Literal [31:23-31:24]: INT(0)
+                          Binary [31:25-31:28]: LT
+                            Name [31:25-31:26]: i
+                              # defined at: [41:90-41:104]
+                            Name [31:27-31:28]: n
+                              # defined at: [41:55-41:69]
+                          Binary [31:29-31:34]: ADD
+                            Name [31:29-31:30]: i
+                              # defined at: [41:90-41:104]
+                            Literal [31:33-31:34]: INT(1)
+                          For [32:21-40:22]
+                            Name [32:27-32:28]: j
+                              # defined at: [41:106-41:120]
+                            Literal [32:29-32:30]: INT(0)
+                            Binary [32:32-32:39]: LT
+                              Name [32:32-32:33]: j
+                                # defined at: [41:106-41:120]
+                              Block [32:34-32:39]
+                                Binary [32:35-32:38]: SUB
+                                  Name [32:35-32:36]: n
+                                    # defined at: [41:55-41:69]
+                                  Name [32:37-32:38]: i
+                                    # defined at: [41:90-41:104]
+                            Binary [32:40-32:45]: ADD
+                              Name [32:40-32:41]: j
+                                # defined at: [41:106-41:120]
+                              Literal [32:44-32:45]: INT(1)
+                            IfThenElse [33:25-39:26]
+                              Binary [34:32-34:53]: GT
+                                Binary [34:32-34:42]: ARR
+                                  Name [34:32-34:37]: polje
+                                    # defined at: [28:32-28:52]
+                                  Binary [34:38-34:41]: SUB
+                                    Name [34:38-34:39]: j
+                                      # defined at: [41:106-41:120]
+                                    Literal [34:40-34:41]: INT(1)
+                                Binary [34:45-34:53]: ARR
+                                  Name [34:45-34:50]: polje
+                                    # defined at: [28:32-28:52]
+                                  Name [34:51-34:52]: j
+                                    # defined at: [41:106-41:120]
+                              Binary [35:33-38:42]: AND
+                                Binary [35:33-37:49]: AND
+                                  Binary [35:33-36:55]: AND
+                                    Binary [35:33-35:51]: EQ
+                                      Name [35:33-35:37]: temp
+                                        # defined at: [41:71-41:88]
+                                      Binary [35:41-35:51]: ARR
+                                        Name [35:41-35:46]: polje
+                                          # defined at: [28:32-28:52]
+                                        Binary [35:47-35:50]: SUB
+                                          Name [35:47-35:48]: j
+                                            # defined at: [41:106-41:120]
+                                          Literal [35:49-35:50]: INT(1)
+                                    Binary [36:33-36:55]: EQ
+                                      Binary [36:33-36:43]: ARR
+                                        Name [36:33-36:38]: polje
+                                          # defined at: [28:32-28:52]
+                                        Binary [36:39-36:42]: SUB
+                                          Name [36:39-36:40]: j
+                                            # defined at: [41:106-41:120]
+                                          Literal [36:41-36:42]: INT(1)
+                                      Binary [36:47-36:55]: ARR
+                                        Name [36:47-36:52]: polje
+                                          # defined at: [28:32-28:52]
+                                        Name [36:53-36:54]: j
+                                          # defined at: [41:106-41:120]
+                                  Binary [37:33-37:49]: EQ
+                                    Binary [37:33-37:41]: ARR
+                                      Name [37:33-37:38]: polje
+                                        # defined at: [28:32-28:52]
+                                      Name [37:39-37:40]: j
+                                        # defined at: [41:106-41:120]
+                                    Name [37:45-37:49]: temp
+                                      # defined at: [41:71-41:88]
+                                Name [38:33-38:42]: blablabla
+                                  # defined at: [41:122-41:143]
+                VarDef [42:17-42:53]: celotenprogramtideluje69
+                  Atom [42:47-42:53]: STR
+              Name [27:11-27:35]: celotenprogramtideluje69
+                # defined at: [42:17-42:53]
+      Binary [14:1-16:68]: OR
+        Binary [14:1-16:19]: OR
+          Binary [14:1-15:74]: OR
+            Binary [14:1-15:49]: OR
+              Binary [14:1-14:23]: AND
+                Binary [14:1-14:16]: EQ
+                  Binary [14:1-14:10]: SUB
+                    Binary [14:1-14:6]: ADD
+                      Literal [14:1-14:2]: INT(5)
+                      Literal [14:5-14:6]: INT(3)
+                    Literal [14:9-14:10]: INT(2)
+                  Literal [14:14-14:16]: INT(10)
+                Literal [14:19-14:23]: LOG(true)
+              Binary [14:26-15:49]: NEQ
+                Binary [14:26-14:83]: MOD
+                  Binary [14:26-14:73]: MUL
+                    Binary [14:26-14:50]: DIV
+                      Literal [14:26-14:34]: STR(beseda)
+                      Literal [14:37-14:50]: STR(drugabeseda)
+                    Literal [14:53-14:73]: STR(danesjelepdanaaaaa)
+                  Name [14:76-14:83]: cetrtic
+                    # defined at: [13:49-13:71]
+                Binary [14:87-15:49]: SUB
+                  Binary [14:87-15:41]: ADD
+                    Binary [14:87-15:35]: ADD
+                      Binary [14:87-15:8]: SUB
+                        Binary [14:87-14:103]: SUB
+                          Binary [14:87-14:96]: ADD
+                            Name [14:87-14:92]: petic
+                              # defined at: [5:1-5:31]
+                            Literal [14:95-14:96]: INT(5)
+                          Unary [14:99-14:103]: NOT
+                            Literal [14:100-14:103]: STR(e)
+                        Block [15:3-15:8]
+                          Unary [15:4-15:7]: SUB
+                            Literal [15:5-15:7]: INT(10)
+                      Binary [15:11-15:35]: DIV
+                        Block [15:11-15:22]
+                          Unary [15:12-15:21]: ADD
+                            Block [15:13-15:21]
+                              Unary [15:14-15:20]: ADD
+                                Block [15:15-15:20]
+                                  Unary [15:16-15:19]: SUB
+                                    Literal [15:17-15:19]: INT(10)
+                        Block [15:25-15:35]
+                          Unary [15:26-15:34]: NOT
+                            Name [15:27-15:34]: cetrtic
+                              # defined at: [13:49-13:71]
+                    Literal [15:38-15:41]: INT(100)
+                  Literal [15:44-15:49]: LOG(false)
+            Binary [15:52-15:74]: AND
+              Name [15:52-15:57]: nekaj
+                # defined at: [8:1-8:18]
+              Binary [15:60-15:74]: EQ
+                Name [15:60-15:65]: nekaj
+                  # defined at: [8:1-8:18]
+                Name [15:69-15:74]: nekaj
+                  # defined at: [8:1-8:18]
+          Binary [15:77-16:19]: AND
+            Binary [15:77-15:91]: GEQ
+              Name [15:77-15:82]: nekaj
+                # defined at: [8:1-8:18]
+              Name [15:86-15:91]: nekaj
+                # defined at: [8:1-8:18]
+            Binary [16:1-16:19]: LEQ
+              Name [16:1-16:6]: nekaj
+                # defined at: [8:1-8:18]
+              Name [16:10-16:19]: blablabla
+                # defined at: [9:1-9:23]
+        Binary [16:22-16:68]: AND
+          Binary [16:22-16:41]: LT
+            Binary [16:22-16:35]: ADD
+              Name [16:22-16:27]: nekaj
+                # defined at: [8:1-8:18]
+              Name [16:30-16:35]: nekaj
+                # defined at: [8:1-8:18]
+            Name [16:38-16:41]: bla
+              # defined at: [11:1-11:17]
+          Binary [16:44-16:68]: GT
+            Binary [16:44-16:57]: SUB
+              Name [16:44-16:49]: nekaj
+                # defined at: [8:1-8:18]
+              Name [16:52-16:57]: nekaj
+                # defined at: [8:1-8:18]
+            Name [16:60-16:68]: nekajbla
+              # defined at: [10:1-10:22]

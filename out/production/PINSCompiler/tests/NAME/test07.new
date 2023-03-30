@@ -1,2 +1,2 @@
-[3:15-3:23]: ERROR: Unknown TypeDef defintion `besedilo`
+[2:1-2:16]: ERROR: Definition for `x` already exists in scope.
 

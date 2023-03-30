@@ -1,23 +1,48 @@
-Exception in thread "main" java.lang.UnsupportedOperationException: Unimplemented method 'visit'
-	at compiler.seman.name.NameChecker.visit(NameChecker.java:50)
-	at compiler.parser.ast.expr.Call.accept(Call.java:34)
-	at compiler.seman.name.NameChecker.visit(NameChecker.java:135)
-	at compiler.parser.ast.expr.IfThenElse.accept(IfThenElse.java:73)
-	at compiler.seman.name.NameChecker.visit(NameChecker.java:113)
-	at compiler.parser.ast.expr.For.accept(For.java:53)
-	at compiler.seman.name.NameChecker.visit(NameChecker.java:153)
-	at compiler.parser.ast.expr.While.accept(While.java:32)
-	at compiler.seman.name.NameChecker.lambda$visit$9(NameChecker.java:268)
-	at compiler.seman.name.env.SymbolTable.inNewScope(SymbolTable.java:47)
-	at compiler.seman.name.NameChecker.visit(NameChecker.java:254)
-	at compiler.parser.ast.def.FunDef.accept(FunDef.java:44)
-	at compiler.seman.name.NameChecker.lambda$visit$5(NameChecker.java:216)
-	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
-	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
-	at compiler.seman.name.NameChecker.lambda$visit$6(NameChecker.java:216)
-	at compiler.seman.name.env.SymbolTable.inNewScope(SymbolTable.java:47)
-	at compiler.seman.name.NameChecker.visit(NameChecker.java:202)
-	at compiler.parser.ast.def.Defs.accept(Defs.java:30)
-	at Main.run(Main.java:85)
-	at Main.run(Main.java:42)
-	at Main.main(Main.java:33)
+Defs [1:1-13:35]
+  TypeDef [1:1-1:14]: i
+    Atom [1:7-1:14]: INT
+  VarDef [2:1-2:13]: j
+    Atom [2:7-2:13]: STR
+  FunDef [3:1-11:2]: prestejCrke
+    Parameter [3:18-3:27]: i
+      Atom [3:20-3:27]: INT
+    Parameter [3:29-3:37]: j
+      Atom [3:31-3:37]: STR
+    Atom [3:40-3:47]: INT
+    While [3:50-11:2]
+      Block [4:11-4:18]
+        Binary [4:12-4:17]: LT
+          Name [4:12-4:13]: i
+            # defined at: [3:18-3:27]
+          Name [4:16-4:17]: j
+            # defined at: [3:29-3:37]
+      For [5:9-10:10]
+        Name [6:17-6:18]: i
+          # defined at: [3:18-3:27]
+        Block [6:21-6:28]
+          Binary [6:22-6:27]: ADD
+            Name [6:22-6:23]: j
+              # defined at: [3:29-3:37]
+            Literal [6:26-6:27]: INT(5)
+        Binary [6:30-6:37]: LT
+          Name [6:30-6:31]: i
+            # defined at: [3:18-3:27]
+          Literal [6:34-6:37]: INT(100)
+        Binary [6:39-6:44]: ADD
+          Name [6:39-6:40]: i
+            # defined at: [3:18-3:27]
+          Literal [6:43-6:44]: INT(1)
+        IfThenElse [7:17-9:18]
+          Binary [8:24-8:31]: EQ
+            Name [8:24-8:25]: i
+              # defined at: [3:18-3:27]
+            Literal [8:29-8:31]: INT(69)
+          Call [8:37-8:45]: print
+            # defined at: [13:1-13:35]
+            Name [8:43-8:44]: i
+              # defined at: [3:18-3:27]
+  FunDef [13:1-13:35]: print
+    Parameter [13:11-13:21]: a
+      Atom [13:14-13:21]: INT
+    Atom [13:24-13:31]: INT
+    Literal [13:34-13:35]: INT(1)

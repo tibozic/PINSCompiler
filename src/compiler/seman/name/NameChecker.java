@@ -65,71 +65,47 @@ public class NameChecker implements Visitor {
 
     @Override
     public void visit(Binary binary) {
-        if( binary.operator == Binary.Operator.ARR ) {
-            // Check if left side of array call is a variable
-            if( !(binary.left instanceof Name) )
-                Report.error(binary.position,
-                        String.format("ERROR: Left side of array call has to be a Name\n"));
+        if( binary.left instanceof Name binaryName ) {
+            var binaryNameDefinition = symbolTable.definitionFor(binaryName.name);
 
-            var arrayDefinition = symbolTable.definitionFor(((Name) binary.left).name);
+            if( binaryNameDefinition.isEmpty() )
+                Report.error(binaryName.position,
+                        String.format("ERROR: Unkown variable in binary operation: `%s`\n", binaryName.name));
 
-            // Check if the variable was defined
-            if( arrayDefinition.isEmpty() )
-                Report.error(binary.position,
-                        String.format("ERROR: Unknown name `%s` in array call", ((Name) binary.left).name));
-
-            // Check if the variable is of array type
-
-            if( arrayDefinition.get() instanceof VarDef arrayType ) {
-                System.out.println("A");
-                if( !(arrayType.type instanceof Array) )
-                    Report.error(arrayDefinition.get().position,
-                            String.format("ERROR: Variable `%s` is not of type `ARRAY`\n", arrayDefinition.get().name));
-
-                definitions.store(arrayDefinition.get(), binary.left);
-            }
-            else if( arrayDefinition.get() instanceof Parameter arrayType ) {
-                System.out.println("B");
-                if( !(arrayType.type instanceof Array) )
-                    Report.error(arrayDefinition.get().position,
-                            String.format("ERROR: Variable `%s` is not of type `ARRAY`\n", arrayDefinition.get().name));
-
-                definitions.store(arrayDefinition.get(), binary.left);
+            if( (binaryNameDefinition.get() instanceof VarDef) || (binaryNameDefinition.get() instanceof Parameter) ) {
+                definitions.store(binaryNameDefinition.get(), binaryName);
             }
             else {
-                System.out.println("C");
-                Report.error(arrayDefinition.get().position,
-                        String.format("ERROR: Variable `%s` is not of type `ARRAY`\n", arrayDefinition.get().name));
+                Report.error(binary.left.position,
+                        String.format("ERROR: `%s` is not a valid variable for operation `%s`\n",
+                                binaryNameDefinition.get().name,
+                                binary.operator));
             }
 
-            binary.right.accept(this);
+            /*
+            if( !((binaryNameDefinition.get() instanceof VarDef) || binaryNameDefinition.get() instanceof Parameter) )
+                Report.error(binary.left.position,
+                        String.format("ERROR: `%s` is not a valid variable for operation `%s`\n",
+                            binaryNameDefinition.get().name,
+                            binary.operator));
+             */
+
         }
         else {
-            if( binary.left instanceof Name binaryName ) {
-                var binaryNameLocation = symbolTable.definitionFor(binaryName.name);
+            binary.left.accept(this);
+        }
 
-                if( binaryNameLocation.isEmpty() )
-                    Report.error(binaryName.position,
-                            String.format("ERROR: Unkown variable in binary operation: `%s`\n", binaryName.name));
+        if( binary.right instanceof Name binaryName ) {
+            var binaryNameLocation = symbolTable.definitionFor(binaryName.name);
 
-                definitions.store(binaryNameLocation.get(), binaryName);
-            }
-            else {
-                binary.left.accept(this);
-            }
+            if( binaryNameLocation.isEmpty() )
+                Report.error(binaryName.position,
+                        String.format("ERROR: Unkown variable in binary operation: `%s`\n", binaryName.name));
 
-            if( binary.right instanceof Name binaryName ) {
-                var binaryNameLocation = symbolTable.definitionFor(binaryName.name);
-
-                if( binaryNameLocation.isEmpty() )
-                    Report.error(binaryName.position,
-                            String.format("ERROR: Unkown variable in binary operation: `%s`\n", binaryName.name));
-
-                definitions.store(binaryNameLocation.get(), binaryName);
-            }
-            else {
-                binary.right.accept(this);
-            }
+            definitions.store(binaryNameLocation.get(), binaryName);
+        }
+        else {
+            binary.right.accept(this);
         }
     }
 
@@ -157,6 +133,10 @@ public class NameChecker implements Visitor {
                     String.format("ERROR: No definition found for `%s`\n",
                             name.name));
         }
+
+        if( def.get() instanceof FunDef )
+            Report.error(name.position,
+                    String.format("ERROR: Function `%s` used as a normal variable\n", def.get().name));
 
         definitions.store(def.get(), name);
     }
@@ -187,27 +167,6 @@ public class NameChecker implements Visitor {
 
     @Override
     public void visit(Where where) {
-        // first pass is through all definitions
-        /*
-        where.defs.definitions.stream().
-                forEach(def -> {
-                    if( def instanceof VarDef varDef && varDef.type instanceof TypeName varDefType ) {
-                        var varDefTypeDefinition = symbolTable.definitionFor(varDefType.identifier);
-
-                        if( varDefTypeDefinition.isEmpty() )
-                            Report.error(varDefType.position,
-                                    String.format("ERROR: Unknown definition type `%s`\n", varDefType));
-
-                        definitions.store(varDefTypeDefinition.get(), varDefType);
-                    }
-
-                    // TODO: Same as above for function & type definitions
-                });
-
-         */
-
-        // FIXME: Possibly have to precheck all the definitions (same as parameters in function definition)
-
         symbolTable.inNewScope(() -> {
             // first pass is through all definitions
             where.defs.definitions.stream().
@@ -261,19 +220,29 @@ public class NameChecker implements Visitor {
                             Report.error(parameterType.position,
                                     String.format("ERROR: Unknown parameter type `%s`\n", parameterType.identifier));
 
+                        if( !(parameterTypeDefinition.get() instanceof TypeDef) )
+                            Report.error(param.position,
+                                    String.format("ERROR: Paramter type `%s` is not a valid type\n",
+                                        parameterTypeDefinition.get().name));
+
                         definitions.store(parameterTypeDefinition.get(), parameterType);
                     }
                 });
 
         // check that the return type of function is valid
         if( funDef.type instanceof TypeName typeDefName ) {
-            var typeDef = symbolTable.definitionFor(typeDefName.identifier);
+            var typeDefDefinition = symbolTable.definitionFor(typeDefName.identifier);
 
-            if( typeDef.isEmpty() )
+            if( typeDefDefinition.isEmpty() )
                 Report.error(typeDefName.position,
                         String.format("ERROR: Unknown function return type `%s`\n", typeDefName.identifier));
 
-            definitions.store(typeDef.get(), typeDefName);
+            if( !(typeDefDefinition.get() instanceof TypeDef) )
+                Report.error(typeDefName.position,
+                        String.format("ERROR: Function return type `%s` is not a valid type\n",
+                                typeDefDefinition.get().name));
+
+            definitions.store(typeDefDefinition.get(), typeDefName);
         }
     }
 
@@ -312,19 +281,29 @@ public class NameChecker implements Visitor {
 
             definitions.store(typeDefNameLocation.get(), typeDefName);
         }
+        else if( typeDef.type instanceof Array arrayDef ) {
+            arrayDef.accept(this);
+        }
     }
 
     @Override
     public void visit(VarDef varDef) {
         if( varDef.type instanceof TypeName typeDefName ) {
-            var typeDefNameLocation = symbolTable.definitionFor(typeDefName.identifier);
+            var typeDefNameDefinition = symbolTable.definitionFor(typeDefName.identifier);
 
-            if( typeDefNameLocation.isEmpty() )
+            if( typeDefNameDefinition.isEmpty() )
                 Report.error(typeDefName.position,
                         String.format("ERROR: Unknown variable type `%s`\n",
                                 typeDefName.identifier));
 
-            definitions.store(typeDefNameLocation.get(), typeDefName);
+            if( !(typeDefNameDefinition.get() instanceof TypeDef) )
+                Report.error(varDef.position,
+                        String.format("ERROR: Variable type `%s` is not a type\n", typeDefNameDefinition.get().name));
+
+            definitions.store(typeDefNameDefinition.get(), typeDefName);
+        }
+        else if( varDef.type instanceof Array arrayDef ) {
+            arrayDef.accept(this);
         }
     }
 
@@ -350,6 +329,9 @@ public class NameChecker implements Visitor {
 
             definitions.store(arrayTypeDefinition.get(), arrayType);
         }
+        else if( array.type instanceof Array arrayType) {
+            arrayType.accept(this);
+        }
     }
 
     @Override
@@ -366,5 +348,7 @@ public class NameChecker implements Visitor {
                     String.format("ERROR: No definition found for `%s`\n",
                             name.identifier));
         }
+
+        definitions.store(def.get(), name);
     }
 }
