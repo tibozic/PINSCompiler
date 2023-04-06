@@ -30,9 +30,4 @@ public class Array extends Type {
     }
 
 	@Override public void accept(Visitor visitor) { visitor.visit(this); }
-
-    @Override
-    public String toString() {
-        return "ARRAY";
-    }
 }
