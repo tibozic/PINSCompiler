@@ -65,6 +65,9 @@ public class NameChecker implements Visitor {
 
     @Override
     public void visit(Binary binary) {
+        binary.left.accept(this);
+        binary.right.accept(this);
+        /*
         if( binary.left instanceof Name binaryName ) {
             var binaryNameDefinition = symbolTable.definitionFor(binaryName.name);
 
@@ -81,15 +84,6 @@ public class NameChecker implements Visitor {
                                 binaryNameDefinition.get().name,
                                 binary.operator));
             }
-
-            /*
-            if( !((binaryNameDefinition.get() instanceof VarDef) || binaryNameDefinition.get() instanceof Parameter) )
-                Report.error(binary.left.position,
-                        String.format("ERROR: `%s` is not a valid variable for operation `%s`\n",
-                            binaryNameDefinition.get().name,
-                            binary.operator));
-             */
-
         }
         else {
             binary.left.accept(this);
@@ -107,6 +101,8 @@ public class NameChecker implements Visitor {
         else {
             binary.right.accept(this);
         }
+
+         */
     }
 
     @Override
@@ -134,11 +130,19 @@ public class NameChecker implements Visitor {
                             name.name));
         }
 
+        if( (def.get() instanceof VarDef) || (def.get() instanceof Parameter) ) {
+            definitions.store(def.get(), name);
+            return;
+        }
+
         if( def.get() instanceof FunDef )
             Report.error(name.position,
                     String.format("ERROR: Function `%s` used as a normal variable\n", def.get().name));
 
-        definitions.store(def.get(), name);
+        if( def.get() instanceof TypeDef )
+            Report.error(name.position,
+                    String.format("ERROR: Type `%s` used as a normal variable\n", def.get().name));
+
     }
 
     @Override
@@ -156,7 +160,25 @@ public class NameChecker implements Visitor {
 
     @Override
     public void visit(Unary unary) {
-        unary.expr.accept(this);
+        if( unary.expr instanceof Name exprName ) {
+            var exprNameDefinition = symbolTable.definitionFor(exprName.name);
+
+            if( exprNameDefinition.isEmpty() )
+                Report.error(exprName.position,
+                        String.format("ERROR: Unkown variable in binary operation: `%s`\n", exprName.name));
+
+            if( (exprNameDefinition.get() instanceof VarDef) || (exprNameDefinition.get() instanceof Parameter) ) {
+                definitions.store(exprNameDefinition.get(), exprName);
+            }
+            else {
+                Report.error(unary.position,
+                        String.format("ERROR: `%s` is not a valid variable\n",
+                                exprNameDefinition.get().name));
+            }
+        }
+        else {
+            unary.expr.accept(this);
+        }
     }
 
     @Override

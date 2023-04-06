@@ -1,0 +1,11 @@
+Defs [1:1-2:38]
+  TypeDef [1:1-1:18]: test
+    Atom [1:11-1:18]: INT
+  FunDef [2:1-2:38]: f
+    Parameter [2:7-2:17]: _
+      Atom [2:10-2:17]: INT
+    Atom [2:20-2:27]: INT
+    Binary [2:30-2:38]: ADD
+      Literal [2:30-2:31]: INT(2)
+      Name [2:34-2:38]: test
+        # defined at: [1:1-1:18]
