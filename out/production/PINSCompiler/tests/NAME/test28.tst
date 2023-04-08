@@ -1,2 +1,2 @@
 typ test: integer;
-fun f(_: integer): integer = !test
+fun f(_: integer): integer = test

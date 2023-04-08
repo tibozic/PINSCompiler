@@ -11,6 +11,7 @@ import compiler.common.Visitor;
 import compiler.lexer.Position;
 
 public class Atom extends Type {
+    public static Object Kind;
     /**
      * Vrsta tipa.
      */
@@ -47,5 +48,15 @@ public class Atom extends Type {
 
     public static enum Type {
         INT, LOG, STR
+    }
+
+    public String toString() {
+        if( this.type == Type.INT )
+            return "INT";
+        if( this.type == Type.LOG )
+            return "LOG";
+        if( this.type == Type.STR )
+            return "STR";
+        return "Unknown type";
     }
 }

@@ -23,4 +23,8 @@ public class TypeName extends Type {
     }
 
 	@Override public void accept(Visitor visitor) { visitor.visit(this); }
+
+    public String toString() {
+        return identifier;
+    }
 }

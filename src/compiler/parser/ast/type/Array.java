@@ -30,4 +30,8 @@ public class Array extends Type {
     }
 
 	@Override public void accept(Visitor visitor) { visitor.visit(this); }
+
+    public String toString() {
+        return String.format("%s[%d]", type.toString(), size);
+    }
 }
