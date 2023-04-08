@@ -1,0 +1,13 @@
+Defs [1:1-3:17]
+  VarDef [1:1-1:17]: int
+    # typed as: int
+    Atom [1:10-1:17]: INT
+      # typed as: int
+  VarDef [2:1-2:16]: str
+    # typed as: str
+    Atom [2:10-2:16]: STR
+      # typed as: str
+  VarDef [3:1-3:17]: log
+    # typed as: log
+    Atom [3:10-3:17]: LOG
+      # typed as: log
