@@ -1,0 +1,15 @@
+Defs [1:1-3:15]
+  TypeDef [1:1-1:17]: int
+    # typed as: int
+    Atom [1:10-1:17]: INT
+      # typed as: int
+  TypeDef [2:1-2:14]: test
+    # typed as: int
+    TypeName [2:11-2:14]: int
+      # defined at: [1:1-1:17]
+      # typed as: int
+  VarDef [3:1-3:15]: neki
+    # typed as: int
+    TypeName [3:11-3:15]: test
+      # defined at: [2:1-2:14]
+      # typed as: int

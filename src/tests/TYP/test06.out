@@ -1,0 +1,12 @@
+Defs [1:1-1:38]
+  FunDef [1:1-1:38]: function
+    # typed as: (int) -> int
+    Parameter [1:14-1:24]: a
+      # typed as: int
+      Atom [1:17-1:24]: INT
+        # typed as: int
+    Atom [1:27-1:34]: INT
+      # typed as: int
+    Name [1:37-1:38]: a
+      # defined at: [1:14-1:24]
+      # typed as: int

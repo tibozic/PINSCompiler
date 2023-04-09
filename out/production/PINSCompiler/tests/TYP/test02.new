@@ -1,0 +1,10 @@
+Defs [1:1-2:13]
+  TypeDef [1:1-1:18]: test
+    # typed as: int
+    Atom [1:11-1:18]: INT
+      # typed as: int
+  VarDef [2:1-2:13]: st
+    # typed as: int
+    TypeName [2:9-2:13]: test
+      # defined at: [1:1-1:18]
+      # typed as: int

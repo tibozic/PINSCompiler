@@ -1,0 +1,8 @@
+Defs [1:1-1:25]
+  VarDef [1:1-1:25]: sez
+    # typed as: ARR(10,int)
+    Array [1:10-1:25]
+      # typed as: ARR(10,int)
+      [10]
+      Atom [1:18-1:25]: INT
+        # typed as: int

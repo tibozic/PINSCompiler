@@ -1,0 +1,16 @@
+Defs [1:1-2:30]
+  TypeDef [1:1-1:17]: int
+    # typed as: int
+    Atom [1:10-1:17]: INT
+      # typed as: int
+  FunDef [2:1-2:30]: five
+    # typed as: (log) -> int
+    Parameter [2:10-2:20]: _
+      # typed as: log
+      Atom [2:13-2:20]: LOG
+        # typed as: log
+    TypeName [2:23-2:26]: int
+      # defined at: [1:1-1:17]
+      # typed as: int
+    Literal [2:29-2:30]: INT(5)
+      # typed as: int

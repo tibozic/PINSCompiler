@@ -1,0 +1,28 @@
+Defs [1:1-2:37]
+  TypeDef [1:1-1:17]: int
+    # typed as: int
+    Atom [1:10-1:17]: INT
+      # typed as: int
+  FunDef [2:1-2:37]: sum
+    # typed as: (int, int) -> int
+    Parameter [2:9-2:15]: a
+      # typed as: int
+      TypeName [2:12-2:15]: int
+        # defined at: [1:1-1:17]
+        # typed as: int
+    Parameter [2:17-2:23]: b
+      # typed as: int
+      TypeName [2:20-2:23]: int
+        # defined at: [1:1-1:17]
+        # typed as: int
+    TypeName [2:26-2:29]: int
+      # defined at: [1:1-1:17]
+      # typed as: int
+    Binary [2:32-2:37]: ADD
+      # typed as: int
+      Name [2:32-2:33]: a
+        # defined at: [2:9-2:15]
+        # typed as: int
+      Name [2:36-2:37]: b
+        # defined at: [2:17-2:23]
+        # typed as: int

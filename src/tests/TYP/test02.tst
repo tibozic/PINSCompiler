@@ -1,2 +1,2 @@
-typ str: string;
-var st: str
+typ test: integer;
+var st: test
