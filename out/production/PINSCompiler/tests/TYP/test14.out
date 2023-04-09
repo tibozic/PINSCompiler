@@ -1,0 +1,24 @@
+Defs [1:1-2:38]
+  VarDef [1:1-1:25]: sez
+    # typed as: ARR(10,int)
+    Array [1:10-1:25]
+      # typed as: ARR(10,int)
+      [10]
+      Atom [1:18-1:25]: INT
+        # typed as: int
+  FunDef [2:1-2:38]: get
+    # typed as: (int) -> int
+    Parameter [2:9-2:19]: i
+      # typed as: int
+      Atom [2:12-2:19]: INT
+        # typed as: int
+    Atom [2:22-2:29]: INT
+      # typed as: int
+    Binary [2:32-2:38]: ARR
+      # typed as: int
+      Name [2:32-2:35]: sez
+        # defined at: [1:1-1:25]
+        # typed as: ARR(10,int)
+      Name [2:36-2:37]: i
+        # defined at: [2:9-2:19]
+        # typed as: int

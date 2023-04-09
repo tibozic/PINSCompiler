@@ -1,0 +1,21 @@
+Defs [1:1-1:50]
+  FunDef [1:1-1:50]: comp
+    # typed as: (int, int) -> log
+    Parameter [1:10-1:20]: a
+      # typed as: int
+      Atom [1:13-1:20]: INT
+        # typed as: int
+    Parameter [1:22-1:32]: b
+      # typed as: int
+      Atom [1:25-1:32]: INT
+        # typed as: int
+    Atom [1:35-1:42]: LOG
+      # typed as: log
+    Binary [1:45-1:50]: LT
+      # typed as: log
+      Name [1:45-1:46]: a
+        # defined at: [1:10-1:20]
+        # typed as: int
+      Name [1:49-1:50]: b
+        # defined at: [1:22-1:32]
+        # typed as: int

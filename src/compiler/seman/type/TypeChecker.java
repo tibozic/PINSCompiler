@@ -51,22 +51,77 @@ public class TypeChecker implements Visitor {
         var leftType = types.valueFor(binary.left);
         var rightType = types.valueFor(binary.right);
 
-        if( leftType.isEmpty() ) Report.error(binary.left.position, "ERROR: Unknown type for expression");
-        if( rightType.isEmpty() ) Report.error(binary.right.position, "ERROR: Unknown type for expression");
+        if( leftType.isEmpty() ) Report.error(binary.left.position, "ERROR: Unknown type for expression\n");
+        if( rightType.isEmpty() ) Report.error(binary.right.position, "ERROR: Unknown type for expression\n");
+
+
+
+        if( binary.operator == Binary.Operator.ARR ) {
+            if( !(rightType.get().isInt()) )
+                Report.error(binary.position,
+                        "ERROR: Expression inside [] has to be an integer in an array call.\n");
+
+            var arr = leftType.get().asArray();
+
+
+            if( arr.isEmpty() )
+                Report.error(binary.position, "ERROR: Left side of array call has to be an array\n");
+
+            var arrElementType = arr.get().type;
+
+            types.store(arrElementType, binary);
+            return;
+        }
 
         if( !(leftType.get().equals(rightType.get())) )
             Report.error(binary.position,
-                    String.format("ERROR: Types for left and right side of expression don't match: `%s` != `%s`",
+                    String.format("ERROR: Types for left and right side of expression don't match: `%s` != `%s`\n",
                             leftType.get(),
                             rightType.get()));
 
-        types.store(leftType.get(), binary);
+
+        if( binary.operator.isArithmetic() ) {
+            if( leftType.get().isInt() ) {
+                types.store(new Type.Atom(Type.Atom.Kind.INT), binary);
+                return;
+            }
+            else
+                Report.error(binary.position,
+                        String.format("ERROR: Arithmetic operations only support integer values\n"));
+        }
+
+        if( binary.operator.isComparison() ) {
+            if( leftType.get().isInt() || leftType.get().isLog() ) {
+                types.store(new Type.Atom(Type.Atom.Kind.LOG), binary);
+                return;
+            }
+            else
+                Report.error(binary.position,
+                        String.format("ERROR: Comparison operations only support integer and logical values\n"));
+        }
+
+        if( binary.operator == Binary.Operator.ASSIGN ) {
+            if( leftType.get().isInt() || leftType.get().isLog() || leftType.get().isStr() ) {
+                types.store(new Type.Atom(Type.Atom.Kind.LOG), binary);
+                return;
+            }
+            else
+                Report.error(binary.position,
+                        String.format("ERROR: Comparison operations only support integer and logical values\n"));
+        }
+
     }
 
     @Override
     public void visit(Block block) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
+        block.expressions.stream().forEach(expr -> { expr.accept(this); });
+
+        var blockType = types.valueFor(block.expressions.get(block.expressions.size()-1));
+
+        if( blockType.isEmpty() )
+            Report.error(block.position, "ERROR: Unknown type of last expression in block\n");
+
+        types.store(blockType.get(), block);
     }
 
     @Override
@@ -123,8 +178,15 @@ public class TypeChecker implements Visitor {
 
     @Override
     public void visit(Where where) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
+        where.defs.accept(this);
+        where.expr.accept(this);
+
+        var whereType = types.valueFor(where.expr);
+
+        if( whereType.isEmpty() )
+            Report.error(where.position, "ERROR: Unknown type of expression in WHERE block\n");
+
+        types.store(whereType.get(), where);
     }
 
     @Override
@@ -161,7 +223,7 @@ public class TypeChecker implements Visitor {
 
         if( !(funReturnType.get().equals(bodyType.get())) )
             Report.error(funDef.position,
-                    String.format("ERROR: Function return type doesn't match function body return type: `%s`!=`%s`",
+                    String.format("ERROR: Function return type doesn't match function body return type: `%s`!=`%s`\n",
                             funReturnType.get(), bodyType.get()));
 
         var funType = new Type.Function(paramsType, funReturnType.get());

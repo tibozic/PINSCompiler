@@ -1,0 +1,13 @@
+Exception in thread "main" java.lang.UnsupportedOperationException: Unimplemented method 'visit'
+	at compiler.seman.type.TypeChecker.visit(TypeChecker.java:108)
+	at compiler.parser.ast.expr.Block.accept(Block.java:27)
+	at compiler.seman.type.TypeChecker.visit(TypeChecker.java:195)
+	at compiler.parser.ast.def.FunDef.accept(FunDef.java:44)
+	at compiler.seman.type.TypeChecker.lambda$visit$0(TypeChecker.java:172)
+	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
+	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
+	at compiler.seman.type.TypeChecker.visit(TypeChecker.java:171)
+	at compiler.parser.ast.def.Defs.accept(Defs.java:30)
+	at Main.run(Main.java:98)
+	at Main.run(Main.java:42)
+	at Main.main(Main.java:33)
