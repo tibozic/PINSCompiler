@@ -1,0 +1,36 @@
+Defs [1:1-2:53]
+  FunDef [1:1-1:57]: neki
+    # typed as: (int, str, log) -> int
+    Parameter [1:10-1:20]: a
+      # typed as: int
+      Atom [1:13-1:20]: INT
+        # typed as: int
+    Parameter [1:22-1:31]: b
+      # typed as: str
+      Atom [1:25-1:31]: STR
+        # typed as: str
+    Parameter [1:33-1:43]: c
+      # typed as: log
+      Atom [1:36-1:43]: LOG
+        # typed as: log
+    Atom [1:46-1:53]: INT
+      # typed as: int
+    Literal [1:56-1:57]: INT(5)
+      # typed as: int
+  FunDef [2:1-2:53]: druga
+    # typed as: (log) -> int
+    Parameter [2:11-2:21]: _
+      # typed as: log
+      Atom [2:14-2:21]: LOG
+        # typed as: log
+    Atom [2:24-2:31]: INT
+      # typed as: int
+    Call [2:34-2:53]: neki
+      # defined at: [1:1-1:57]
+      # typed as: int
+      Literal [2:39-2:41]: INT(10)
+        # typed as: int
+      Literal [2:43-2:46]: STR(a)
+        # typed as: str
+      Literal [2:48-2:52]: LOG(true)
+        # typed as: log

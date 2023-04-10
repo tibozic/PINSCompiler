@@ -1,1 +1,2 @@
-[1:43-1:48]: ERROR: Comparison operations only support integer and logical values
+[1:43-1:48]: ERROR: Comparison operator `LT` only supports integer and logical values
+

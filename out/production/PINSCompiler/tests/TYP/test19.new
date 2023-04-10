@@ -1,0 +1,14 @@
+Defs [1:1-1:34]
+  FunDef [1:1-1:34]: not
+    # typed as: (log) -> log
+    Parameter [1:9-1:19]: a
+      # typed as: log
+      Atom [1:12-1:19]: LOG
+        # typed as: log
+    Atom [1:22-1:29]: LOG
+      # typed as: log
+    Unary [1:32-1:34]: NOT
+      # typed as: log
+      Name [1:33-1:34]: a
+        # defined at: [1:9-1:19]
+        # typed as: log

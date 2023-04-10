@@ -1,0 +1,21 @@
+Defs [1:1-1:49]
+  FunDef [1:1-1:49]: and
+    # typed as: (log, log) -> log
+    Parameter [1:9-1:19]: a
+      # typed as: log
+      Atom [1:12-1:19]: LOG
+        # typed as: log
+    Parameter [1:21-1:31]: b
+      # typed as: log
+      Atom [1:24-1:31]: LOG
+        # typed as: log
+    Atom [1:34-1:41]: LOG
+      # typed as: log
+    Binary [1:44-1:49]: AND
+      # typed as: log
+      Name [1:44-1:45]: a
+        # defined at: [1:9-1:19]
+        # typed as: log
+      Name [1:48-1:49]: b
+        # defined at: [1:21-1:31]
+        # typed as: log

@@ -1,0 +1,2 @@
+[2:1-2:53]: ERROR: Function return type doesn't match function body return type: `log`!=`int`
+

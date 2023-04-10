@@ -1,1 +1,2 @@
-[1:34-1:45]: ERROR: Arithmetic operations only support integer values
+[1:34-1:45]: ERROR: Arithmetic operator `ADD` only supports integer values
+
