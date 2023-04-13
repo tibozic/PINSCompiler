@@ -1,0 +1,21 @@
+Defs [1:1-2:40]
+  VarDef [1:1-1:16]: x
+    # typed as: int
+    Atom [1:9-1:16]: INT
+      # typed as: int
+  FunDef [2:1-2:40]: f
+    # typed as: (int) -> int
+    Parameter [2:9-2:20]: y
+      # typed as: int
+      Atom [2:13-2:20]: INT
+        # typed as: int
+    Atom [2:25-2:32]: INT
+      # typed as: int
+    Binary [2:35-2:40]: ADD
+      # typed as: int
+      Name [2:35-2:36]: x
+        # defined at: [1:1-1:16]
+        # typed as: int
+      Name [2:39-2:40]: y
+        # defined at: [2:9-2:20]
+        # typed as: int

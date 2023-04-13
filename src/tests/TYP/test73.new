@@ -1,0 +1,2 @@
+[1:41-1:46]: ERROR: Types for left and right side of expression don't match: `int` != `str`
+

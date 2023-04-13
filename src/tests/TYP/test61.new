@@ -1,0 +1,25 @@
+Defs [1:1-4:2]
+  TypeDef [1:1-1:15]: x
+    # typed as: int
+    Atom [1:8-1:15]: INT
+      # typed as: int
+  FunDef [2:1-4:2]: g
+    # typed as: (int) -> int
+    Parameter [2:7-2:11]: x
+      # typed as: int
+      TypeName [2:10-2:11]: x
+        # defined at: [1:1-1:15]
+        # typed as: int
+    Atom [2:14-2:21]: INT
+      # typed as: int
+    Where [2:24-4:2]
+      # typed as: int
+      Defs [3:11-3:25]
+        VarDef [3:11-3:25]: x
+          # typed as: int
+          Atom [3:18-3:25]: INT
+            # typed as: int
+      Block [2:24-2:28]
+        # typed as: int
+        Literal [2:25-2:27]: INT(12)
+          # typed as: int

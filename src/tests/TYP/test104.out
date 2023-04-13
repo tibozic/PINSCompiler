@@ -1,0 +1,1 @@
+[2:39-2:45]: ERROR: Call argument type does not match function parameter type: `int` != `str`

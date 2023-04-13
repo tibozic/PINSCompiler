@@ -1,0 +1,2 @@
+[1:70-1:74]: ERROR: Types for left and right side of expression don't match: `int` != `str`
+

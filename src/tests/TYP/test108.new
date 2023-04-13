@@ -1,0 +1,2 @@
+[1:42-1:49]: ERROR: Types for left and right side of expression don't match: `int` != `log`
+

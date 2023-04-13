@@ -1,0 +1,73 @@
+Defs [1:1-5:28]
+  FunDef [1:1-5:28]: swap
+    # typed as: (ARR(20,int), int, int) -> int
+    Parameter [1:10-1:31]: tab
+      # typed as: ARR(20,int)
+      Array [1:16-1:31]
+        # typed as: ARR(20,int)
+        [20]
+        Atom [1:24-1:31]: INT
+          # typed as: int
+    Parameter [1:33-1:44]: i
+      # typed as: int
+      Atom [1:37-1:44]: INT
+        # typed as: int
+    Parameter [1:46-1:57]: j
+      # typed as: int
+      Atom [1:50-1:57]: INT
+        # typed as: int
+    Atom [1:61-1:68]: INT
+      # typed as: int
+    Where [1:71-5:28]
+      # typed as: int
+      Defs [5:10-5:27]
+        VarDef [5:10-5:27]: tmp
+          # typed as: int
+          Atom [5:20-5:27]: INT
+            # typed as: int
+      Block [1:71-5:2]
+        # typed as: int
+        Binary [2:5-2:19]: ASSIGN
+          # typed as: int
+          Name [2:6-2:9]: tmp
+            # defined at: [5:10-5:27]
+            # typed as: int
+          Binary [2:12-2:18]: ARR
+            # typed as: int
+            Name [2:12-2:15]: tab
+              # defined at: [1:10-1:31]
+              # typed as: ARR(20,int)
+            Name [2:16-2:17]: i
+              # defined at: [1:33-1:44]
+              # typed as: int
+        Binary [3:5-3:22]: ASSIGN
+          # typed as: int
+          Binary [3:6-3:12]: ARR
+            # typed as: int
+            Name [3:6-3:9]: tab
+              # defined at: [1:10-1:31]
+              # typed as: ARR(20,int)
+            Name [3:10-3:11]: i
+              # defined at: [1:33-1:44]
+              # typed as: int
+          Binary [3:15-3:21]: ARR
+            # typed as: int
+            Name [3:15-3:18]: tab
+              # defined at: [1:10-1:31]
+              # typed as: ARR(20,int)
+            Name [3:19-3:20]: j
+              # defined at: [1:46-1:57]
+              # typed as: int
+        Binary [4:5-4:19]: ASSIGN
+          # typed as: int
+          Binary [4:6-4:12]: ARR
+            # typed as: int
+            Name [4:6-4:9]: tab
+              # defined at: [1:10-1:31]
+              # typed as: ARR(20,int)
+            Name [4:10-4:11]: j
+              # defined at: [1:46-1:57]
+              # typed as: int
+          Name [4:15-4:18]: tmp
+            # defined at: [5:10-5:27]
+            # typed as: int

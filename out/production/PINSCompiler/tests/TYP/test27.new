@@ -1,0 +1,51 @@
+Defs [1:1-5:53]
+  VarDef [1:1-1:17]: int
+    # typed as: int
+    Atom [1:10-1:17]: INT
+      # typed as: int
+  VarDef [2:1-2:17]: log
+    # typed as: log
+    Atom [2:10-2:17]: LOG
+      # typed as: log
+  VarDef [3:1-3:16]: str
+    # typed as: str
+    Atom [3:10-3:16]: STR
+      # typed as: str
+  FunDef [4:1-4:57]: neki
+    # typed as: (int, str, log) -> int
+    Parameter [4:10-4:20]: a
+      # typed as: int
+      Atom [4:13-4:20]: INT
+        # typed as: int
+    Parameter [4:22-4:31]: b
+      # typed as: str
+      Atom [4:25-4:31]: STR
+        # typed as: str
+    Parameter [4:33-4:43]: c
+      # typed as: log
+      Atom [4:36-4:43]: LOG
+        # typed as: log
+    Atom [4:46-4:53]: INT
+      # typed as: int
+    Literal [4:56-4:57]: INT(5)
+      # typed as: int
+  FunDef [5:1-5:53]: druga
+    # typed as: (log) -> int
+    Parameter [5:11-5:21]: _
+      # typed as: log
+      Atom [5:14-5:21]: LOG
+        # typed as: log
+    Atom [5:24-5:31]: INT
+      # typed as: int
+    Call [5:34-5:53]: neki
+      # defined at: [4:1-4:57]
+      # typed as: int
+      Name [5:39-5:42]: int
+        # defined at: [1:1-1:17]
+        # typed as: int
+      Name [5:44-5:47]: str
+        # defined at: [3:1-3:16]
+        # typed as: str
+      Name [5:49-5:52]: log
+        # defined at: [2:1-2:17]
+        # typed as: log

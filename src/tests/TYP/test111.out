@@ -1,0 +1,2 @@
+[1:66-1:81]: ERROR: Loop condition has to be of logical type not `str`
+

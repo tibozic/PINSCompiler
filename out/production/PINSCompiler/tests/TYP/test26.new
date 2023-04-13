@@ -1,0 +1,1 @@
+[2:34-2:53]: ERROR: Call argument type does not match function parameter type: `str` != `log`

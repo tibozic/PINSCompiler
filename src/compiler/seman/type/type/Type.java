@@ -12,8 +12,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import common.Constants;
-import common.Report;
-import compiler.lexer.Position;
 
 public abstract class Type {
     /**
@@ -135,23 +133,7 @@ public abstract class Type {
 
         @Override
         public boolean equals(Type t) {
-            if( this.isAtom() && t.isAtom() ) {
-                if( t.isInt() && this.isInt() )
-                    return true;
-                if( t.isLog() && this.isLog() )
-                    return true;
-                if( t.isStr() && this.isStr() )
-                    return true;
-
-                return false;
-            }
-
-            // FIXME: TODO: This has to be removed/fixed
-            var start = new Position.Location(0, 0);
-            var end = new Position.Location(0, 0);
-            var pos = new Position(start, end);
-            Report.error(pos, "ERROR: Types that are being compared are not Atom.");
-            return false;
+            throw new RuntimeException("Implementiraj ...");
         }
 
         @Override
@@ -211,15 +193,7 @@ public abstract class Type {
 
         @Override
         public boolean equals(Type t) {
-            if( !(t instanceof Array tNew) )
-                return false;
-
-            if( !(this.type.equals(tNew.type)) )
-                return false;
-
-            if( this.size == tNew.size )
-                return true;
-            return false;
+            throw new RuntimeException("Implementiraj ...");
         }
 
         @Override
@@ -261,24 +235,7 @@ public abstract class Type {
 
         @Override
         public boolean equals(Type t) {
-            if( !(t instanceof Function tNew) )
-                return false;
-
-            if( !(this.returnType.equals(tNew.returnType)) )
-                return false;
-
-            if( tNew.parameters.size() != this.parameters.size() )
-                return false;
-
-            var tParamIterator = tNew.parameters.iterator();
-            var thisParamIterator = this.parameters.iterator();
-
-            while( tParamIterator.hasNext() && thisParamIterator.hasNext() ) {
-                if( !(tParamIterator.next().equals(thisParamIterator.next())) )
-                    return false;
-            }
-
-            return true;
+            throw new RuntimeException("Implementiraj ...");
         }
 
         @Override

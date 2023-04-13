@@ -1,0 +1,2 @@
+[2:7-2:58]: ERROR: Function return type doesn't match function body return type: `str`!=`int`
+

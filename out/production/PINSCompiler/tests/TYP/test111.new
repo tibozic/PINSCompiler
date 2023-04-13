@@ -1,0 +1,34 @@
+Defs [1:1-1:85]
+  FunDef [1:1-1:85]: f
+    # typed as: (int, log, log, str) -> int
+    Parameter [1:7-1:17]: x
+      # typed as: int
+      Atom [1:10-1:17]: INT
+        # typed as: int
+    Parameter [1:19-1:29]: y
+      # typed as: log
+      Atom [1:22-1:29]: LOG
+        # typed as: log
+    Parameter [1:31-1:41]: z
+      # typed as: log
+      Atom [1:34-1:41]: LOG
+        # typed as: log
+    Parameter [1:43-1:52]: k
+      # typed as: str
+      Atom [1:46-1:52]: STR
+        # typed as: str
+    Atom [1:55-1:62]: INT
+      # typed as: int
+    Block [1:65-1:85]
+      # typed as: int
+      While [1:66-1:81]
+        # typed as: void
+        Name [1:74-1:75]: k
+          # defined at: [1:43-1:52]
+          # typed as: str
+        Name [1:78-1:79]: k
+          # defined at: [1:43-1:52]
+          # typed as: str
+      Name [1:83-1:84]: x
+        # defined at: [1:7-1:17]
+        # typed as: int

@@ -1,0 +1,61 @@
+Defs [1:1-11:35]
+  FunDef [1:1-9:2]: main
+    # typed as: (int) -> int
+    Parameter [1:10-1:20]: x
+      # typed as: int
+      Atom [1:13-1:20]: INT
+        # typed as: int
+    Atom [1:23-1:30]: INT
+      # typed as: int
+    Block [1:33-9:2]
+      # typed as: int
+      Where [2:3-8:27]
+        # typed as: int
+        Defs [8:12-8:26]
+          VarDef [8:12-8:26]: i
+            # typed as: int
+            Atom [8:19-8:26]: INT
+              # typed as: int
+        Block [2:3-8:4]
+          # typed as: int
+          For [2:5-6:6]
+            # typed as: void
+            Name [2:10-2:11]: i
+              # defined at: [8:12-8:26]
+              # typed as: int
+            Literal [2:14-2:15]: INT(0)
+              # typed as: int
+            Literal [2:17-2:19]: INT(10)
+              # typed as: int
+            Literal [2:21-2:22]: INT(1)
+              # typed as: int
+            IfThenElse [3:7-5:8]
+              # typed as: void
+              Binary [3:11-3:21]: EQ
+                # typed as: log
+                Binary [3:11-3:16]: MOD
+                  # typed as: int
+                  Name [3:11-3:12]: i
+                    # defined at: [8:12-8:26]
+                    # typed as: int
+                  Literal [3:15-3:16]: INT(2)
+                    # typed as: int
+                Literal [3:20-3:21]: INT(0)
+                  # typed as: int
+              Call [4:11-4:21]: print
+                # defined at: [11:1-11:35]
+                # typed as: int
+                Literal [4:17-4:20]: STR(1)
+                  # typed as: str
+          Literal [7:5-7:7]: INT(12)
+            # typed as: int
+  FunDef [11:1-11:35]: print
+    # typed as: (str) -> int
+    Parameter [11:11-11:21]: s
+      # typed as: str
+      Atom [11:15-11:21]: STR
+        # typed as: str
+    Atom [11:24-11:31]: INT
+      # typed as: int
+    Literal [11:34-11:35]: INT(0)
+      # typed as: int

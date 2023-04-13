@@ -1,0 +1,38 @@
+Defs [1:1-4:37]
+  TypeDef [1:1-1:15]: y
+    # typed as: log
+    Atom [1:8-1:15]: LOG
+      # typed as: log
+  TypeDef [2:1-2:15]: x
+    # typed as: int
+    Atom [2:8-2:15]: INT
+      # typed as: int
+  FunDef [3:1-3:29]: f
+    # typed as: (int) -> int
+    Parameter [3:7-3:11]: x
+      # typed as: int
+      TypeName [3:10-3:11]: x
+        # defined at: [2:1-2:15]
+        # typed as: int
+    Atom [3:14-3:21]: INT
+      # typed as: int
+    Binary [3:24-3:29]: MUL
+      # typed as: int
+      Literal [3:24-3:25]: INT(1)
+        # typed as: int
+      Name [3:28-3:29]: x
+        # defined at: [3:7-3:11]
+        # typed as: int
+  FunDef [4:1-4:37]: main
+    # typed as: (int) -> int
+    Parameter [4:10-4:20]: y
+      # typed as: int
+      Atom [4:13-4:20]: INT
+        # typed as: int
+    Atom [4:23-4:30]: INT
+      # typed as: int
+    Call [4:33-4:37]: f
+      # defined at: [3:1-3:29]
+      # typed as: int
+      Literal [4:35-4:36]: INT(3)
+        # typed as: int

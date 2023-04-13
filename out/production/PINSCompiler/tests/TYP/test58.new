@@ -1,0 +1,216 @@
+Defs [1:1-28:6]
+  TypeDef [1:1-1:17]: prvic
+    # typed as: str
+    Atom [1:11-1:17]: STR
+      # typed as: str
+  TypeDef [2:1-2:21]: drugic
+    # typed as: int
+    Atom [2:14-2:21]: INT
+      # typed as: int
+  TypeDef [3:1-3:23]: tretjic
+    # typed as: str
+    TypeName [3:15-3:23]: besedilo
+      # defined at: [6:1-6:21]
+      # typed as: str
+  TypeDef [4:1-4:35]: cetrtic
+    # typed as: ARR(7,ARR(7,log))
+    Array [4:14-4:35]
+      # typed as: ARR(7,ARR(7,log))
+      [7]
+      Array [4:21-4:35]
+        # typed as: ARR(7,log)
+        [7]
+        Atom [4:28-4:35]: LOG
+          # typed as: log
+  VarDef [5:1-5:31]: petic
+    # typed as: ARR(10,int)
+    Array [5:13-5:31]
+      # typed as: ARR(10,int)
+      [10]
+      Atom [5:24-5:31]: INT
+        # typed as: int
+  TypeDef [6:1-6:21]: besedilo
+    # typed as: str
+    Atom [6:15-6:21]: STR
+      # typed as: str
+  TypeDef [7:1-7:18]: void
+    # typed as: int
+    Atom [7:11-7:18]: INT
+      # typed as: int
+  VarDef [8:1-8:18]: nekaj
+    # typed as: str
+    Atom [8:12-8:18]: STR
+      # typed as: str
+  VarDef [9:1-9:23]: blablabla
+    # typed as: log
+    Atom [9:16-9:23]: LOG
+      # typed as: log
+  VarDef [10:1-10:22]: nekajbla
+    # typed as: log
+    Atom [10:15-10:22]: LOG
+      # typed as: log
+  VarDef [11:1-11:17]: bla
+    # typed as: log
+    Atom [11:10-11:17]: LOG
+      # typed as: log
+  VarDef [12:1-12:18]: logi
+    # typed as: ARR(7,ARR(7,log))
+    TypeName [12:11-12:18]: cetrtic
+      # defined at: [4:1-4:35]
+      # typed as: ARR(7,ARR(7,log))
+  FunDef [14:1-28:6]: prvaFunkcija
+    # typed as: (str, int, ARR(7,log)) -> int
+    Parameter [14:19-14:31]: prvic
+      # typed as: str
+      Atom [14:25-14:31]: STR
+        # typed as: str
+    Parameter [14:33-14:47]: drugic
+      # typed as: int
+      Atom [14:40-14:47]: INT
+        # typed as: int
+    Parameter [14:49-14:71]: cetrtic
+      # typed as: ARR(7,log)
+      Array [14:57-14:71]
+        # typed as: ARR(7,log)
+        [7]
+        Atom [14:64-14:71]: LOG
+          # typed as: log
+    Atom [14:75-14:82]: INT
+      # typed as: int
+    Where [15:5-28:6]
+      # typed as: int
+      Defs [17:9-26:46]
+        FunDef [17:9-26:46]: drugaFunkcija
+          # typed as: (int) -> int
+          Parameter [17:27-17:40]: nekaj
+            # typed as: int
+            Atom [17:33-17:40]: INT
+              # typed as: int
+          Atom [17:42-17:49]: INT
+            # typed as: int
+          Where [19:13-26:46]
+            # typed as: int
+            Defs [26:27-26:44]
+              VarDef [26:27-26:44]: haha
+                # typed as: int
+                Atom [26:37-26:44]: INT
+                  # typed as: int
+            Block [19:13-26:18]
+              # typed as: int
+              IfThenElse [19:14-26:14]
+                # typed as: void
+                Name [19:19-19:27]: nekajbla
+                  # defined at: [10:1-10:22]
+                  # typed as: log
+                IfThenElse [19:33-25:18]
+                  # typed as: void
+                  Binary [20:24-20:34]: ARR
+                    # typed as: log
+                    Binary [20:24-20:31]: ARR
+                      # typed as: ARR(7,log)
+                      Name [20:24-20:28]: logi
+                        # defined at: [12:1-12:18]
+                        # typed as: ARR(7,ARR(7,log))
+                      Literal [20:29-20:30]: INT(0)
+                        # typed as: int
+                    Literal [20:32-20:33]: INT(0)
+                      # typed as: int
+                  While [20:40-24:22]
+                    # typed as: void
+                    Binary [21:31-21:66]: GEQ
+                      # typed as: log
+                      Name [21:31-21:36]: nekaj
+                        # defined at: [17:27-17:40]
+                        # typed as: int
+                      Binary [21:40-21:66]: ADD
+                        # typed as: int
+                        Binary [21:40-21:58]: MUL
+                          # typed as: int
+                          Name [21:40-21:45]: nekaj
+                            # defined at: [17:27-17:40]
+                            # typed as: int
+                          Block [21:48-21:58]
+                            # typed as: int
+                            Unary [21:49-21:57]: SUB
+                              # typed as: int
+                              Literal [21:50-21:57]: INT(5323223)
+                                # typed as: int
+                        Unary [21:61-21:66]: SUB
+                          # typed as: int
+                          Literal [21:62-21:66]: INT(4454)
+                            # typed as: int
+                    For [21:69-23:26]
+                      # typed as: void
+                      Name [22:33-22:38]: nekaj
+                        # defined at: [17:27-17:40]
+                        # typed as: int
+                      Literal [22:41-22:42]: INT(1)
+                        # typed as: int
+                      Unary [22:44-22:52]: SUB
+                        # typed as: int
+                        Literal [22:45-22:52]: INT(9999999)
+                          # typed as: int
+                      Binary [22:54-22:73]: SUB
+                        # typed as: int
+                        Binary [22:54-22:71]: SUB
+                          # typed as: int
+                          Binary [22:54-22:69]: SUB
+                            # typed as: int
+                            Binary [22:54-22:67]: SUB
+                              # typed as: int
+                              Binary [22:54-22:65]: SUB
+                                # typed as: int
+                                Name [22:54-22:59]: nekaj
+                                  # defined at: [17:27-17:40]
+                                  # typed as: int
+                                Name [22:60-22:65]: nekaj
+                                  # defined at: [17:27-17:40]
+                                  # typed as: int
+                              Literal [22:66-22:67]: INT(1)
+                                # typed as: int
+                            Literal [22:68-22:69]: INT(1)
+                              # typed as: int
+                          Literal [22:70-22:71]: INT(1)
+                            # typed as: int
+                        Literal [22:72-22:73]: INT(1)
+                          # typed as: int
+                      Name [22:76-22:81]: nekaj
+                        # defined at: [17:27-17:40]
+                        # typed as: int
+              Literal [26:16-26:17]: INT(0)
+                # typed as: int
+      Block [15:5-15:58]
+        # typed as: int
+        Binary [15:7-15:56]: SUB
+          # typed as: int
+          Binary [15:7-15:51]: ADD
+            # typed as: int
+            Binary [15:7-15:46]: SUB
+              # typed as: int
+              Binary [15:7-15:40]: ADD
+                # typed as: int
+                Binary [15:7-15:32]: SUB
+                  # typed as: int
+                  Call [15:7-15:24]: drugaFunkcija
+                    # defined at: [17:9-26:46]
+                    # typed as: int
+                    Literal [15:21-15:23]: INT(12)
+                      # typed as: int
+                  Binary [15:27-15:32]: DIV
+                    # typed as: int
+                    Literal [15:27-15:28]: INT(1)
+                      # typed as: int
+                    Literal [15:31-15:32]: INT(2)
+                      # typed as: int
+                Binary [15:35-15:40]: MUL
+                  # typed as: int
+                  Literal [15:35-15:36]: INT(3)
+                    # typed as: int
+                  Literal [15:39-15:40]: INT(6)
+                    # typed as: int
+              Literal [15:43-15:46]: INT(420)
+                # typed as: int
+            Literal [15:49-15:51]: INT(42)
+              # typed as: int
+          Literal [15:54-15:56]: INT(69)
+            # typed as: int

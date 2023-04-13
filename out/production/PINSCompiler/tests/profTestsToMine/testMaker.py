@@ -1,11 +1,11 @@
 #!/bin/python3
 
-profTest="profTest.tst"
-out_path="../NAME/"
+profTest="5-typ2.tst"
+out_path="../TYP/"
 
 def main():
     original_tests = open(profTest, "r")
-    test_counter = 50
+    test_counter = 70
     writing_test = False
     writing_result = False
 
@@ -15,7 +15,7 @@ def main():
             test_file = open((out_path + "test" + str(test_counter) + ".tst"), "w")
             continue
 
-        if( "!expected" in line ):
+        if( "!expected" in line or "!failure" in line ):
             writing_test = False
             test_file.close()
             writing_result = True
@@ -35,7 +35,6 @@ def main():
             result_file.write(line)
 
     original_tests.close()
-            
-    
+
 main()
 

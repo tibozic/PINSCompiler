@@ -1,0 +1,25 @@
+Defs [1:1-6:18]
+  VarDef [1:1-1:15]: x
+    # typed as: int
+    Atom [1:8-1:15]: INT
+      # typed as: int
+  VarDef [2:1-2:15]: y
+    # typed as: log
+    Atom [2:8-2:15]: LOG
+      # typed as: log
+  VarDef [3:1-3:14]: z
+    # typed as: str
+    Atom [3:8-3:14]: STR
+      # typed as: str
+  TypeDef [4:1-4:19]: MyInt
+    # typed as: int
+    Atom [4:12-4:19]: INT
+      # typed as: int
+  TypeDef [5:1-5:19]: MyLog
+    # typed as: log
+    Atom [5:12-5:19]: LOG
+      # typed as: log
+  TypeDef [6:1-6:18]: MyStr
+    # typed as: str
+    Atom [6:12-6:18]: STR
+      # typed as: str

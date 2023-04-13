@@ -1,0 +1,312 @@
+Defs [2:1-32:2]
+  FunDef [2:1-23:2]: partition
+    # typed as: (ARR(100,int), int, int) -> int
+    Parameter [2:16-2:37]: tab
+      # typed as: ARR(100,int)
+      Array [2:21-2:37]
+        # typed as: ARR(100,int)
+        [100]
+        Atom [2:30-2:37]: INT
+          # typed as: int
+    Parameter [2:39-2:51]: low
+      # typed as: int
+      Atom [2:44-2:51]: INT
+        # typed as: int
+    Parameter [2:53-2:66]: high
+      # typed as: int
+      Atom [2:59-2:66]: INT
+        # typed as: int
+    Atom [2:70-2:77]: INT
+      # typed as: int
+    Where [2:80-23:2]
+      # typed as: int
+      Defs [20:11-22:21]
+        VarDef [20:11-20:29]: pivot
+          # typed as: int
+          Atom [20:22-20:29]: INT
+            # typed as: int
+        VarDef [21:5-21:19]: i
+          # typed as: int
+          Atom [21:12-21:19]: INT
+            # typed as: int
+        VarDef [22:5-22:21]: tmp
+          # typed as: int
+          Atom [22:14-22:21]: INT
+            # typed as: int
+      Block [2:80-19:2]
+        # typed as: int
+        Binary [3:5-3:24]: ASSIGN
+          # typed as: int
+          Name [3:6-3:11]: pivot
+            # defined at: [20:11-20:29]
+            # typed as: int
+          Binary [3:14-3:23]: ARR
+            # typed as: int
+            Name [3:14-3:17]: tab
+              # defined at: [2:16-2:37]
+              # typed as: ARR(100,int)
+            Name [3:18-3:22]: high
+              # defined at: [2:53-2:66]
+              # typed as: int
+        Binary [4:5-4:20]: ASSIGN
+          # typed as: int
+          Name [4:6-4:7]: i
+            # defined at: [21:5-21:19]
+            # typed as: int
+          Block [4:10-4:19]
+            # typed as: int
+            Binary [4:11-4:18]: SUB
+              # typed as: int
+              Name [4:11-4:14]: low
+                # defined at: [2:39-2:51]
+                # typed as: int
+              Literal [4:17-4:18]: INT(1)
+                # typed as: int
+        Where [5:5-14:30]
+          # typed as: void
+          Defs [14:15-14:29]
+            VarDef [14:15-14:29]: j
+              # typed as: int
+              Atom [14:22-14:29]: INT
+                # typed as: int
+          Block [5:5-14:7]
+            # typed as: void
+            For [5:6-14:6]
+              # typed as: void
+              Name [5:11-5:12]: j
+                # defined at: [14:15-14:29]
+                # typed as: int
+              Name [5:15-5:18]: low
+                # defined at: [2:39-2:51]
+                # typed as: int
+              Name [5:20-5:24]: high
+                # defined at: [2:53-2:66]
+                # typed as: int
+              Name [5:26-5:27]: i
+                # defined at: [21:5-21:19]
+                # typed as: int
+              IfThenElse [6:9-13:36]
+                # typed as: void
+                Binary [6:14-6:29]: LEQ
+                  # typed as: log
+                  Binary [6:14-6:20]: ARR
+                    # typed as: int
+                    Name [6:14-6:17]: tab
+                      # defined at: [2:16-2:37]
+                      # typed as: ARR(100,int)
+                    Name [6:18-6:19]: j
+                      # defined at: [14:15-14:29]
+                      # typed as: int
+                  Name [6:24-6:29]: pivot
+                    # defined at: [20:11-20:29]
+                    # typed as: int
+                Where [6:35-13:35]
+                  # typed as: int
+                  Defs [13:18-13:34]
+                    VarDef [13:18-13:34]: tmp
+                      # typed as: int
+                      Atom [13:27-13:34]: INT
+                        # typed as: int
+                  Block [6:35-13:10]
+                    # typed as: int
+                    Binary [8:13-8:22]: ASSIGN
+                      # typed as: int
+                      Name [8:14-8:15]: i
+                        # defined at: [21:5-21:19]
+                        # typed as: int
+                      Binary [8:18-8:21]: ADD
+                        # typed as: int
+                        Name [8:18-8:19]: i
+                          # defined at: [21:5-21:19]
+                          # typed as: int
+                        Literal [8:20-8:21]: INT(1)
+                          # typed as: int
+                    Binary [9:13-9:27]: ASSIGN
+                      # typed as: int
+                      Name [9:14-9:17]: tmp
+                        # defined at: [13:18-13:34]
+                        # typed as: int
+                      Binary [9:20-9:26]: ARR
+                        # typed as: int
+                        Name [9:20-9:23]: tab
+                          # defined at: [2:16-2:37]
+                          # typed as: ARR(100,int)
+                        Name [9:24-9:25]: i
+                          # defined at: [21:5-21:19]
+                          # typed as: int
+                    Binary [10:13-10:30]: ASSIGN
+                      # typed as: int
+                      Binary [10:14-10:20]: ARR
+                        # typed as: int
+                        Name [10:14-10:17]: tab
+                          # defined at: [2:16-2:37]
+                          # typed as: ARR(100,int)
+                        Name [10:18-10:19]: j
+                          # defined at: [14:15-14:29]
+                          # typed as: int
+                      Binary [10:23-10:29]: ARR
+                        # typed as: int
+                        Name [10:23-10:26]: tab
+                          # defined at: [2:16-2:37]
+                          # typed as: ARR(100,int)
+                        Name [10:27-10:28]: j
+                          # defined at: [14:15-14:29]
+                          # typed as: int
+                    Binary [11:13-11:27]: ASSIGN
+                      # typed as: int
+                      Binary [11:14-11:20]: ARR
+                        # typed as: int
+                        Name [11:14-11:17]: tab
+                          # defined at: [2:16-2:37]
+                          # typed as: ARR(100,int)
+                        Name [11:18-11:19]: j
+                          # defined at: [14:15-14:29]
+                          # typed as: int
+                      Name [11:23-11:26]: tmp
+                        # defined at: [13:18-13:34]
+                        # typed as: int
+        Binary [16:5-16:21]: ASSIGN
+          # typed as: int
+          Name [16:6-16:9]: tmp
+            # defined at: [22:5-22:21]
+            # typed as: int
+          Binary [16:12-16:20]: ARR
+            # typed as: int
+            Name [16:12-16:15]: tab
+              # defined at: [2:16-2:37]
+              # typed as: ARR(100,int)
+            Binary [16:16-16:19]: ADD
+              # typed as: int
+              Name [16:16-16:17]: i
+                # defined at: [21:5-21:19]
+                # typed as: int
+              Literal [16:18-16:19]: INT(1)
+                # typed as: int
+        Binary [17:5-17:27]: ASSIGN
+          # typed as: int
+          Binary [17:6-17:14]: ARR
+            # typed as: int
+            Name [17:6-17:9]: tab
+              # defined at: [2:16-2:37]
+              # typed as: ARR(100,int)
+            Binary [17:10-17:13]: ADD
+              # typed as: int
+              Name [17:10-17:11]: i
+                # defined at: [21:5-21:19]
+                # typed as: int
+              Literal [17:12-17:13]: INT(1)
+                # typed as: int
+          Binary [17:17-17:26]: ARR
+            # typed as: int
+            Name [17:17-17:20]: tab
+              # defined at: [2:16-2:37]
+              # typed as: ARR(100,int)
+            Name [17:21-17:25]: high
+              # defined at: [2:53-2:66]
+              # typed as: int
+        Binary [18:5-18:22]: ASSIGN
+          # typed as: int
+          Binary [18:6-18:15]: ARR
+            # typed as: int
+            Name [18:6-18:9]: tab
+              # defined at: [2:16-2:37]
+              # typed as: ARR(100,int)
+            Name [18:10-18:14]: high
+              # defined at: [2:53-2:66]
+              # typed as: int
+          Name [18:18-18:21]: tmp
+            # defined at: [22:5-22:21]
+            # typed as: int
+  FunDef [25:1-32:2]: sort
+    # typed as: (ARR(100,int), int, int) -> int
+    Parameter [25:10-25:31]: tab
+      # typed as: ARR(100,int)
+      Array [25:15-25:31]
+        # typed as: ARR(100,int)
+        [100]
+        Atom [25:24-25:31]: INT
+          # typed as: int
+    Parameter [25:33-25:45]: low
+      # typed as: int
+      Atom [25:38-25:45]: INT
+        # typed as: int
+    Parameter [25:47-25:60]: high
+      # typed as: int
+      Atom [25:53-25:60]: INT
+        # typed as: int
+    Atom [25:64-25:71]: INT
+      # typed as: int
+    Block [25:74-32:2]
+      # typed as: int
+      Block [26:5-31:9]
+        # typed as: int
+        IfThenElse [26:6-31:6]
+          # typed as: void
+          Binary [26:11-26:21]: LT
+            # typed as: log
+            Name [26:11-26:14]: low
+              # defined at: [25:33-25:45]
+              # typed as: int
+            Name [26:17-26:21]: high
+              # defined at: [25:47-25:60]
+              # typed as: int
+          Where [26:27-30:34]
+            # typed as: int
+            Defs [30:18-30:33]
+              VarDef [30:18-30:33]: pi
+                # typed as: int
+                Atom [30:26-30:33]: INT
+                  # typed as: int
+            Block [26:27-30:10]
+              # typed as: int
+              Binary [27:9-27:42]: ASSIGN
+                # typed as: int
+                Name [27:11-27:13]: pi
+                  # defined at: [30:18-30:33]
+                  # typed as: int
+                Call [27:16-27:41]: partition
+                  # defined at: [2:1-23:2]
+                  # typed as: int
+                  Name [27:26-27:29]: tab
+                    # defined at: [25:10-25:31]
+                    # typed as: ARR(100,int)
+                  Name [27:31-27:34]: low
+                    # defined at: [25:33-25:45]
+                    # typed as: int
+                  Name [27:36-27:40]: high
+                    # defined at: [25:47-25:60]
+                    # typed as: int
+              Call [28:9-28:29]: sort
+                # defined at: [25:1-32:2]
+                # typed as: int
+                Name [28:14-28:17]: tab
+                  # defined at: [25:10-25:31]
+                  # typed as: ARR(100,int)
+                Name [28:19-28:22]: low
+                  # defined at: [25:33-25:45]
+                  # typed as: int
+                Binary [28:24-28:28]: SUB
+                  # typed as: int
+                  Name [28:24-28:26]: pi
+                    # defined at: [30:18-30:33]
+                    # typed as: int
+                  Literal [28:27-28:28]: INT(1)
+                    # typed as: int
+              Call [29:9-29:30]: sort
+                # defined at: [25:1-32:2]
+                # typed as: int
+                Name [29:14-29:17]: tab
+                  # defined at: [25:10-25:31]
+                  # typed as: ARR(100,int)
+                Binary [29:19-29:23]: ADD
+                  # typed as: int
+                  Name [29:19-29:21]: pi
+                    # defined at: [30:18-30:33]
+                    # typed as: int
+                  Literal [29:22-29:23]: INT(1)
+                    # typed as: int
+                Name [29:25-29:29]: high
+                  # defined at: [25:47-25:60]
+                  # typed as: int
+        Literal [31:7-31:8]: INT(0)
+          # typed as: int
