@@ -123,17 +123,26 @@ public abstract class Type {
 
         @Override
         public int sizeInBytes() {
-            throw new RuntimeException("Implementiraj ...");
+            return this.kind.size;
         }
 
         @Override
         public int sizeInBytesAsParam() {
-            throw new RuntimeException("Implementiraj ...");
+            return sizeInBytes();
         }
 
         @Override
         public boolean equals(Type t) {
-            throw new RuntimeException("Implementiraj ...");
+            if( !(t instanceof Array) )
+                return false;
+            if (t.isInt() && this.isInt())
+                return true;
+            if (t.isLog() && this.isLog())
+                return true;
+            if (t.isStr() && this.isStr())
+                return true;
+
+            return false;
         }
 
         @Override
@@ -179,12 +188,12 @@ public abstract class Type {
 
         @Override
         public int sizeInBytes() {
-            throw new RuntimeException("Implementiraj ...");
+            return this.size * this.type.sizeInBytes();
         }
 
         @Override
         public int sizeInBytesAsParam() {
-            throw new RuntimeException("Implementiraj ...");
+            return Atom.Kind.INT.size;
         }
 
         public int elementSizeInBytes() {
@@ -193,7 +202,16 @@ public abstract class Type {
 
         @Override
         public boolean equals(Type t) {
-            throw new RuntimeException("Implementiraj ...");
+            if( !(t instanceof Array tNew) )
+                return false;
+
+            if( !(this.type.equals(tNew.type)) )
+                return false;
+
+            if( this.size == tNew.size )
+                return true;
+
+            return false;
         }
 
         @Override
@@ -235,7 +253,24 @@ public abstract class Type {
 
         @Override
         public boolean equals(Type t) {
-            throw new RuntimeException("Implementiraj ...");
+            if( !(t instanceof Function tNew) )
+                return false;
+
+            if( !(this.returnType.equals(tNew.returnType)) )
+                return false;
+
+            if( tNew.parameters.size() != this.parameters.size() )
+                return false;
+
+            var tParamIterator = tNew.parameters.iterator();
+            var thisParamIterator = this.parameters.iterator();
+
+            while( tParamIterator.hasNext() && thisParamIterator.hasNext() ) {
+                if( !(tParamIterator.next().equals(thisParamIterator.next())) )
+                    return false;
+            }
+
+            return true;
         }
 
         @Override
