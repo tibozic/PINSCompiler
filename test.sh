@@ -1,7 +1,7 @@
 TEST_PART="TYP"
 RUN_PARAMS="-ea"
 DIFF_PARAMS=""
-ALL="false"
+RUN_ALL_TESTS="true"
 
 TEST_RUN="$TEST_PART"
 TEST_OUT="$TEST_PART"
@@ -12,41 +12,43 @@ TEST_FILES="$TESTS_PATH/$TEST_IN/*.tst"
 
 RESULT_FILE_EXT="new"
 
-test_failed_counter=0
+test_pass_counter=0
 test_counter=0
 
-if [ "$ALL" = "true" ]
+if [[ "$RUN_ALL_TESTS" == "true" ]]
 then
-	for part in $TESTS_PATH
+	for part in "$TESTS_PATH"/*;
 	do
+		# get the part
+		arrIN=(${part//// })
+		pins_part="${arrIN[2]}"
 		echo "**** Testing $part ****"
-		for testFile in $TEST_FILES
+		for testFile in "$part"/*.tst;
 		do
-			# echo $testFile
 			echo "----- Testing file: $testFile -----"
 			test_counter=$((test_counter+1))
 			testNum=${testFile//[^0-9]/}
-			java $RUN_PARAMS -classpath /home/betterjimmy/Documents/Projects/software/java/PINSCompiler/out/production/PINSCompiler:/home/betterjimmy/Documents/Projects/software/java/PINSCompiler/lib/ArgPar-0.1.jar Main PINS $testFile --dump $part --exec $part &> "$TESTS_PATH/$part/test$testNum.$RESULT_FILE_EXT"
+			java $RUN_PARAMS -classpath /home/betterjimmy/Documents/Projects/software/java/PINSCompiler/out/production/PINSCompiler:/home/betterjimmy/Documents/Projects/software/java/PINSCompiler/lib/ArgPar-0.1.jar Main PINS "$testFile" --dump "$pins_part" --exec "$pins_part" &> "$part/test$testNum.$RESULT_FILE_EXT"
 		done
 
-		TEST_RESULTS="$TESTS_PATH/$part/*.out"
+		# TEST_RESULTS="$part*.out"
 
 		echo "**** Results for $part ****"
-		for testFile in $TEST_RESULTS
+		for testFile in "$part"/*.out;
 		do
 			echo "----- Results of file: $testFile -----"
 			testNum=${testFile//[^0-9]/}
-			testNum=${testFile//[^0-9]/}
-			diff $DIFF_PARAMS $testFile "$TESTS_OUT_PATH/test$testNum.new"
-			if [ $? -ne 0 ] 
+			diff $DIFF_PARAMS "$testFile" "$part/test$testNum.new"
+			if [[ $? -eq 0 ]]
 			then
-				test_failed_counter=$((test_failed_counter+1))
+				test_pass_counter=$((test_pass_counter+1))
 			fi
 		done
+		exit 0
 	done
 else
 	echo "**** Testing ****"
-	for testFile in $TEST_FILES
+	for testFile in $TEST_FILES;
 	do
 		# echo $testFile
 		echo "----- Testing file: $testFile -----"
@@ -58,20 +60,19 @@ else
 	TEST_RESULTS="$TESTS_OUT_PATH/*.out"
 
 	echo "**** Results ****"
-	for testFile in $TEST_RESULTS
+	for testFile in $TEST_RESULTS;
 	do
 		echo "----- Results of file: $testFile -----"
 		testNum=${testFile//[^0-9]/}
 		testNum=${testFile//[^0-9]/}
 		diff $DIFF_PARAMS $testFile "$TESTS_OUT_PATH/test$testNum.new"
-		if [ $? -ne 0 ] 
+		if [[ $? -eq 0 ]]
 		then
-			test_failed_counter=$((test_failed_counter+1))
+			test_pass_counter=$((test_pass_counter+1))
 		fi
 	done
 fi
 
-tests_passed=$((test_counter-test_failed_counter))
 echo "--- Results ---"
-echo "$tests_passed/$test_counter passed!"
+echo "$test_pass_counter/$test_counter passed!"
 echo "---------------"

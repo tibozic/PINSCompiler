@@ -1,5 +1,5 @@
-TEST_NUM="75"
-TEST_IN_DIR="TYP"
+TEST_NUM="07"
+TEST_IN_DIR="AST"
 TEST_RUN="$TEST_IN_DIR"
 #TEST_RUN="TYP"
 # -ea enables assertions
