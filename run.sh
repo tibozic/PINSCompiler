@@ -1,5 +1,7 @@
-TEST_NUM="130"
-TEST_PART="FRM"
-TEST_OUT="$TEST_PART"
+TEST_NUM="01"
+TEST_IN_DIR="FRM"
+TEST_RUN="$TEST_IN_DIR"
+# -ea enables assertions
+RUN_ARGS="-ea"
 
-java -classpath /home/betterjimmy/Documents/Projects/software/java/PINSCompiler/out/production/PINSCompiler:/home/betterjimmy/Documents/Projects/software/java/PINSCompiler/lib/ArgPar-0.1.jar Main PINS src/tests/$TEST_PART/test$TEST_NUM.tst --dump $TEST_OUT --exec $TEST_OUT
+java $RUN_ARGS -classpath /home/betterjimmy/Documents/Projects/software/java/PINSCompiler/out/production/PINSCompiler:/home/betterjimmy/Documents/Projects/software/java/PINSCompiler/lib/ArgPar-0.1.jar Main PINS src/tests/$TEST_IN_DIR/test$TEST_NUM.tst --dump $TEST_RUN --exec $TEST_RUN
