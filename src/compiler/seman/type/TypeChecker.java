@@ -16,7 +16,7 @@ import compiler.parser.ast.type.*;
 import compiler.seman.common.NodeDescription;
 import compiler.seman.type.type.Type;
 
-import java.sql.SQLOutput;
+import java.lang.reflect.Executable;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -49,7 +49,9 @@ public class TypeChecker implements Visitor {
         var funTypeType = types.valueFor(funDef.get());
 
         if( funTypeType.isEmpty() )
-            Report.error(call.position, String.format("ERROR: Unknown type for function `%s`\n", call.name));
+            funDef.get().accept(this);
+
+        funTypeType = types.valueFor(funDef.get());
 
         var funType = funTypeType.get().asFunction();
 
@@ -89,8 +91,6 @@ public class TypeChecker implements Visitor {
 
         if( leftType.isEmpty() ) Report.error(binary.left.position, "ERROR: Unknown type for expression\n");
         if( rightType.isEmpty() ) Report.error(binary.right.position, "ERROR: Unknown type for expression\n");
-
-
 
         if( binary.operator == Binary.Operator.ARR ) {
             if( !(rightType.get().isInt()) )
@@ -148,7 +148,7 @@ public class TypeChecker implements Visitor {
 
         if( binary.operator == Binary.Operator.ASSIGN ) {
             if( leftType.get().isInt() || leftType.get().isLog() || leftType.get().isStr() ) {
-                types.store(new Type.Atom(Type.Atom.Kind.LOG), binary);
+                types.store(leftType.get(), binary);
                 return;
             }
             else
@@ -173,13 +173,19 @@ public class TypeChecker implements Visitor {
 
     @Override
     public void visit(For forLoop) {
+        forLoop.counter.accept(this);
         forLoop.high.accept(this);
         forLoop.low.accept(this);
         forLoop.step.accept(this);
 
+        var loopCounter = types.valueFor(forLoop.counter);
         var loopHighType = types.valueFor(forLoop.high);
         var loopLowType = types.valueFor(forLoop.low);
         var loopStepType = types.valueFor(forLoop.step);
+
+        if( loopCounter.isEmpty() )
+            Report.error(forLoop.counter.position,
+                    String.format("ERROR: Unknown type for loop counter\n"));
 
         if( loopHighType.isEmpty() )
             Report.error(forLoop.high.position,
@@ -194,11 +200,15 @@ public class TypeChecker implements Visitor {
                     String.format("ERROR: Unknown type for function step\n"));
 
 
+        if( !loopCounter.get().isInt() )
+            Report.error(forLoop.counter.position,
+                    String.format("ERROR: For loop counter type has to be an integer not `%s`\n",
+                            loopCounter.get()));
+
         if( !loopHighType.get().isInt() )
             Report.error(forLoop.high.position,
                     String.format("ERROR: For loop high limit type has to be an integer not `%s`\n",
                             loopHighType.get()));
-
 
         if( !loopLowType.get().isInt() )
             Report.error(forLoop.low.position,
@@ -225,7 +235,12 @@ public class TypeChecker implements Visitor {
         var nameType = types.valueFor(nameDef.get());
 
         if( nameType.isEmpty() )
-            Report.error(name.position, String.format("ERROR: Unknown type for variable `%s`\n", name.name));
+            nameDef.get().accept(this);
+
+        nameType = types.valueFor(nameDef.get());
+
+        if( nameType.isEmpty() )
+            Report.error(name.position, String.format("ERROR: No type found for variable `%s`\n", name.name));
 
         types.store(nameType.get(), name);
     }
@@ -300,6 +315,11 @@ public class TypeChecker implements Visitor {
             Report.error(whileLoop.position,
                     String.format("ERROR: Unknown condition expression type in while loop\n"));
 
+        if( !whileCondType.get().isLog() )
+            Report.error(whileLoop.position,
+                    String.format("ERROR: Loop condition has to be of logical type not `%s`\n",
+                            whileCondType.get().toString()));
+
         whileLoop.body.accept(this);
 
         types.store(new Type.Atom(Type.Atom.Kind.VOID), whileLoop);
@@ -321,8 +341,8 @@ public class TypeChecker implements Visitor {
     @Override
     public void visit(Defs defs) {
         defs.definitions.stream().forEach( (def) -> {
-                def.accept(this);
-            });
+            def.accept(this);
+        });
     }
 
     @Override
@@ -344,24 +364,28 @@ public class TypeChecker implements Visitor {
             return paramType.get();
         }).collect(Collectors.toList());
 
+        var funType = new Type.Function(paramsType, funReturnType.get());
+        types.store(funType, funDef);
+
         funDef.body.accept(this);
         var bodyType = types.valueFor(funDef.body);
 
         if( bodyType.isEmpty() )
-           Report.error(funDef.body.position, String.format("ERROR: Unknown type for function body\n"));
+            Report.error(funDef.body.position, String.format("ERROR: Unknown type for function body\n"));
 
         if( !(funReturnType.get().equals(bodyType.get())) )
             Report.error(funDef.position,
                     String.format("ERROR: Function return type doesn't match function body return type: `%s`!=`%s`\n",
                             funReturnType.get(), bodyType.get()));
-
-        var funType = new Type.Function(paramsType, funReturnType.get());
-        types.store(funType, funDef);
     }
 
     @Override
     public void visit(TypeDef typeDef) {
-        typeDef.type.accept(this);
+        try {
+            typeDef.type.accept(this);
+        } catch (StackOverflowError e1) {
+            Report.error(typeDef.position, "ERROR: Cycle detected");
+        }
 
         var typeDefType = types.valueFor(typeDef.type);
 
@@ -432,7 +456,14 @@ public class TypeChecker implements Visitor {
 
     @Override
     public void visit(TypeName name) {
-        var nameDef = definitions.valueFor(name);
+        Optional<Def> nameDef = null;
+
+        try {
+            nameDef = definitions.valueFor(name);
+        } catch (StackOverflowError e1) {
+            Report.error(name.position, "ERROR: Cycle detected");
+        }
+
 
         if( nameDef.isEmpty() )
             Report.error(name.position,
@@ -440,9 +471,15 @@ public class TypeChecker implements Visitor {
 
         var nameType = types.valueFor(nameDef.get());
 
-        if( nameType.isEmpty() )
-            Report.error(name.position,
-                    String.format("ERROR: Unknown type for variable `%s`\n", name.identifier));
+        if( nameType.isEmpty() ) {
+            try {
+                nameDef.get().accept(this);
+            } catch (StackOverflowError e1) {
+                Report.error(name.position, "ERROR: Cycle detected");
+            }
+        }
+
+        nameType = types.valueFor(nameDef.get());
 
         types.store(nameType.get(), name);
     }
