@@ -1,0 +1,17 @@
+source -> definitions
+definitions -> definition definitions'
+definition -> function_definition
+function_definition -> fun identifier ( parameters ) : type = expression
+parameters -> parameter parameters'
+parameter -> identifier : type
+type -> integer
+parameters -> , parameters
+parameter -> identifier : type
+type -> integer
+parameters -> , parameters
+parameter -> identifier : type
+type -> integer
+parameters -> , parameters
+parameter -> identifier : type
+[1:42-1:43]: Expected: `IDENTIFIER`, got `OP_RPARENT`
+

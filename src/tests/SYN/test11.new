@@ -1,0 +1,8 @@
+source -> definitions
+definitions -> definition definitions'
+definition -> function_definition
+function_definition -> fun identifier ( parameters ) : type = expression
+parameters -> parameter parameters'
+parameter -> identifier : type
+[1:10-1:11]: Expected: `IDENTIFIER`, got `OP_RPARENT`
+

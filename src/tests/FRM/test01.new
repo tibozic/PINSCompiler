@@ -1,0 +1,6 @@
+Defs [1:1-1:15]
+  VarDef [1:1-1:15]: x
+    # typed as: int
+    # accessed as: Global: size[4],label[x]
+    Atom [1:8-1:15]: INT
+      # typed as: int

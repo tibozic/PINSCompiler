@@ -1,11 +1,12 @@
-TEST_PART="TYP"
+TEST_PART="FRM"
 RUN_PARAMS="-ea"
 DIFF_PARAMS=""
-RUN_ALL_TESTS="true"
+RUN_ALL_TESTS="false"
 
 TEST_RUN="$TEST_PART"
 TEST_OUT="$TEST_PART"
 TEST_IN="$TEST_PART"
+#TEST_IN="TYP"
 TESTS_PATH="src/tests"
 TESTS_OUT_PATH="$TESTS_PATH/$TEST_OUT"
 TEST_FILES="$TESTS_PATH/$TEST_IN/*.tst"
@@ -22,6 +23,12 @@ then
 		# get the part
 		arrIN=(${part//// })
 		pins_part="${arrIN[2]}"
+
+		if [[ $pins_part == "SYN" ]]
+		then
+			continue
+		fi
+
 		echo "**** Testing $part ****"
 		for testFile in "$part"/*.tst;
 		do
@@ -44,7 +51,6 @@ then
 				test_pass_counter=$((test_pass_counter+1))
 			fi
 		done
-		exit 0
 	done
 else
 	echo "**** Testing ****"

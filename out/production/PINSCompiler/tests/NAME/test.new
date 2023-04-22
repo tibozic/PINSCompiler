@@ -1,0 +1,3 @@
+Error: Cannot parse value of type 'class cli.PINS$PhasesEnumSet'!
+OVERVIEW: Prevajalnik za programski jezik PINS
+Usage: PINS <sourceFile> [--dump <dump>][--exec <exec>][--memory <memory>]

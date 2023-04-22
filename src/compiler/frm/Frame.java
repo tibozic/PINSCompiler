@@ -176,6 +176,7 @@ public class Frame {
         public Builder(Label label, int staticLevel) {
             this.label = label;
             this.staticLevel = staticLevel;
+            this.parametersSize = Constants.WordSize;
         }
 
         /**

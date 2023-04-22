@@ -1,0 +1,5 @@
+Defs [1:1-2:15]
+  VarDef [1:1-1:15]: x
+    Atom [1:8-1:15]: INT
+  VarDef [2:1-2:15]: y
+    Atom [2:8-2:15]: INT

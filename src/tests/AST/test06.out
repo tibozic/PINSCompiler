@@ -20,13 +20,16 @@ Defs [1:1-11:2]
               Literal [4:22-4:23]: INT(2)
       For [5:9-10:10]
         Name [6:17-6:18]: i
-        Literal [6:21-6:23]: INT(10)
-        Binary [6:25-6:32]: LT
-          Name [6:25-6:26]: i
-          Literal [6:29-6:32]: INT(100)
-        Binary [6:34-6:39]: ADD
-          Name [6:34-6:35]: i
-          Literal [6:38-6:39]: INT(1)
+        Block [6:21-6:28]
+          Binary [6:22-6:27]: ADD
+            Name [6:22-6:23]: j
+            Literal [6:26-6:27]: INT(5)
+        Binary [6:30-6:37]: LT
+          Name [6:30-6:31]: i
+          Literal [6:34-6:37]: INT(100)
+        Binary [6:39-6:44]: ADD
+          Name [6:39-6:40]: i
+          Literal [6:43-6:44]: INT(1)
         IfThenElse [7:17-9:18]
           Binary [8:24-8:31]: EQ
             Name [8:24-8:25]: i

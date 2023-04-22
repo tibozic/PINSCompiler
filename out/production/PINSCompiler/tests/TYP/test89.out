@@ -1,1 +1,2 @@
-99
+[1:1-1:46]: ERROR: Function return type doesn't match function body return type: `str`!=`log`
+

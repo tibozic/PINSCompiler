@@ -1,1 +1,2 @@
-99
+[1:77-1:78]: ERROR: For loop step type has to be an integer not `log`
+

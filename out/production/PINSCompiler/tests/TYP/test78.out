@@ -1,1 +1,2 @@
-99
+[1:39-1:44]: ERROR: Arithmetic operator `MUL` only supports integer values
+

@@ -1,12 +1,3 @@
-Exception in thread "main" java.nio.file.NoSuchFileException: src/tests/TYP/.tst
-	at java.base/sun.nio.fs.UnixException.translateToIOException(UnixException.java:92)
-	at java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:106)
-	at java.base/sun.nio.fs.UnixException.rethrowAsIOException(UnixException.java:111)
-	at java.base/sun.nio.fs.UnixFileSystemProvider.newByteChannel(UnixFileSystemProvider.java:218)
-	at java.base/java.nio.file.Files.newByteChannel(Files.java:380)
-	at java.base/java.nio.file.Files.newByteChannel(Files.java:432)
-	at java.base/java.nio.file.Files.readAllBytes(Files.java:3287)
-	at java.base/java.nio.file.Files.readString(Files.java:3365)
-	at java.base/java.nio.file.Files.readString(Files.java:3324)
-	at Main.run(Main.java:41)
-	at Main.main(Main.java:33)
+Error: Cannot parse value of type 'class cli.PINS$PhasesEnumSet'!
+OVERVIEW: Prevajalnik za programski jezik PINS
+Usage: PINS <sourceFile> [--dump <dump>][--exec <exec>][--memory <memory>]

@@ -1,0 +1,381 @@
+**** Testing src/tests/AST ****
+----- Testing file: src/tests/AST/test00.tst -----
+----- Testing file: src/tests/AST/test01.tst -----
+----- Testing file: src/tests/AST/test02.tst -----
+----- Testing file: src/tests/AST/test03.tst -----
+----- Testing file: src/tests/AST/test04.tst -----
+----- Testing file: src/tests/AST/test05.tst -----
+----- Testing file: src/tests/AST/test06.tst -----
+----- Testing file: src/tests/AST/test07.tst -----
+----- Testing file: src/tests/AST/test08.tst -----
+----- Testing file: src/tests/AST/test09.tst -----
+**** Results for src/tests/AST ****
+----- Results of file: src/tests/AST/test00.out -----
+----- Results of file: src/tests/AST/test01.out -----
+----- Results of file: src/tests/AST/test02.out -----
+----- Results of file: src/tests/AST/test03.out -----
+----- Results of file: src/tests/AST/test04.out -----
+----- Results of file: src/tests/AST/test05.out -----
+----- Results of file: src/tests/AST/test06.out -----
+----- Results of file: src/tests/AST/test07.out -----
+----- Results of file: src/tests/AST/test08.out -----
+----- Results of file: src/tests/AST/test09.out -----
+**** Testing src/tests/FRM ****
+----- Testing file: src/tests/FRM/test01.tst -----
+----- Testing file: src/tests/FRM/test02.tst -----
+----- Testing file: src/tests/FRM/test03.tst -----
+**** Results for src/tests/FRM ****
+----- Results of file: src/tests/FRM/test01.out -----
+**** Testing src/tests/LEX ****
+----- Testing file: src/tests/LEX/test01.tst -----
+----- Testing file: src/tests/LEX/test02.tst -----
+----- Testing file: src/tests/LEX/test03.tst -----
+----- Testing file: src/tests/LEX/test04.tst -----
+----- Testing file: src/tests/LEX/test05.tst -----
+----- Testing file: src/tests/LEX/test06.tst -----
+----- Testing file: src/tests/LEX/test07.tst -----
+----- Testing file: src/tests/LEX/test08.tst -----
+----- Testing file: src/tests/LEX/test09.tst -----
+----- Testing file: src/tests/LEX/test10.tst -----
+----- Testing file: src/tests/LEX/test11.tst -----
+----- Testing file: src/tests/LEX/test12.tst -----
+----- Testing file: src/tests/LEX/test13.tst -----
+----- Testing file: src/tests/LEX/test14.tst -----
+----- Testing file: src/tests/LEX/test15.tst -----
+----- Testing file: src/tests/LEX/test16.tst -----
+**** Results for src/tests/LEX ****
+----- Results of file: src/tests/LEX/test01.out -----
+----- Results of file: src/tests/LEX/test02.out -----
+----- Results of file: src/tests/LEX/test03.out -----
+----- Results of file: src/tests/LEX/test04.out -----
+----- Results of file: src/tests/LEX/test05.out -----
+----- Results of file: src/tests/LEX/test06.out -----
+----- Results of file: src/tests/LEX/test07.out -----
+----- Results of file: src/tests/LEX/test08.out -----
+----- Results of file: src/tests/LEX/test09.out -----
+----- Results of file: src/tests/LEX/test10.out -----
+----- Results of file: src/tests/LEX/test11.out -----
+----- Results of file: src/tests/LEX/test12.out -----
+0a1,6
+> [1:1-1:3] C_STRING:
+> [1:4-1:14] C_STRING:besedilo
+> [1:14-1:18] IDENTIFIER:test
+> [1:19-1:46] C_STRING:besedilo z 'narekovaji'
+> [2:1-2:99] C_STRING: !"#$%&\()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~
+> EOF:$
+----- Results of file: src/tests/LEX/test13.out -----
+----- Results of file: src/tests/LEX/test14.out -----
+----- Results of file: src/tests/LEX/test15.out -----
+**** Testing src/tests/NAME ****
+----- Testing file: src/tests/NAME/test01.tst -----
+----- Testing file: src/tests/NAME/test02.tst -----
+----- Testing file: src/tests/NAME/test03.tst -----
+----- Testing file: src/tests/NAME/test04.tst -----
+----- Testing file: src/tests/NAME/test05.tst -----
+----- Testing file: src/tests/NAME/test06.tst -----
+----- Testing file: src/tests/NAME/test07.tst -----
+----- Testing file: src/tests/NAME/test08.tst -----
+----- Testing file: src/tests/NAME/test09.tst -----
+----- Testing file: src/tests/NAME/test10.tst -----
+----- Testing file: src/tests/NAME/test11.tst -----
+----- Testing file: src/tests/NAME/test12.tst -----
+----- Testing file: src/tests/NAME/test13.tst -----
+----- Testing file: src/tests/NAME/test14.tst -----
+----- Testing file: src/tests/NAME/test15.tst -----
+----- Testing file: src/tests/NAME/test16.tst -----
+----- Testing file: src/tests/NAME/test17.tst -----
+----- Testing file: src/tests/NAME/test18.tst -----
+----- Testing file: src/tests/NAME/test19.tst -----
+----- Testing file: src/tests/NAME/test20.tst -----
+----- Testing file: src/tests/NAME/test21.tst -----
+----- Testing file: src/tests/NAME/test22.tst -----
+----- Testing file: src/tests/NAME/test24.tst -----
+----- Testing file: src/tests/NAME/test25.tst -----
+----- Testing file: src/tests/NAME/test26.tst -----
+----- Testing file: src/tests/NAME/test27.tst -----
+----- Testing file: src/tests/NAME/test28.tst -----
+----- Testing file: src/tests/NAME/test29.tst -----
+----- Testing file: src/tests/NAME/test50.tst -----
+----- Testing file: src/tests/NAME/test51.tst -----
+----- Testing file: src/tests/NAME/test52.tst -----
+----- Testing file: src/tests/NAME/test53.tst -----
+----- Testing file: src/tests/NAME/test54.tst -----
+----- Testing file: src/tests/NAME/test55.tst -----
+----- Testing file: src/tests/NAME/test56.tst -----
+----- Testing file: src/tests/NAME/test57.tst -----
+----- Testing file: src/tests/NAME/test58.tst -----
+----- Testing file: src/tests/NAME/test59.tst -----
+----- Testing file: src/tests/NAME/test60.tst -----
+----- Testing file: src/tests/NAME/test61.tst -----
+----- Testing file: src/tests/NAME/test62.tst -----
+----- Testing file: src/tests/NAME/test63.tst -----
+----- Testing file: src/tests/NAME/test64.tst -----
+----- Testing file: src/tests/NAME/test65.tst -----
+**** Results for src/tests/NAME ****
+----- Results of file: src/tests/NAME/test01.out -----
+----- Results of file: src/tests/NAME/test02.out -----
+----- Results of file: src/tests/NAME/test03.out -----
+----- Results of file: src/tests/NAME/test04.out -----
+----- Results of file: src/tests/NAME/test05.out -----
+----- Results of file: src/tests/NAME/test06.out -----
+----- Results of file: src/tests/NAME/test07.out -----
+----- Results of file: src/tests/NAME/test08.out -----
+----- Results of file: src/tests/NAME/test09.out -----
+----- Results of file: src/tests/NAME/test10.out -----
+----- Results of file: src/tests/NAME/test11.out -----
+----- Results of file: src/tests/NAME/test12.out -----
+----- Results of file: src/tests/NAME/test13.out -----
+----- Results of file: src/tests/NAME/test14.out -----
+----- Results of file: src/tests/NAME/test15.out -----
+----- Results of file: src/tests/NAME/test16.out -----
+----- Results of file: src/tests/NAME/test17.out -----
+----- Results of file: src/tests/NAME/test18.out -----
+----- Results of file: src/tests/NAME/test19.out -----
+----- Results of file: src/tests/NAME/test20.out -----
+----- Results of file: src/tests/NAME/test21.out -----
+----- Results of file: src/tests/NAME/test22.out -----
+----- Results of file: src/tests/NAME/test24.out -----
+----- Results of file: src/tests/NAME/test25.out -----
+----- Results of file: src/tests/NAME/test26.out -----
+----- Results of file: src/tests/NAME/test27.out -----
+----- Results of file: src/tests/NAME/test28.out -----
+----- Results of file: src/tests/NAME/test29.out -----
+----- Results of file: src/tests/NAME/test50.out -----
+----- Results of file: src/tests/NAME/test51.out -----
+----- Results of file: src/tests/NAME/test52.out -----
+----- Results of file: src/tests/NAME/test53.out -----
+----- Results of file: src/tests/NAME/test54.out -----
+----- Results of file: src/tests/NAME/test55.out -----
+----- Results of file: src/tests/NAME/test56.out -----
+----- Results of file: src/tests/NAME/test58.out -----
+----- Results of file: src/tests/NAME/test59.out -----
+----- Results of file: src/tests/NAME/test60.out -----
+----- Results of file: src/tests/NAME/test61.out -----
+----- Results of file: src/tests/NAME/test62.out -----
+----- Results of file: src/tests/NAME/test63.out -----
+----- Results of file: src/tests/NAME/test65.out -----
+**** Testing src/tests/TYP ****
+----- Testing file: src/tests/TYP/test01.tst -----
+----- Testing file: src/tests/TYP/test02.tst -----
+----- Testing file: src/tests/TYP/test03.tst -----
+----- Testing file: src/tests/TYP/test04.tst -----
+----- Testing file: src/tests/TYP/test05.tst -----
+----- Testing file: src/tests/TYP/test06.tst -----
+----- Testing file: src/tests/TYP/test07.tst -----
+----- Testing file: src/tests/TYP/test08.tst -----
+----- Testing file: src/tests/TYP/test09.tst -----
+----- Testing file: src/tests/TYP/test100.tst -----
+----- Testing file: src/tests/TYP/test101.tst -----
+----- Testing file: src/tests/TYP/test102.tst -----
+----- Testing file: src/tests/TYP/test103.tst -----
+----- Testing file: src/tests/TYP/test104.tst -----
+----- Testing file: src/tests/TYP/test105.tst -----
+----- Testing file: src/tests/TYP/test106.tst -----
+----- Testing file: src/tests/TYP/test107.tst -----
+----- Testing file: src/tests/TYP/test108.tst -----
+----- Testing file: src/tests/TYP/test109.tst -----
+----- Testing file: src/tests/TYP/test10.tst -----
+----- Testing file: src/tests/TYP/test110.tst -----
+----- Testing file: src/tests/TYP/test111.tst -----
+----- Testing file: src/tests/TYP/test112.tst -----
+----- Testing file: src/tests/TYP/test113.tst -----
+----- Testing file: src/tests/TYP/test114.tst -----
+----- Testing file: src/tests/TYP/test115.tst -----
+----- Testing file: src/tests/TYP/test116.tst -----
+----- Testing file: src/tests/TYP/test117.tst -----
+----- Testing file: src/tests/TYP/test118.tst -----
+----- Testing file: src/tests/TYP/test119.tst -----
+----- Testing file: src/tests/TYP/test11.tst -----
+----- Testing file: src/tests/TYP/test120.tst -----
+----- Testing file: src/tests/TYP/test121.tst -----
+----- Testing file: src/tests/TYP/test122.tst -----
+----- Testing file: src/tests/TYP/test123.tst -----
+----- Testing file: src/tests/TYP/test124.tst -----
+----- Testing file: src/tests/TYP/test125.tst -----
+----- Testing file: src/tests/TYP/test126.tst -----
+----- Testing file: src/tests/TYP/test127.tst -----
+----- Testing file: src/tests/TYP/test128.tst -----
+----- Testing file: src/tests/TYP/test129.tst -----
+----- Testing file: src/tests/TYP/test12.tst -----
+----- Testing file: src/tests/TYP/test130.tst -----
+----- Testing file: src/tests/TYP/test13.tst -----
+----- Testing file: src/tests/TYP/test14.tst -----
+----- Testing file: src/tests/TYP/test15.tst -----
+----- Testing file: src/tests/TYP/test16.tst -----
+----- Testing file: src/tests/TYP/test17.tst -----
+----- Testing file: src/tests/TYP/test18.tst -----
+----- Testing file: src/tests/TYP/test19.tst -----
+----- Testing file: src/tests/TYP/test20.tst -----
+----- Testing file: src/tests/TYP/test21.tst -----
+----- Testing file: src/tests/TYP/test22.tst -----
+----- Testing file: src/tests/TYP/test23.tst -----
+----- Testing file: src/tests/TYP/test24.tst -----
+----- Testing file: src/tests/TYP/test25.tst -----
+----- Testing file: src/tests/TYP/test26.tst -----
+----- Testing file: src/tests/TYP/test27.tst -----
+----- Testing file: src/tests/TYP/test28.tst -----
+----- Testing file: src/tests/TYP/test29.tst -----
+----- Testing file: src/tests/TYP/test30.tst -----
+----- Testing file: src/tests/TYP/test31.tst -----
+----- Testing file: src/tests/TYP/test50.tst -----
+----- Testing file: src/tests/TYP/test51.tst -----
+----- Testing file: src/tests/TYP/test52.tst -----
+----- Testing file: src/tests/TYP/test53.tst -----
+----- Testing file: src/tests/TYP/test54.tst -----
+----- Testing file: src/tests/TYP/test55.tst -----
+----- Testing file: src/tests/TYP/test56.tst -----
+----- Testing file: src/tests/TYP/test57.tst -----
+----- Testing file: src/tests/TYP/test58.tst -----
+----- Testing file: src/tests/TYP/test59.tst -----
+----- Testing file: src/tests/TYP/test60.tst -----
+----- Testing file: src/tests/TYP/test61.tst -----
+----- Testing file: src/tests/TYP/test70.tst -----
+----- Testing file: src/tests/TYP/test71.tst -----
+----- Testing file: src/tests/TYP/test72.tst -----
+----- Testing file: src/tests/TYP/test73.tst -----
+----- Testing file: src/tests/TYP/test74.tst -----
+----- Testing file: src/tests/TYP/test75.tst -----
+----- Testing file: src/tests/TYP/test76.tst -----
+----- Testing file: src/tests/TYP/test77.tst -----
+----- Testing file: src/tests/TYP/test78.tst -----
+----- Testing file: src/tests/TYP/test79.tst -----
+----- Testing file: src/tests/TYP/test80.tst -----
+----- Testing file: src/tests/TYP/test81.tst -----
+----- Testing file: src/tests/TYP/test82.tst -----
+----- Testing file: src/tests/TYP/test83.tst -----
+----- Testing file: src/tests/TYP/test84.tst -----
+----- Testing file: src/tests/TYP/test85.tst -----
+----- Testing file: src/tests/TYP/test86.tst -----
+----- Testing file: src/tests/TYP/test87.tst -----
+----- Testing file: src/tests/TYP/test88.tst -----
+----- Testing file: src/tests/TYP/test89.tst -----
+----- Testing file: src/tests/TYP/test90.tst -----
+----- Testing file: src/tests/TYP/test91.tst -----
+----- Testing file: src/tests/TYP/test92.tst -----
+----- Testing file: src/tests/TYP/test93.tst -----
+----- Testing file: src/tests/TYP/test94.tst -----
+----- Testing file: src/tests/TYP/test95.tst -----
+----- Testing file: src/tests/TYP/test96.tst -----
+----- Testing file: src/tests/TYP/test97.tst -----
+----- Testing file: src/tests/TYP/test98.tst -----
+----- Testing file: src/tests/TYP/test99.tst -----
+**** Results for src/tests/TYP ****
+----- Results of file: src/tests/TYP/test01.out -----
+----- Results of file: src/tests/TYP/test02.out -----
+----- Results of file: src/tests/TYP/test03.out -----
+----- Results of file: src/tests/TYP/test04.out -----
+----- Results of file: src/tests/TYP/test05.out -----
+----- Results of file: src/tests/TYP/test06.out -----
+----- Results of file: src/tests/TYP/test07.out -----
+----- Results of file: src/tests/TYP/test08.out -----
+----- Results of file: src/tests/TYP/test09.out -----
+----- Results of file: src/tests/TYP/test100.out -----
+----- Results of file: src/tests/TYP/test101.out -----
+----- Results of file: src/tests/TYP/test102.out -----
+----- Results of file: src/tests/TYP/test103.out -----
+----- Results of file: src/tests/TYP/test104.out -----
+----- Results of file: src/tests/TYP/test105.out -----
+----- Results of file: src/tests/TYP/test106.out -----
+----- Results of file: src/tests/TYP/test107.out -----
+----- Results of file: src/tests/TYP/test108.out -----
+----- Results of file: src/tests/TYP/test109.out -----
+----- Results of file: src/tests/TYP/test10.out -----
+----- Results of file: src/tests/TYP/test110.out -----
+----- Results of file: src/tests/TYP/test111.out -----
+----- Results of file: src/tests/TYP/test112.out -----
+----- Results of file: src/tests/TYP/test113.out -----
+----- Results of file: src/tests/TYP/test114.out -----
+----- Results of file: src/tests/TYP/test115.out -----
+----- Results of file: src/tests/TYP/test116.out -----
+----- Results of file: src/tests/TYP/test117.out -----
+----- Results of file: src/tests/TYP/test118.out -----
+----- Results of file: src/tests/TYP/test119.out -----
+----- Results of file: src/tests/TYP/test11.out -----
+----- Results of file: src/tests/TYP/test120.out -----
+----- Results of file: src/tests/TYP/test121.out -----
+----- Results of file: src/tests/TYP/test122.out -----
+----- Results of file: src/tests/TYP/test123.out -----
+----- Results of file: src/tests/TYP/test124.out -----
+----- Results of file: src/tests/TYP/test125.out -----
+----- Results of file: src/tests/TYP/test126.out -----
+----- Results of file: src/tests/TYP/test127.out -----
+----- Results of file: src/tests/TYP/test128.out -----
+----- Results of file: src/tests/TYP/test129.out -----
+----- Results of file: src/tests/TYP/test12.out -----
+----- Results of file: src/tests/TYP/test130.out -----
+----- Results of file: src/tests/TYP/test13.out -----
+----- Results of file: src/tests/TYP/test14.out -----
+----- Results of file: src/tests/TYP/test15.out -----
+----- Results of file: src/tests/TYP/test16.out -----
+----- Results of file: src/tests/TYP/test17.out -----
+----- Results of file: src/tests/TYP/test18.out -----
+----- Results of file: src/tests/TYP/test19.out -----
+----- Results of file: src/tests/TYP/test20.out -----
+----- Results of file: src/tests/TYP/test21.out -----
+----- Results of file: src/tests/TYP/test22.out -----
+----- Results of file: src/tests/TYP/test23.out -----
+----- Results of file: src/tests/TYP/test24.out -----
+----- Results of file: src/tests/TYP/test25.out -----
+----- Results of file: src/tests/TYP/test26.out -----
+----- Results of file: src/tests/TYP/test27.out -----
+----- Results of file: src/tests/TYP/test28.out -----
+----- Results of file: src/tests/TYP/test29.out -----
+----- Results of file: src/tests/TYP/test30.out -----
+----- Results of file: src/tests/TYP/test31.out -----
+1c1
+< [1:1-1:9]: ERROR: Cycle detected
+---
+> [1:8-1:9]: ERROR: Cycle detected
+----- Results of file: src/tests/TYP/test50.out -----
+----- Results of file: src/tests/TYP/test51.out -----
+----- Results of file: src/tests/TYP/test52.out -----
+----- Results of file: src/tests/TYP/test53.out -----
+----- Results of file: src/tests/TYP/test54.out -----
+----- Results of file: src/tests/TYP/test55.out -----
+----- Results of file: src/tests/TYP/test56.out -----
+----- Results of file: src/tests/TYP/test57.out -----
+----- Results of file: src/tests/TYP/test58.out -----
+----- Results of file: src/tests/TYP/test59.out -----
+----- Results of file: src/tests/TYP/test60.out -----
+----- Results of file: src/tests/TYP/test61.out -----
+----- Results of file: src/tests/TYP/test70.out -----
+1c1
+< [2:1-2:9]: ERROR: Cycle detected
+---
+> [2:8-2:9]: ERROR: Cycle detected
+----- Results of file: src/tests/TYP/test71.out -----
+1c1
+< [2:8-2:9]: ERROR: Cycle detected
+---
+> [3:8-3:9]: ERROR: Cycle detected
+----- Results of file: src/tests/TYP/test72.out -----
+----- Results of file: src/tests/TYP/test73.out -----
+----- Results of file: src/tests/TYP/test74.out -----
+----- Results of file: src/tests/TYP/test75.out -----
+----- Results of file: src/tests/TYP/test76.out -----
+----- Results of file: src/tests/TYP/test77.out -----
+----- Results of file: src/tests/TYP/test78.out -----
+----- Results of file: src/tests/TYP/test79.out -----
+----- Results of file: src/tests/TYP/test80.out -----
+----- Results of file: src/tests/TYP/test81.out -----
+----- Results of file: src/tests/TYP/test82.out -----
+----- Results of file: src/tests/TYP/test83.out -----
+----- Results of file: src/tests/TYP/test84.out -----
+----- Results of file: src/tests/TYP/test85.out -----
+----- Results of file: src/tests/TYP/test86.out -----
+----- Results of file: src/tests/TYP/test87.out -----
+----- Results of file: src/tests/TYP/test88.out -----
+----- Results of file: src/tests/TYP/test89.out -----
+----- Results of file: src/tests/TYP/test90.out -----
+----- Results of file: src/tests/TYP/test91.out -----
+----- Results of file: src/tests/TYP/test92.out -----
+----- Results of file: src/tests/TYP/test93.out -----
+----- Results of file: src/tests/TYP/test94.out -----
+----- Results of file: src/tests/TYP/test95.out -----
+----- Results of file: src/tests/TYP/test96.out -----
+----- Results of file: src/tests/TYP/test97.out -----
+----- Results of file: src/tests/TYP/test98.out -----
+----- Results of file: src/tests/TYP/test99.out -----
+--- Results ---
+168/177 passed!
+---------------

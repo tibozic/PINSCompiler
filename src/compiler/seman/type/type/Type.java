@@ -133,8 +133,6 @@ public abstract class Type {
 
         @Override
         public boolean equals(Type t) {
-            if( !(t instanceof Array) )
-                return false;
             if (t.isInt() && this.isInt())
                 return true;
             if (t.isLog() && this.isLog())

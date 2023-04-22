@@ -1,1 +1,2 @@
-99
+[1:78-1:80]: ERROR: Unary operators `+` and `-` only support integer values
+

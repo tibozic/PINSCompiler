@@ -1,0 +1,7 @@
+source -> definitions
+definitions -> definition definitions'
+definition -> variable_definition
+variable_definition -> var identifier : type
+type -> arr [ int_conts ] type
+[2:18-2:0]: Unknown type: `EOF`
+

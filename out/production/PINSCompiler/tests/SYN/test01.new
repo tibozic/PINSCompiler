@@ -1,0 +1,6 @@
+source -> definitions
+definitions -> definition definitions'
+definition -> function_definition
+function_definition -> fun identifier ( parameters ) : type = expression
+[2:4-2:0]: Expected: `IDENTIFIER`, got `EOF`
+
