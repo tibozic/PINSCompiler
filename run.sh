@@ -1,6 +1,7 @@
-TEST_NUM="01"
-TEST_IN_DIR="FRM"
+TEST_NUM="75"
+TEST_IN_DIR="TYP"
 TEST_RUN="$TEST_IN_DIR"
+#TEST_RUN="TYP"
 # -ea enables assertions
 RUN_ARGS="-ea"
 
