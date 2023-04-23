@@ -201,22 +201,6 @@ public class NameChecker implements Visitor {
                 .forEach(param -> {
                     if( param.type instanceof TypeName parameterType ) {
                         parameterType.accept(this);
-                        /*
-                        var parameterTypeDefinition = symbolTable.definitionFor(parameterType.identifier);
-
-                        if( parameterTypeDefinition.isEmpty() )
-                            Report.error(parameterType.position,
-                                    String.format("ERROR: Cannot find definition for paramter `%s` type `%s`\n",
-                                            param.name,
-                                            parameterType.identifier));
-
-                        if( !(parameterTypeDefinition.get() instanceof TypeDef) )
-                            Report.error(param.position,
-                                    String.format("ERROR: Paramter type `%s` is not a valid type\n",
-                                        parameterTypeDefinition.get().name));
-
-                        definitions.store(parameterTypeDefinition.get(), parameterType);
-                         */
                     }
                     else if( param.type instanceof Array paramArray ) {
                         paramArray.accept(this);
@@ -237,6 +221,9 @@ public class NameChecker implements Visitor {
                                 typeDefDefinition.get().name));
 
             definitions.store(typeDefDefinition.get(), typeDefName);
+        }
+        else if( funDef.type instanceof Array typeDefArray ) {
+            typeDefArray.accept(this);
         }
     }
 
