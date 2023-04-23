@@ -42,7 +42,7 @@ public class FrameEvaluator implements Visitor {
     private final NodeDescription<Type> types;
 
     private Stack<Frame.Builder> builderStack;
-    private int level = 1;
+    private int level = 0;
 
     public FrameEvaluator(
         NodeDescription<Frame> frames, 
@@ -152,22 +152,24 @@ public class FrameEvaluator implements Visitor {
     @Override
     public void visit(FunDef funDef) {
         Frame.Label funLabel = null;
-        if( level ==  1 ) {
+        if( level ==  0 ) {
             funLabel = Frame.Label.named(funDef.name);
         }
         else {
             funLabel = Frame.Label.nextAnonymous();
         }
 
+        level++;
+
         var funBuilder = new Frame.Builder(funLabel, level);
         builderStack.push(funBuilder);
         // ^^^ setup
+
 
         funDef.parameters.stream().forEach(param -> {
             param.accept(this);
         });
 
-        level++;
 
         funDef.body.accept(this);
 
@@ -192,7 +194,7 @@ public class FrameEvaluator implements Visitor {
         var size = varDefType.get().sizeInBytes();
         var label = Frame.Label.named(varDef.name);
 
-        if( level == 1 ) {
+        if( level == 0 ) {
             var newAccess = new Access.Global(size, label);
             accesses.store(newAccess, varDef);
             return;

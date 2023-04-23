@@ -77,7 +77,7 @@ Defs [5:1-107:2]
           # typed as: str
   FunDef [19:1-107:2]: firstfunction
     # typed as: (int, str, log) -> int
-    # framed as: FRAME [firstfunction]: level=1,locals_size=115932,arguments_size=16,parameters_size=16,size=115952
+    # framed as: FRAME [firstfunction]: level=0,locals_size=115932,arguments_size=16,parameters_size=16,size=115952
     Parameter [19:19-19:29]: x
       # typed as: int
       # accessed as: Parameter: size[4],offset[4],sl[1]
@@ -100,22 +100,22 @@ Defs [5:1-107:2]
       Defs [55:5-106:51]
         VarDef [55:5-55:18]: i
           # typed as: int
-          # accessed as: Local: size[4],offset[-4],sl[2]
+          # accessed as: Local: size[4],offset[-4],sl[1]
           Atom [55:11-55:18]: INT
             # typed as: int
         VarDef [56:5-56:19]: a
           # typed as: log
-          # accessed as: Local: size[4],offset[-8],sl[2]
+          # accessed as: Local: size[4],offset[-8],sl[1]
           Atom [56:12-56:19]: LOG
             # typed as: log
         VarDef [57:5-57:19]: j
           # typed as: int
-          # accessed as: Local: size[4],offset[-12],sl[2]
+          # accessed as: Local: size[4],offset[-12],sl[1]
           Atom [57:12-57:19]: INT
             # typed as: int
         VarDef [58:5-58:36]: p
           # typed as: ARR(69,ARR(420,int))
-          # accessed as: Local: size[115920],offset[-115932],sl[2]
+          # accessed as: Local: size[115920],offset[-115932],sl[1]
           Array [58:12-58:36]
             # typed as: ARR(69,ARR(420,int))
             [69]
@@ -126,7 +126,7 @@ Defs [5:1-107:2]
                 # typed as: int
         FunDef [59:5-72:6]: secondfunction
           # typed as: (int) -> int
-          # framed as: FRAME [L[0]]: level=2,locals_size=0,arguments_size=0,parameters_size=8,size=8
+          # framed as: FRAME [L[0]]: level=1,locals_size=0,arguments_size=0,parameters_size=8,size=8
           Parameter [59:24-59:34]: x
             # typed as: int
             # accessed as: Parameter: size[4],offset[4],sl[2]
@@ -139,7 +139,7 @@ Defs [5:1-107:2]
             Defs [63:13-71:18]
               FunDef [63:13-71:18]: thirdfunction
                 # typed as: (str) -> ARR(10,str)
-                # framed as: FRAME [L[1]]: level=3,locals_size=44,arguments_size=0,parameters_size=8,size=52
+                # framed as: FRAME [L[1]]: level=2,locals_size=44,arguments_size=0,parameters_size=8,size=52
                 Parameter [63:31-63:40]: y
                   # typed as: str
                   # accessed as: Parameter: size[4],offset[4],sl[3]
@@ -155,12 +155,12 @@ Defs [5:1-107:2]
                   Defs [69:21-70:44]
                     VarDef [69:21-69:37]: xyz
                       # typed as: int
-                      # accessed as: Local: size[4],offset[-4],sl[4]
+                      # accessed as: Local: size[4],offset[-4],sl[3]
                       Atom [69:30-69:37]: INT
                         # typed as: int
                     VarDef [70:21-70:44]: ss
                       # typed as: ARR(10,str)
-                      # accessed as: Local: size[40],offset[-44],sl[4]
+                      # accessed as: Local: size[40],offset[-44],sl[3]
                       Array [70:30-70:44]
                         # typed as: ARR(10,str)
                         [10]
@@ -214,7 +214,7 @@ Defs [5:1-107:2]
                 # typed as: int
         FunDef [73:5-99:6]: partition
           # typed as: (ARR(10,int), int, int) -> int
-          # framed as: FRAME [L[2]]: level=2,locals_size=16,arguments_size=0,parameters_size=16,size=24
+          # framed as: FRAME [L[2]]: level=1,locals_size=16,arguments_size=0,parameters_size=16,size=24
           Parameter [73:19-73:43]: stevila
             # typed as: ARR(10,int)
             # accessed as: Parameter: size[4],offset[4],sl[2]
@@ -240,22 +240,22 @@ Defs [5:1-107:2]
             Defs [95:13-98:27]
               VarDef [95:13-95:34]: swapTemp
                 # typed as: int
-                # accessed as: Local: size[4],offset[-4],sl[3]
+                # accessed as: Local: size[4],offset[-4],sl[2]
                 Atom [95:27-95:34]: INT
                   # typed as: int
               VarDef [96:13-96:31]: pivot
                 # typed as: int
-                # accessed as: Local: size[4],offset[-8],sl[3]
+                # accessed as: Local: size[4],offset[-8],sl[2]
                 Atom [96:24-96:31]: INT
                   # typed as: int
               VarDef [97:13-97:27]: i
                 # typed as: int
-                # accessed as: Local: size[4],offset[-12],sl[3]
+                # accessed as: Local: size[4],offset[-12],sl[2]
                 Atom [97:20-97:27]: INT
                   # typed as: int
               VarDef [98:13-98:27]: j
                 # typed as: int
-                # accessed as: Local: size[4],offset[-16],sl[3]
+                # accessed as: Local: size[4],offset[-16],sl[2]
                 Atom [98:20-98:27]: INT
                   # typed as: int
             Block [74:9-93:10]
@@ -446,7 +446,7 @@ Defs [5:1-107:2]
                     # typed as: int
         FunDef [100:5-104:10]: izpis
           # typed as: (str) -> log
-          # framed as: FRAME [L[3]]: level=2,locals_size=0,arguments_size=8,parameters_size=8,size=12
+          # framed as: FRAME [L[3]]: level=1,locals_size=0,arguments_size=8,parameters_size=8,size=12
           Parameter [100:15-100:31]: besedilo
             # typed as: str
             # accessed as: Parameter: size[4],offset[4],sl[2]
@@ -466,7 +466,7 @@ Defs [5:1-107:2]
               # typed as: log
         FunDef [106:5-106:51]: print
           # typed as: (str) -> str
-          # framed as: FRAME [L[4]]: level=2,locals_size=0,arguments_size=0,parameters_size=8,size=8
+          # framed as: FRAME [L[4]]: level=1,locals_size=0,arguments_size=0,parameters_size=8,size=8
           Parameter [106:15-106:31]: besedilo
             # typed as: str
             # accessed as: Parameter: size[4],offset[4],sl[2]

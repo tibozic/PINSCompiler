@@ -1,5 +1,5 @@
-TEST_NUM="15"
-TEST_IN_DIR="NAME"
+TEST_NUM="05"
+TEST_IN_DIR="FRM"
 #TEST_RUN="NAME"
 TEST_RUN="$TEST_IN_DIR"
 # -ea enables assertions

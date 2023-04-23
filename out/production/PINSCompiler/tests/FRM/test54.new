@@ -1,2 +1,399 @@
-[31:40-31:44]: ERROR: No definition found for variable `bool`
-
+Defs [1:1-52:17]
+  FunDef [1:1-19:2]: main
+    # typed as: (ARR(10,int)) -> str
+    # framed as: FRAME [main]: level=0,locals_size=12,arguments_size=8,parameters_size=8,size=24
+    Parameter [1:10-1:25]: args
+      # typed as: ARR(10,int)
+      # accessed as: Parameter: size[4],offset[4],sl[1]
+      Array [1:15-1:25]
+        # typed as: ARR(10,int)
+        [10]
+        TypeName [1:22-1:25]: int
+          # defined at: [50:1-50:16]
+          # typed as: int
+    TypeName [1:27-1:30]: str
+      # defined at: [51:1-51:15]
+      # typed as: str
+    Where [1:33-19:2]
+      # typed as: str
+      Defs [17:5-18:27]
+        VarDef [17:5-17:24]: printString
+          # typed as: str
+          # accessed as: Local: size[4],offset[-4],sl[1]
+          TypeName [17:21-17:24]: str
+            # defined at: [51:1-51:15]
+            # typed as: str
+        VarDef [18:5-18:27]: deljivo
+          # typed as: ARR(2,log)
+          # accessed as: Local: size[8],offset[-12],sl[1]
+          Array [18:17-18:27]
+            # typed as: ARR(2,log)
+            [2]
+            TypeName [18:23-18:27]: bool
+              # defined at: [52:1-52:17]
+              # typed as: log
+      Block [1:33-16:2]
+        # typed as: str
+        Binary [3:5-3:23]: ASSIGN
+          # typed as: str
+          Name [3:6-3:17]: printString
+            # defined at: [17:5-17:24]
+            # typed as: str
+          Literal [3:20-3:22]: STR()
+            # typed as: str
+        Binary [4:5-4:39]: ASSIGN
+          # typed as: log
+          Binary [4:6-4:16]: ARR
+            # typed as: log
+            Name [4:6-4:13]: deljivo
+              # defined at: [18:5-18:27]
+              # typed as: ARR(2,log)
+            Literal [4:14-4:15]: INT(0)
+              # typed as: int
+          Binary [4:19-4:38]: ARR
+            # typed as: log
+            Call [4:19-4:35]: preveriArr
+              # defined at: [31:1-48:2]
+              # typed as: ARR(2,log)
+              Name [4:30-4:34]: args
+                # defined at: [1:10-1:25]
+                # typed as: ARR(10,int)
+            Literal [4:36-4:37]: INT(0)
+              # typed as: int
+        Binary [5:5-5:39]: ASSIGN
+          # typed as: log
+          Binary [5:6-5:16]: ARR
+            # typed as: log
+            Name [5:6-5:13]: deljivo
+              # defined at: [18:5-18:27]
+              # typed as: ARR(2,log)
+            Literal [5:14-5:15]: INT(1)
+              # typed as: int
+          Binary [5:19-5:38]: ARR
+            # typed as: log
+            Call [5:19-5:35]: preveriArr
+              # defined at: [31:1-48:2]
+              # typed as: ARR(2,log)
+              Name [5:30-5:34]: args
+                # defined at: [1:10-1:25]
+                # typed as: ARR(10,int)
+            Literal [5:36-5:37]: INT(1)
+              # typed as: int
+        IfThenElse [6:5-14:8]
+          # typed as: void
+          Binary [6:9-6:32]: AND
+            # typed as: log
+            Binary [6:9-6:19]: ARR
+              # typed as: log
+              Name [6:9-6:16]: deljivo
+                # defined at: [18:5-18:27]
+                # typed as: ARR(2,log)
+              Literal [6:17-6:18]: INT(0)
+                # typed as: int
+            Binary [6:22-6:32]: ARR
+              # typed as: log
+              Name [6:22-6:29]: deljivo
+                # defined at: [18:5-18:27]
+                # typed as: ARR(2,log)
+              Literal [6:30-6:31]: INT(1)
+                # typed as: int
+          Binary [7:9-7:43]: ASSIGN
+            # typed as: str
+            Name [7:10-7:21]: printString
+              # defined at: [17:5-17:24]
+              # typed as: str
+            Literal [7:24-7:42]: STR(Deljivo z 2 in 3)
+              # typed as: str
+          IfThenElse [8:10-14:7]
+            # typed as: void
+            Binary [8:14-8:24]: ARR
+              # typed as: log
+              Name [8:14-8:21]: deljivo
+                # defined at: [18:5-18:27]
+                # typed as: ARR(2,log)
+              Literal [8:22-8:23]: INT(0)
+                # typed as: int
+            Binary [9:9-9:38]: ASSIGN
+              # typed as: str
+              Name [9:10-9:21]: printString
+                # defined at: [17:5-17:24]
+                # typed as: str
+              Literal [9:24-9:37]: STR(Deljivo z 2)
+                # typed as: str
+            IfThenElse [10:10-14:6]
+              # typed as: void
+              Binary [10:14-10:24]: ARR
+                # typed as: log
+                Name [10:14-10:21]: deljivo
+                  # defined at: [18:5-18:27]
+                  # typed as: ARR(2,log)
+                Literal [10:22-10:23]: INT(1)
+                  # typed as: int
+              Binary [11:9-11:38]: ASSIGN
+                # typed as: str
+                Name [11:10-11:21]: printString
+                  # defined at: [17:5-17:24]
+                  # typed as: str
+                Literal [11:24-11:37]: STR(Deljivo s 3)
+                  # typed as: str
+              Binary [13:9-13:54]: ASSIGN
+                # typed as: str
+                Name [13:10-13:21]: printString
+                  # defined at: [17:5-17:24]
+                  # typed as: str
+                Literal [13:24-13:53]: STR(Ni deljivo z nobenim od teh)
+                  # typed as: str
+        Name [15:5-15:16]: printString
+          # defined at: [17:5-17:24]
+          # typed as: str
+  FunDef [21:1-26:2]: deljiva
+    # typed as: (int, int) -> log
+    # framed as: FRAME [deljiva]: level=0,locals_size=4,arguments_size=0,parameters_size=12,size=12
+    Parameter [21:13-21:18]: n
+      # typed as: int
+      # accessed as: Parameter: size[4],offset[4],sl[1]
+      TypeName [21:15-21:18]: int
+        # defined at: [50:1-50:16]
+        # typed as: int
+    Parameter [21:20-21:25]: m
+      # typed as: int
+      # accessed as: Parameter: size[4],offset[8],sl[1]
+      TypeName [21:22-21:25]: int
+        # defined at: [50:1-50:16]
+        # typed as: int
+    TypeName [21:27-21:31]: bool
+      # defined at: [52:1-52:17]
+      # typed as: log
+    Where [21:34-26:2]
+      # typed as: log
+      Defs [25:5-25:25]
+        VarDef [25:5-25:25]: returnValue
+          # typed as: log
+          # accessed as: Local: size[4],offset[-4],sl[1]
+          TypeName [25:21-25:25]: bool
+            # defined at: [52:1-52:17]
+            # typed as: log
+      Block [21:34-24:2]
+        # typed as: log
+        Binary [22:5-22:31]: ASSIGN
+          # typed as: log
+          Name [22:6-22:17]: returnValue
+            # defined at: [25:5-25:25]
+            # typed as: log
+          Binary [22:20-22:30]: EQ
+            # typed as: log
+            Binary [22:20-22:25]: MOD
+              # typed as: int
+              Name [22:20-22:21]: n
+                # defined at: [21:13-21:18]
+                # typed as: int
+              Name [22:24-22:25]: m
+                # defined at: [21:20-21:25]
+                # typed as: int
+            Literal [22:29-22:30]: INT(0)
+              # typed as: int
+        Name [23:5-23:16]: returnValue
+          # defined at: [25:5-25:25]
+          # typed as: log
+  FunDef [28:1-28:42]: deljivaZ2
+    # typed as: (int) -> log
+    # framed as: FRAME [deljivaZ2]: level=0,locals_size=0,arguments_size=12,parameters_size=8,size=16
+    Parameter [28:15-28:20]: n
+      # typed as: int
+      # accessed as: Parameter: size[4],offset[4],sl[1]
+      TypeName [28:17-28:20]: int
+        # defined at: [50:1-50:16]
+        # typed as: int
+    TypeName [28:22-28:26]: bool
+      # defined at: [52:1-52:17]
+      # typed as: log
+    Call [28:29-28:42]: deljiva
+      # defined at: [21:1-26:2]
+      # typed as: log
+      Name [28:37-28:38]: n
+        # defined at: [28:15-28:20]
+        # typed as: int
+      Literal [28:40-28:41]: INT(2)
+        # typed as: int
+  FunDef [29:1-29:42]: deljivaS3
+    # typed as: (int) -> log
+    # framed as: FRAME [deljivaS3]: level=0,locals_size=0,arguments_size=12,parameters_size=8,size=16
+    Parameter [29:15-29:20]: n
+      # typed as: int
+      # accessed as: Parameter: size[4],offset[4],sl[1]
+      TypeName [29:17-29:20]: int
+        # defined at: [50:1-50:16]
+        # typed as: int
+    TypeName [29:22-29:26]: bool
+      # defined at: [52:1-52:17]
+      # typed as: log
+    Call [29:29-29:42]: deljiva
+      # defined at: [21:1-26:2]
+      # typed as: log
+      Name [29:37-29:38]: n
+        # defined at: [29:15-29:20]
+        # typed as: int
+      Literal [29:40-29:41]: INT(3)
+        # typed as: int
+  FunDef [31:1-48:2]: preveriArr
+    # typed as: (ARR(10,int)) -> ARR(2,log)
+    # framed as: FRAME [preveriArr]: level=0,locals_size=12,arguments_size=8,parameters_size=8,size=24
+    Parameter [31:16-31:32]: array
+      # typed as: ARR(10,int)
+      # accessed as: Parameter: size[4],offset[4],sl[1]
+      Array [31:22-31:32]
+        # typed as: ARR(10,int)
+        [10]
+        TypeName [31:29-31:32]: int
+          # defined at: [50:1-50:16]
+          # typed as: int
+    Array [31:34-31:44]
+      # typed as: ARR(2,log)
+      [2]
+      TypeName [31:40-31:44]: bool
+        # defined at: [52:1-52:17]
+        # typed as: log
+    Where [31:47-48:2]
+      # typed as: ARR(2,log)
+      Defs [46:5-47:14]
+        VarDef [46:5-46:31]: returnValue
+          # typed as: ARR(2,log)
+          # accessed as: Local: size[8],offset[-8],sl[1]
+          Array [46:21-46:31]
+            # typed as: ARR(2,log)
+            [2]
+            TypeName [46:27-46:31]: bool
+              # defined at: [52:1-52:17]
+              # typed as: log
+        VarDef [47:5-47:14]: i
+          # typed as: int
+          # accessed as: Local: size[4],offset[-12],sl[1]
+          TypeName [47:11-47:14]: int
+            # defined at: [50:1-50:16]
+            # typed as: int
+      Block [31:47-45:2]
+        # typed as: ARR(2,log)
+        Binary [32:5-32:28]: ASSIGN
+          # typed as: log
+          Binary [32:6-32:20]: ARR
+            # typed as: log
+            Name [32:6-32:17]: returnValue
+              # defined at: [46:5-46:31]
+              # typed as: ARR(2,log)
+            Literal [32:18-32:19]: INT(0)
+              # typed as: int
+          Literal [32:23-32:27]: LOG(true)
+            # typed as: log
+        Binary [33:5-33:28]: ASSIGN
+          # typed as: log
+          Binary [33:6-33:20]: ARR
+            # typed as: log
+            Name [33:6-33:17]: returnValue
+              # defined at: [46:5-46:31]
+              # typed as: ARR(2,log)
+            Literal [33:18-33:19]: INT(1)
+              # typed as: int
+          Literal [33:23-33:27]: LOG(true)
+            # typed as: log
+        For [35:5-42:7]
+          # typed as: void
+          Name [35:10-35:11]: i
+            # defined at: [47:5-47:14]
+            # typed as: int
+          Literal [35:14-35:15]: INT(0)
+            # typed as: int
+          Literal [35:17-35:19]: INT(10)
+            # typed as: int
+          Literal [35:21-35:22]: INT(1)
+            # typed as: int
+          Block [35:24-42:6]
+            # typed as: void
+            IfThenElse [36:9-38:10]
+              # typed as: void
+              Binary [36:13-36:51]: OR
+                # typed as: log
+                Unary [36:13-36:33]: NOT
+                  # typed as: log
+                  Call [36:14-36:33]: deljivaZ2
+                    # defined at: [28:1-28:42]
+                    # typed as: log
+                    Binary [36:24-36:32]: ARR
+                      # typed as: int
+                      Name [36:24-36:29]: array
+                        # defined at: [31:16-31:32]
+                        # typed as: ARR(10,int)
+                      Name [36:30-36:31]: i
+                        # defined at: [47:5-47:14]
+                        # typed as: int
+                Unary [36:36-36:51]: NOT
+                  # typed as: log
+                  Binary [36:37-36:51]: ARR
+                    # typed as: log
+                    Name [36:37-36:48]: returnValue
+                      # defined at: [46:5-46:31]
+                      # typed as: ARR(2,log)
+                    Literal [36:49-36:50]: INT(0)
+                      # typed as: int
+              Binary [37:13-37:37]: ASSIGN
+                # typed as: log
+                Binary [37:14-37:28]: ARR
+                  # typed as: log
+                  Name [37:14-37:25]: returnValue
+                    # defined at: [46:5-46:31]
+                    # typed as: ARR(2,log)
+                  Literal [37:26-37:27]: INT(0)
+                    # typed as: int
+                Literal [37:31-37:36]: LOG(false)
+                  # typed as: log
+            IfThenElse [39:9-41:10]
+              # typed as: void
+              Binary [39:13-39:51]: OR
+                # typed as: log
+                Unary [39:13-39:33]: NOT
+                  # typed as: log
+                  Call [39:14-39:33]: deljivaS3
+                    # defined at: [29:1-29:42]
+                    # typed as: log
+                    Binary [39:24-39:32]: ARR
+                      # typed as: int
+                      Name [39:24-39:29]: array
+                        # defined at: [31:16-31:32]
+                        # typed as: ARR(10,int)
+                      Name [39:30-39:31]: i
+                        # defined at: [47:5-47:14]
+                        # typed as: int
+                Unary [39:36-39:51]: NOT
+                  # typed as: log
+                  Binary [39:37-39:51]: ARR
+                    # typed as: log
+                    Name [39:37-39:48]: returnValue
+                      # defined at: [46:5-46:31]
+                      # typed as: ARR(2,log)
+                    Literal [39:49-39:50]: INT(1)
+                      # typed as: int
+              Binary [40:13-40:37]: ASSIGN
+                # typed as: log
+                Binary [40:14-40:28]: ARR
+                  # typed as: log
+                  Name [40:14-40:25]: returnValue
+                    # defined at: [46:5-46:31]
+                    # typed as: ARR(2,log)
+                  Literal [40:26-40:27]: INT(1)
+                    # typed as: int
+                Literal [40:31-40:36]: LOG(false)
+                  # typed as: log
+        Name [44:5-44:16]: returnValue
+          # defined at: [46:5-46:31]
+          # typed as: ARR(2,log)
+  TypeDef [50:1-50:16]: int
+    # typed as: int
+    Atom [50:9-50:16]: INT
+      # typed as: int
+  TypeDef [51:1-51:15]: str
+    # typed as: str
+    Atom [51:9-51:15]: STR
+      # typed as: str
+  TypeDef [52:1-52:17]: bool
+    # typed as: log
+    Atom [52:10-52:17]: LOG
+      # typed as: log

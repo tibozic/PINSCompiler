@@ -14,7 +14,7 @@ Defs [1:1-6:6]
       Defs [4:9-5:46]
         VarDef [4:9-4:30]: y
           # typed as: ARR(20,int)
-          # accessed as: Local: size[80],offset[-80],sl[2]
+          # accessed as: Local: size[80],offset[-80],sl[1]
           Array [4:15-4:30]
             # typed as: ARR(20,int)
             [20]

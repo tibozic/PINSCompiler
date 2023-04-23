@@ -1,7 +1,7 @@
 Defs [1:1-44:17]
   FunDef [1:1-14:2]: main
     # typed as: (ARR(10,int)) -> int
-    # framed as: FRAME [main]: level=1,locals_size=12,arguments_size=8,parameters_size=8,size=24
+    # framed as: FRAME [main]: level=0,locals_size=12,arguments_size=8,parameters_size=8,size=24
     Parameter [1:10-1:25]: args
       # typed as: ARR(10,int)
       # accessed as: Parameter: size[4],offset[4],sl[1]
@@ -19,19 +19,19 @@ Defs [1:1-44:17]
       Defs [11:5-13:20]
         VarDef [11:5-11:16]: max
           # typed as: int
-          # accessed as: Local: size[4],offset[-4],sl[2]
+          # accessed as: Local: size[4],offset[-4],sl[1]
           TypeName [11:13-11:16]: int
             # defined at: [42:1-42:16]
             # typed as: int
         VarDef [12:5-12:16]: min
           # typed as: int
-          # accessed as: Local: size[4],offset[-8],sl[2]
+          # accessed as: Local: size[4],offset[-8],sl[1]
           TypeName [12:13-12:16]: int
             # defined at: [42:1-42:16]
             # typed as: int
         VarDef [13:5-13:20]: razlika
           # typed as: int
-          # accessed as: Local: size[4],offset[-12],sl[2]
+          # accessed as: Local: size[4],offset[-12],sl[1]
           TypeName [13:17-13:20]: int
             # defined at: [42:1-42:16]
             # typed as: int
@@ -77,7 +77,7 @@ Defs [1:1-44:17]
           # typed as: int
   FunDef [16:1-27:2]: najvecji
     # typed as: (ARR(10,int)) -> int
-    # framed as: FRAME [najvecji]: level=1,locals_size=8,arguments_size=0,parameters_size=8,size=16
+    # framed as: FRAME [najvecji]: level=0,locals_size=8,arguments_size=0,parameters_size=8,size=16
     Parameter [16:14-16:30]: array
       # typed as: ARR(10,int)
       # accessed as: Parameter: size[4],offset[4],sl[1]
@@ -95,13 +95,13 @@ Defs [1:1-44:17]
       Defs [25:5-26:14]
         VarDef [25:5-25:16]: max
           # typed as: int
-          # accessed as: Local: size[4],offset[-4],sl[2]
+          # accessed as: Local: size[4],offset[-4],sl[1]
           TypeName [25:13-25:16]: int
             # defined at: [42:1-42:16]
             # typed as: int
         VarDef [26:5-26:14]: i
           # typed as: int
-          # accessed as: Local: size[4],offset[-8],sl[2]
+          # accessed as: Local: size[4],offset[-8],sl[1]
           TypeName [26:11-26:14]: int
             # defined at: [42:1-42:16]
             # typed as: int
@@ -160,7 +160,7 @@ Defs [1:1-44:17]
           # typed as: int
   FunDef [29:1-40:2]: najmanjsi
     # typed as: (ARR(10,int)) -> int
-    # framed as: FRAME [najmanjsi]: level=1,locals_size=8,arguments_size=0,parameters_size=8,size=16
+    # framed as: FRAME [najmanjsi]: level=0,locals_size=8,arguments_size=0,parameters_size=8,size=16
     Parameter [29:15-29:31]: array
       # typed as: ARR(10,int)
       # accessed as: Parameter: size[4],offset[4],sl[1]
@@ -178,13 +178,13 @@ Defs [1:1-44:17]
       Defs [38:5-39:14]
         VarDef [38:5-38:16]: min
           # typed as: int
-          # accessed as: Local: size[4],offset[-4],sl[2]
+          # accessed as: Local: size[4],offset[-4],sl[1]
           TypeName [38:13-38:16]: int
             # defined at: [42:1-42:16]
             # typed as: int
         VarDef [39:5-39:14]: i
           # typed as: int
-          # accessed as: Local: size[4],offset[-8],sl[2]
+          # accessed as: Local: size[4],offset[-8],sl[1]
           TypeName [39:11-39:14]: int
             # defined at: [42:1-42:16]
             # typed as: int

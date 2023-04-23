@@ -1,7 +1,7 @@
 Defs [1:1-15:17]
   FunDef [1:1-11:2]: main
     # typed as: (ARR(10,int)) -> int
-    # framed as: FRAME [main]: level=1,locals_size=8,arguments_size=0,parameters_size=8,size=16
+    # framed as: FRAME [main]: level=0,locals_size=8,arguments_size=0,parameters_size=8,size=16
     Parameter [1:10-1:25]: args
       # typed as: ARR(10,int)
       # accessed as: Parameter: size[4],offset[4],sl[1]
@@ -19,13 +19,13 @@ Defs [1:1-15:17]
       Defs [9:5-10:14]
         VarDef [9:5-9:16]: sum
           # typed as: int
-          # accessed as: Local: size[4],offset[-4],sl[2]
+          # accessed as: Local: size[4],offset[-4],sl[1]
           TypeName [9:13-9:16]: int
             # defined at: [13:1-13:16]
             # typed as: int
         VarDef [10:5-10:14]: i
           # typed as: int
-          # accessed as: Local: size[4],offset[-8],sl[2]
+          # accessed as: Local: size[4],offset[-8],sl[1]
           TypeName [10:11-10:14]: int
             # defined at: [13:1-13:16]
             # typed as: int

@@ -19,13 +19,13 @@ Defs [1:1-52:17]
       Defs [17:5-18:27]
         VarDef [17:5-17:24]: printString
           # typed as: str
-          # accessed as: Local: size[4],offset[-4],sl[2]
+          # accessed as: Local: size[4],offset[-4],sl[1]
           TypeName [17:21-17:24]: str
             # defined at: [51:1-51:15]
             # typed as: str
         VarDef [18:5-18:27]: deljivo
           # typed as: ARR(2,log)
-          # accessed as: Local: size[8],offset[-12],sl[2]
+          # accessed as: Local: size[8],offset[-12],sl[1]
           Array [18:17-18:27]
             # typed as: ARR(2,log)
             [2]
@@ -169,7 +169,7 @@ Defs [1:1-52:17]
       Defs [25:5-25:25]
         VarDef [25:5-25:25]: returnValue
           # typed as: log
-          # accessed as: Local: size[4],offset[-4],sl[2]
+          # accessed as: Local: size[4],offset[-4],sl[1]
           TypeName [25:21-25:25]: bool
             # defined at: [52:1-52:17]
             # typed as: log
@@ -258,7 +258,7 @@ Defs [1:1-52:17]
       Defs [46:5-47:14]
         VarDef [46:5-46:31]: returnValue
           # typed as: ARR(2,log)
-          # accessed as: Local: size[8],offset[-8],sl[2]
+          # accessed as: Local: size[8],offset[-8],sl[1]
           Array [46:21-46:31]
             # typed as: ARR(2,log)
             [2]
@@ -267,7 +267,7 @@ Defs [1:1-52:17]
               # typed as: log
         VarDef [47:5-47:14]: i
           # typed as: int
-          # accessed as: Local: size[4],offset[-12],sl[2]
+          # accessed as: Local: size[4],offset[-12],sl[1]
           TypeName [47:11-47:14]: int
             # defined at: [50:1-50:16]
             # typed as: int

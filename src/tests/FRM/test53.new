@@ -19,7 +19,7 @@ Defs [1:1-59:17]
       Defs [24:5-54:6]
         VarDef [24:5-24:29]: pogostost
           # typed as: ARR(10,int)
-          # accessed as: Local: size[40],offset[-40],sl[2]
+          # accessed as: Local: size[40],offset[-40],sl[1]
           Array [24:19-24:29]
             # typed as: ARR(10,int)
             [10]
@@ -28,19 +28,19 @@ Defs [1:1-59:17]
               # typed as: int
         VarDef [25:5-25:14]: i
           # typed as: int
-          # accessed as: Local: size[4],offset[-44],sl[2]
+          # accessed as: Local: size[4],offset[-44],sl[1]
           TypeName [25:11-25:14]: int
             # defined at: [57:1-57:16]
             # typed as: int
         VarDef [26:5-26:16]: max
           # typed as: int
-          # accessed as: Local: size[4],offset[-48],sl[2]
+          # accessed as: Local: size[4],offset[-48],sl[1]
           TypeName [26:13-26:16]: int
             # defined at: [57:1-57:16]
             # typed as: int
         VarDef [27:5-27:22]: max_index
           # typed as: int
-          # accessed as: Local: size[4],offset[-52],sl[2]
+          # accessed as: Local: size[4],offset[-52],sl[1]
           TypeName [27:19-27:22]: int
             # defined at: [57:1-57:16]
             # typed as: int
@@ -64,13 +64,13 @@ Defs [1:1-59:17]
             Defs [39:9-40:20]
               VarDef [39:9-39:18]: i
                 # typed as: int
-                # accessed as: Local: size[4],offset[-4],sl[3]
+                # accessed as: Local: size[4],offset[-4],sl[2]
                 TypeName [39:15-39:18]: int
                   # defined at: [57:1-57:16]
                   # typed as: int
               VarDef [40:9-40:20]: max
                 # typed as: int
-                # accessed as: Local: size[4],offset[-8],sl[3]
+                # accessed as: Local: size[4],offset[-8],sl[2]
                 TypeName [40:17-40:20]: int
                   # defined at: [57:1-57:16]
                   # typed as: int
@@ -151,13 +151,13 @@ Defs [1:1-59:17]
             Defs [52:9-53:28]
               VarDef [52:9-52:18]: i
                 # typed as: int
-                # accessed as: Local: size[4],offset[-4],sl[3]
+                # accessed as: Local: size[4],offset[-4],sl[2]
                 TypeName [52:15-52:18]: int
                   # defined at: [57:1-57:16]
                   # typed as: int
               VarDef [53:9-53:28]: returnValue
                 # typed as: int
-                # accessed as: Local: size[4],offset[-8],sl[3]
+                # accessed as: Local: size[4],offset[-8],sl[2]
                 TypeName [53:25-53:28]: int
                   # defined at: [57:1-57:16]
                   # typed as: int

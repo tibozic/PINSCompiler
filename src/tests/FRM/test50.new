@@ -19,7 +19,7 @@ Defs [1:1-28:17]
       Defs [9:5-9:16]
         VarDef [9:5-9:16]: sum
           # typed as: int
-          # accessed as: Local: size[4],offset[-4],sl[2]
+          # accessed as: Local: size[4],offset[-4],sl[1]
           TypeName [9:13-9:16]: int
             # defined at: [26:1-26:16]
             # typed as: int
@@ -37,7 +37,7 @@ Defs [1:1-28:17]
           Defs [6:15-6:24]
             VarDef [6:15-6:24]: i
               # typed as: int
-              # accessed as: Local: size[4],offset[-8],sl[2]
+              # accessed as: Local: size[4],offset[-8],sl[1]
               TypeName [6:21-6:24]: int
                 # defined at: [26:1-26:16]
                 # typed as: int
@@ -93,7 +93,7 @@ Defs [1:1-28:17]
       Defs [23:5-23:19]
         VarDef [23:5-23:19]: return
           # typed as: int
-          # accessed as: Local: size[4],offset[-4],sl[2]
+          # accessed as: Local: size[4],offset[-4],sl[1]
           TypeName [23:16-23:19]: int
             # defined at: [26:1-26:16]
             # typed as: int

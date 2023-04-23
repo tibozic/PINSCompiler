@@ -14,7 +14,7 @@ Defs [1:1-1:69]
       Defs [1:53-1:67]
         VarDef [1:53-1:67]: b
           # typed as: int
-          # accessed as: Local: size[4],offset[-4],sl[2]
+          # accessed as: Local: size[4],offset[-4],sl[1]
           Atom [1:60-1:67]: INT
             # typed as: int
       Call [1:33-1:44]: test

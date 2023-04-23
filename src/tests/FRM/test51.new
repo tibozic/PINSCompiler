@@ -19,13 +19,13 @@ Defs [1:1-15:17]
       Defs [9:5-10:14]
         VarDef [9:5-9:16]: sum
           # typed as: int
-          # accessed as: Local: size[4],offset[-4],sl[2]
+          # accessed as: Local: size[4],offset[-4],sl[1]
           TypeName [9:13-9:16]: int
             # defined at: [13:1-13:16]
             # typed as: int
         VarDef [10:5-10:14]: i
           # typed as: int
-          # accessed as: Local: size[4],offset[-8],sl[2]
+          # accessed as: Local: size[4],offset[-8],sl[1]
           TypeName [10:11-10:14]: int
             # defined at: [13:1-13:16]
             # typed as: int

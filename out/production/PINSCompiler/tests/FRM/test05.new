@@ -1,7 +1,7 @@
 Defs [1:1-1:69]
   FunDef [1:1-1:69]: test
     # typed as: (int) -> int
-    # framed as: FRAME [test]: level=1,locals_size=4,arguments_size=8,parameters_size=8,size=16
+    # framed as: FRAME [test]: level=0,locals_size=4,arguments_size=8,parameters_size=8,size=16
     Parameter [1:10-1:20]: a
       # typed as: int
       # accessed as: Parameter: size[4],offset[4],sl[1]
@@ -14,7 +14,7 @@ Defs [1:1-1:69]
       Defs [1:53-1:67]
         VarDef [1:53-1:67]: b
           # typed as: int
-          # accessed as: Local: size[4],offset[-4],sl[2]
+          # accessed as: Local: size[4],offset[-4],sl[1]
           Atom [1:60-1:67]: INT
             # typed as: int
       Call [1:33-1:44]: test

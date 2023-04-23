@@ -31,19 +31,19 @@ Defs [5:1-48:2]
       Defs [15:5-47:6]
         VarDef [15:5-15:14]: n
           # typed as: int
-          # accessed as: Local: size[4],offset[-4],sl[2]
+          # accessed as: Local: size[4],offset[-4],sl[1]
           TypeName [15:11-15:14]: int
             # defined at: [5:1-5:16]
             # typed as: int
         VarDef [16:5-16:14]: t
           # typed as: int
-          # accessed as: Local: size[4],offset[-8],sl[2]
+          # accessed as: Local: size[4],offset[-8],sl[1]
           TypeName [16:11-16:14]: int
             # defined at: [5:1-5:16]
             # typed as: int
         VarDef [17:5-17:24]: returnValue
           # typed as: int
-          # accessed as: Local: size[4],offset[-12],sl[2]
+          # accessed as: Local: size[4],offset[-12],sl[1]
           TypeName [17:21-17:24]: int
             # defined at: [5:1-5:16]
             # typed as: int
@@ -79,7 +79,7 @@ Defs [5:1-48:2]
             Defs [33:9-46:10]
               VarDef [33:9-33:29]: tasks
                 # typed as: ARR(50,int)
-                # accessed as: Local: size[200],offset[-200],sl[3]
+                # accessed as: Local: size[200],offset[-200],sl[2]
                 Array [33:19-33:29]
                   # typed as: ARR(50,int)
                   [50]
@@ -88,19 +88,19 @@ Defs [5:1-48:2]
                     # typed as: int
               VarDef [34:9-34:20]: sum
                 # typed as: int
-                # accessed as: Local: size[4],offset[-204],sl[3]
+                # accessed as: Local: size[4],offset[-204],sl[2]
                 TypeName [34:17-34:20]: int
                   # defined at: [5:1-5:16]
                   # typed as: int
               VarDef [35:9-35:22]: count
                 # typed as: int
-                # accessed as: Local: size[4],offset[-208],sl[3]
+                # accessed as: Local: size[4],offset[-208],sl[2]
                 TypeName [35:19-35:22]: int
                   # defined at: [5:1-5:16]
                   # typed as: int
               VarDef [36:9-36:18]: i
                 # typed as: int
-                # accessed as: Local: size[4],offset[-212],sl[3]
+                # accessed as: Local: size[4],offset[-212],sl[2]
                 TypeName [36:15-36:18]: int
                   # defined at: [5:1-5:16]
                   # typed as: int
@@ -133,7 +133,7 @@ Defs [5:1-48:2]
                   Defs [45:13-45:31]
                     VarDef [45:13-45:31]: out
                       # typed as: ARR(50,int)
-                      # accessed as: Local: size[200],offset[-200],sl[4]
+                      # accessed as: Local: size[200],offset[-200],sl[3]
                       Array [45:21-45:31]
                         # typed as: ARR(50,int)
                         [50]

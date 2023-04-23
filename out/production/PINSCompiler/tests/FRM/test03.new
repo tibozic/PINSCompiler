@@ -1,7 +1,7 @@
 Defs [1:1-8:64]
   FunDef [1:1-3:40]: f
     # typed as: (int) -> int
-    # framed as: FRAME [f]: level=1,locals_size=8,arguments_size=16,parameters_size=8,size=28
+    # framed as: FRAME [f]: level=0,locals_size=8,arguments_size=16,parameters_size=8,size=28
     Parameter [1:7-1:17]: x
       # typed as: int
       # accessed as: Parameter: size[4],offset[4],sl[1]
@@ -14,12 +14,12 @@ Defs [1:1-8:64]
       Defs [3:9-3:39]
         VarDef [3:9-3:23]: r
           # typed as: int
-          # accessed as: Local: size[4],offset[-4],sl[2]
+          # accessed as: Local: size[4],offset[-4],sl[1]
           Atom [3:16-3:23]: INT
             # typed as: int
         VarDef [3:25-3:39]: c
           # typed as: int
-          # accessed as: Local: size[4],offset[-8],sl[2]
+          # accessed as: Local: size[4],offset[-8],sl[1]
           Atom [3:32-3:39]: INT
             # typed as: int
       Block [1:31-3:2]
@@ -49,7 +49,7 @@ Defs [1:1-8:64]
                 # typed as: int
   FunDef [6:1-6:40]: g
     # typed as: (int) -> int
-    # framed as: FRAME [g]: level=1,locals_size=0,arguments_size=0,parameters_size=8,size=8
+    # framed as: FRAME [g]: level=0,locals_size=0,arguments_size=0,parameters_size=8,size=8
     Parameter [6:7-6:17]: x
       # typed as: int
       # accessed as: Parameter: size[4],offset[4],sl[1]
@@ -69,7 +69,7 @@ Defs [1:1-8:64]
         # typed as: int
   FunDef [8:1-8:64]: h
     # typed as: (int, int, int) -> int
-    # framed as: FRAME [h]: level=1,locals_size=0,arguments_size=0,parameters_size=16,size=8
+    # framed as: FRAME [h]: level=0,locals_size=0,arguments_size=0,parameters_size=16,size=8
     Parameter [8:7-8:17]: x
       # typed as: int
       # accessed as: Parameter: size[4],offset[4],sl[1]
