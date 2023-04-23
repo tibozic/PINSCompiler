@@ -1,2 +1,2 @@
-[2:42-2:43]: ERROR: No definition found for variable `k`
+[2:56-2:61]: ERROR: Left side of array call has to be an array
 

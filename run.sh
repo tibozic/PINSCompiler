@@ -1,7 +1,7 @@
-TEST_NUM="02"
-TEST_IN_DIR="FRM"
+TEST_NUM="15"
+TEST_IN_DIR="NAME"
+#TEST_RUN="NAME"
 TEST_RUN="$TEST_IN_DIR"
-#TEST_RUN="FRM"
 # -ea enables assertions
 RUN_ARGS="-ea"
 

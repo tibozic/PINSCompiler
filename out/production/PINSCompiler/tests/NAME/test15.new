@@ -1,2 +1,10 @@
-[2:7-2:10]: ERROR: Paramter type `x` is not a valid type
-
+Defs [1:1-2:19]
+  VarDef [1:1-1:16]: x
+    Atom [1:9-1:16]: INT
+  FunDef [2:1-2:19]: f
+    Parameter [2:7-2:10]: x
+      TypeName [2:9-2:10]: x
+        # defined at: [1:1-1:16]
+    TypeName [2:14-2:15]: x
+      # defined at: [1:1-1:16]
+    Literal [2:18-2:19]: INT(1)

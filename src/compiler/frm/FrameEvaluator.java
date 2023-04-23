@@ -65,7 +65,7 @@ public class FrameEvaluator implements Visitor {
             assert argType.isPresent(): String.format("ASSERT FAILED: No type found for argument `%s` in function call `%s`\n",
                     arg.toString(), call.name);
 
-            return argType.get().sizeInBytes();
+            return argType.get().sizeInBytesAsParam();
         }).mapToInt(i -> i).sum();
 
         argsSize += Constants.WordSize; // For the SL
@@ -92,6 +92,7 @@ public class FrameEvaluator implements Visitor {
 
     @Override
     public void visit(For forLoop) {
+        forLoop.counter.accept(this);
         forLoop.low.accept(this);
         forLoop.high.accept(this);
         forLoop.step.accept(this);
@@ -179,7 +180,7 @@ public class FrameEvaluator implements Visitor {
 
     @Override
     public void visit(TypeDef typeDef) {
-        return;
+        typeDef.type.accept(this);
     }
 
 
@@ -221,7 +222,7 @@ public class FrameEvaluator implements Visitor {
 
     @Override
     public void visit(Array array) {
-        return;
+        array.type.accept(this);
     }
 
 

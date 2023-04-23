@@ -1,0 +1,99 @@
+Defs [1:1-8:64]
+  FunDef [1:1-3:40]: f
+    # typed as: (int) -> int
+    # framed as: FRAME [f]: level=1,locals_size=8,arguments_size=16,parameters_size=8,size=28
+    Parameter [1:7-1:17]: x
+      # typed as: int
+      # accessed as: Parameter: size[4],offset[4],sl[1]
+      Atom [1:10-1:17]: INT
+        # typed as: int
+    Atom [1:21-1:28]: INT
+      # typed as: int
+    Where [1:31-3:40]
+      # typed as: int
+      Defs [3:9-3:39]
+        VarDef [3:9-3:23]: r
+          # typed as: int
+          # accessed as: Local: size[4],offset[-4],sl[2]
+          Atom [3:16-3:23]: INT
+            # typed as: int
+        VarDef [3:25-3:39]: c
+          # typed as: int
+          # accessed as: Local: size[4],offset[-8],sl[2]
+          Atom [3:32-3:39]: INT
+            # typed as: int
+      Block [1:31-3:2]
+        # typed as: int
+        Binary [2:5-2:29]: ASSIGN
+          # typed as: int
+          Call [2:6-2:10]: g
+            # defined at: [6:1-6:40]
+            # typed as: int
+            Literal [2:8-2:9]: INT(1)
+              # typed as: int
+          Binary [2:13-2:28]: ADD
+            # typed as: int
+            Call [2:13-2:17]: g
+              # defined at: [6:1-6:40]
+              # typed as: int
+              Literal [2:15-2:16]: INT(1)
+                # typed as: int
+            Call [2:20-2:28]: h
+              # defined at: [8:1-8:64]
+              # typed as: int
+              Literal [2:22-2:23]: INT(1)
+                # typed as: int
+              Literal [2:24-2:25]: INT(2)
+                # typed as: int
+              Literal [2:26-2:27]: INT(3)
+                # typed as: int
+  FunDef [6:1-6:40]: g
+    # typed as: (int) -> int
+    # framed as: FRAME [g]: level=1,locals_size=0,arguments_size=0,parameters_size=8,size=8
+    Parameter [6:7-6:17]: x
+      # typed as: int
+      # accessed as: Parameter: size[4],offset[4],sl[1]
+      Atom [6:10-6:17]: INT
+        # typed as: int
+    Atom [6:21-6:28]: INT
+      # typed as: int
+    Binary [6:31-6:40]: ADD
+      # typed as: int
+      Binary [6:31-6:36]: ADD
+        # typed as: int
+        Literal [6:31-6:32]: INT(1)
+          # typed as: int
+        Literal [6:35-6:36]: INT(2)
+          # typed as: int
+      Literal [6:39-6:40]: INT(3)
+        # typed as: int
+  FunDef [8:1-8:64]: h
+    # typed as: (int, int, int) -> int
+    # framed as: FRAME [h]: level=1,locals_size=0,arguments_size=0,parameters_size=16,size=8
+    Parameter [8:7-8:17]: x
+      # typed as: int
+      # accessed as: Parameter: size[4],offset[4],sl[1]
+      Atom [8:10-8:17]: INT
+        # typed as: int
+    Parameter [8:19-8:29]: y
+      # typed as: int
+      # accessed as: Parameter: size[4],offset[8],sl[1]
+      Atom [8:22-8:29]: INT
+        # typed as: int
+    Parameter [8:31-8:41]: z
+      # typed as: int
+      # accessed as: Parameter: size[4],offset[12],sl[1]
+      Atom [8:34-8:41]: INT
+        # typed as: int
+    Atom [8:45-8:52]: INT
+      # typed as: int
+    Binary [8:55-8:64]: ADD
+      # typed as: int
+      Binary [8:55-8:60]: ADD
+        # typed as: int
+        Literal [8:55-8:56]: INT(1)
+          # typed as: int
+        Literal [8:59-8:60]: INT(2)
+          # typed as: int
+      Literal [8:63-8:64]: INT(3)
+        # typed as: int

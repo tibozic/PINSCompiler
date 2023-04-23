@@ -1,2 +1,9 @@
-[2:20-2:21]: ERROR: Function return type `x` is not a valid type
-
+Defs [1:1-2:25]
+  VarDef [1:1-1:16]: x
+    Atom [1:9-1:16]: INT
+  FunDef [2:1-2:25]: f
+    Parameter [2:7-2:16]: x
+      Atom [2:9-2:16]: INT
+    TypeName [2:20-2:21]: x
+      # defined at: [1:1-1:16]
+    Literal [2:24-2:25]: INT(1)

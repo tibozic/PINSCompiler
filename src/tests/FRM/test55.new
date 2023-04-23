@@ -1,0 +1,304 @@
+Defs [5:1-48:2]
+  TypeDef [5:1-5:16]: int
+    # typed as: int
+    Atom [5:9-5:16]: INT
+      # typed as: int
+  TypeDef [6:1-6:15]: str
+    # typed as: str
+    Atom [6:9-6:15]: STR
+      # typed as: str
+  TypeDef [7:1-7:17]: bool
+    # typed as: log
+    Atom [7:10-7:17]: LOG
+      # typed as: log
+  FunDef [9:1-48:2]: main
+    # typed as: (ARR(52,int)) -> int
+    # framed as: FRAME [main]: level=1,locals_size=12,arguments_size=16,parameters_size=8,size=32
+    Parameter [9:10-9:25]: args
+      # typed as: ARR(52,int)
+      # accessed as: Parameter: size[4],offset[4],sl[1]
+      Array [9:15-9:25]
+        # typed as: ARR(52,int)
+        [52]
+        TypeName [9:22-9:25]: int
+          # defined at: [5:1-5:16]
+          # typed as: int
+    TypeName [9:27-9:30]: int
+      # defined at: [5:1-5:16]
+      # typed as: int
+    Where [9:33-48:2]
+      # typed as: int
+      Defs [15:5-47:6]
+        VarDef [15:5-15:14]: n
+          # typed as: int
+          # accessed as: Local: size[4],offset[-4],sl[2]
+          TypeName [15:11-15:14]: int
+            # defined at: [5:1-5:16]
+            # typed as: int
+        VarDef [16:5-16:14]: t
+          # typed as: int
+          # accessed as: Local: size[4],offset[-8],sl[2]
+          TypeName [16:11-16:14]: int
+            # defined at: [5:1-5:16]
+            # typed as: int
+        VarDef [17:5-17:24]: returnValue
+          # typed as: int
+          # accessed as: Local: size[4],offset[-12],sl[2]
+          TypeName [17:21-17:24]: int
+            # defined at: [5:1-5:16]
+            # typed as: int
+        FunDef [20:5-47:6]: getNumberOfTasks
+          # typed as: (int, int, ARR(52,int)) -> int
+          # framed as: FRAME [L[0]]: level=2,locals_size=212,arguments_size=0,parameters_size=16,size=220
+          Parameter [20:26-20:31]: n
+            # typed as: int
+            # accessed as: Parameter: size[4],offset[4],sl[2]
+            TypeName [20:28-20:31]: int
+              # defined at: [5:1-5:16]
+              # typed as: int
+          Parameter [20:33-20:38]: t
+            # typed as: int
+            # accessed as: Parameter: size[4],offset[8],sl[2]
+            TypeName [20:35-20:38]: int
+              # defined at: [5:1-5:16]
+              # typed as: int
+          Parameter [20:40-20:55]: args
+            # typed as: ARR(52,int)
+            # accessed as: Parameter: size[4],offset[12],sl[2]
+            Array [20:45-20:55]
+              # typed as: ARR(52,int)
+              [52]
+              TypeName [20:52-20:55]: int
+                # defined at: [5:1-5:16]
+                # typed as: int
+          TypeName [20:57-20:60]: int
+            # defined at: [5:1-5:16]
+            # typed as: int
+          Where [20:63-47:6]
+            # typed as: int
+            Defs [33:9-46:10]
+              VarDef [33:9-33:29]: tasks
+                # typed as: ARR(50,int)
+                # accessed as: Local: size[200],offset[-200],sl[3]
+                Array [33:19-33:29]
+                  # typed as: ARR(50,int)
+                  [50]
+                  TypeName [33:26-33:29]: int
+                    # defined at: [5:1-5:16]
+                    # typed as: int
+              VarDef [34:9-34:20]: sum
+                # typed as: int
+                # accessed as: Local: size[4],offset[-204],sl[3]
+                TypeName [34:17-34:20]: int
+                  # defined at: [5:1-5:16]
+                  # typed as: int
+              VarDef [35:9-35:22]: count
+                # typed as: int
+                # accessed as: Local: size[4],offset[-208],sl[3]
+                TypeName [35:19-35:22]: int
+                  # defined at: [5:1-5:16]
+                  # typed as: int
+              VarDef [36:9-36:18]: i
+                # typed as: int
+                # accessed as: Local: size[4],offset[-212],sl[3]
+                TypeName [36:15-36:18]: int
+                  # defined at: [5:1-5:16]
+                  # typed as: int
+              FunDef [39:9-46:10]: getTasks
+                # typed as: (int, ARR(52,int)) -> ARR(50,int)
+                # framed as: FRAME [L[1]]: level=3,locals_size=200,arguments_size=0,parameters_size=12,size=208
+                Parameter [39:22-39:27]: n
+                  # typed as: int
+                  # accessed as: Parameter: size[4],offset[4],sl[3]
+                  TypeName [39:24-39:27]: int
+                    # defined at: [5:1-5:16]
+                    # typed as: int
+                Parameter [39:29-39:45]: tasks
+                  # typed as: ARR(52,int)
+                  # accessed as: Parameter: size[4],offset[8],sl[3]
+                  Array [39:35-39:45]
+                    # typed as: ARR(52,int)
+                    [52]
+                    TypeName [39:42-39:45]: int
+                      # defined at: [5:1-5:16]
+                      # typed as: int
+                Array [39:47-39:57]
+                  # typed as: ARR(50,int)
+                  [50]
+                  TypeName [39:54-39:57]: int
+                    # defined at: [5:1-5:16]
+                    # typed as: int
+                Where [39:60-46:10]
+                  # typed as: ARR(50,int)
+                  Defs [45:13-45:31]
+                    VarDef [45:13-45:31]: out
+                      # typed as: ARR(50,int)
+                      # accessed as: Local: size[200],offset[-200],sl[4]
+                      Array [45:21-45:31]
+                        # typed as: ARR(50,int)
+                        [50]
+                        TypeName [45:28-45:31]: int
+                          # defined at: [5:1-5:16]
+                          # typed as: int
+                  Block [39:60-44:10]
+                    # typed as: ARR(50,int)
+                    For [40:13-42:14]
+                      # typed as: void
+                      Name [40:19-40:20]: i
+                        # defined at: [36:9-36:18]
+                        # typed as: int
+                      Literal [40:23-40:24]: INT(0)
+                        # typed as: int
+                      Name [40:26-40:27]: n
+                        # defined at: [39:22-39:27]
+                        # typed as: int
+                      Literal [40:29-40:30]: INT(1)
+                        # typed as: int
+                      Binary [41:17-41:38]: ASSIGN
+                        # typed as: int
+                        Binary [41:18-41:24]: ARR
+                          # typed as: int
+                          Name [41:18-41:21]: out
+                            # defined at: [45:13-45:31]
+                            # typed as: ARR(50,int)
+                          Name [41:22-41:23]: i
+                            # defined at: [36:9-36:18]
+                            # typed as: int
+                        Binary [41:27-41:37]: ARR
+                          # typed as: int
+                          Name [41:27-41:32]: tasks
+                            # defined at: [39:29-39:45]
+                            # typed as: ARR(52,int)
+                          Binary [41:33-41:36]: ADD
+                            # typed as: int
+                            Name [41:33-41:34]: i
+                              # defined at: [36:9-36:18]
+                              # typed as: int
+                            Literal [41:35-41:36]: INT(2)
+                              # typed as: int
+                    Name [43:13-43:16]: out
+                      # defined at: [45:13-45:31]
+                      # typed as: ARR(50,int)
+            Block [20:63-32:6]
+              # typed as: int
+              Binary [23:9-23:18]: ASSIGN
+                # typed as: int
+                Name [23:10-23:13]: sum
+                  # defined at: [34:9-34:20]
+                  # typed as: int
+                Literal [23:16-23:17]: INT(0)
+                  # typed as: int
+              Binary [24:9-24:20]: ASSIGN
+                # typed as: int
+                Name [24:10-24:15]: count
+                  # defined at: [35:9-35:22]
+                  # typed as: int
+                Literal [24:18-24:19]: INT(0)
+                  # typed as: int
+              For [25:9-30:11]
+                # typed as: void
+                Name [25:15-25:16]: i
+                  # defined at: [36:9-36:18]
+                  # typed as: int
+                Literal [25:19-25:20]: INT(0)
+                  # typed as: int
+                Name [25:22-25:23]: n
+                  # defined at: [20:26-20:31]
+                  # typed as: int
+                Literal [25:25-25:26]: INT(1)
+                  # typed as: int
+                Block [25:28-30:10]
+                  # typed as: void
+                  Binary [26:13-26:36]: ASSIGN
+                    # typed as: int
+                    Name [26:14-26:17]: sum
+                      # defined at: [34:9-34:20]
+                      # typed as: int
+                    Binary [26:20-26:35]: ADD
+                      # typed as: int
+                      Name [26:20-26:23]: sum
+                        # defined at: [34:9-34:20]
+                        # typed as: int
+                      Binary [26:26-26:35]: ARR
+                        # typed as: int
+                        Name [26:26-26:30]: args
+                          # defined at: [20:40-20:55]
+                          # typed as: ARR(52,int)
+                        Binary [26:31-26:34]: ADD
+                          # typed as: int
+                          Name [26:31-26:32]: i
+                            # defined at: [36:9-36:18]
+                            # typed as: int
+                          Literal [26:33-26:34]: INT(2)
+                            # typed as: int
+                  IfThenElse [27:13-29:14]
+                    # typed as: void
+                    Binary [27:18-27:26]: LEQ
+                      # typed as: log
+                      Name [27:18-27:21]: sum
+                        # defined at: [34:9-34:20]
+                        # typed as: int
+                      Name [27:25-27:26]: t
+                        # defined at: [20:33-20:38]
+                        # typed as: int
+                    Binary [28:17-28:36]: ASSIGN
+                      # typed as: int
+                      Name [28:18-28:23]: count
+                        # defined at: [35:9-35:22]
+                        # typed as: int
+                      Binary [28:26-28:35]: ADD
+                        # typed as: int
+                        Name [28:26-28:31]: count
+                          # defined at: [35:9-35:22]
+                          # typed as: int
+                        Literal [28:34-28:35]: INT(1)
+                          # typed as: int
+              Name [31:9-31:14]: count
+                # defined at: [35:9-35:22]
+                # typed as: int
+      Block [9:33-14:2]
+        # typed as: int
+        Binary [10:5-10:18]: ASSIGN
+          # typed as: int
+          Name [10:6-10:7]: n
+            # defined at: [15:5-15:14]
+            # typed as: int
+          Binary [10:10-10:17]: ARR
+            # typed as: int
+            Name [10:10-10:14]: args
+              # defined at: [9:10-9:25]
+              # typed as: ARR(52,int)
+            Literal [10:15-10:16]: INT(0)
+              # typed as: int
+        Binary [11:5-11:18]: ASSIGN
+          # typed as: int
+          Name [11:6-11:7]: t
+            # defined at: [16:5-16:14]
+            # typed as: int
+          Binary [11:10-11:17]: ARR
+            # typed as: int
+            Name [11:10-11:14]: args
+              # defined at: [9:10-9:25]
+              # typed as: ARR(52,int)
+            Literal [11:15-11:16]: INT(1)
+              # typed as: int
+        Binary [12:5-12:49]: ASSIGN
+          # typed as: int
+          Name [12:6-12:17]: returnValue
+            # defined at: [17:5-17:24]
+            # typed as: int
+          Call [12:20-12:48]: getNumberOfTasks
+            # defined at: [20:5-47:6]
+            # typed as: int
+            Name [12:37-12:38]: n
+              # defined at: [15:5-15:14]
+              # typed as: int
+            Name [12:40-12:41]: t
+              # defined at: [16:5-16:14]
+              # typed as: int
+            Name [12:43-12:47]: args
+              # defined at: [9:10-9:25]
+              # typed as: ARR(52,int)
+        Name [13:5-13:16]: returnValue
+          # defined at: [17:5-17:24]
+          # typed as: int

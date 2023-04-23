@@ -1,11 +1,11 @@
 #!/bin/python3
 
-profTest="5-typ2.tst"
-out_path="../TYP/"
+profTest="6-frm.tst"
+out_path="../tests/FRM/"
 
 def main():
     original_tests = open(profTest, "r")
-    test_counter = 70
+    test_counter = 50
     writing_test = False
     writing_result = False
 
