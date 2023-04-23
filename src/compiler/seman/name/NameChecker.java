@@ -67,42 +67,6 @@ public class NameChecker implements Visitor {
     public void visit(Binary binary) {
         binary.left.accept(this);
         binary.right.accept(this);
-        /*
-        if( binary.left instanceof Name binaryName ) {
-            var binaryNameDefinition = symbolTable.definitionFor(binaryName.name);
-
-            if( binaryNameDefinition.isEmpty() )
-                Report.error(binaryName.position,
-                        String.format("ERROR: Unkown variable in binary operation: `%s`\n", binaryName.name));
-
-            if( (binaryNameDefinition.get() instanceof VarDef) || (binaryNameDefinition.get() instanceof Parameter) ) {
-                definitions.store(binaryNameDefinition.get(), binaryName);
-            }
-            else {
-                Report.error(binary.left.position,
-                        String.format("ERROR: `%s` is not a valid variable for operation `%s`\n",
-                                binaryNameDefinition.get().name,
-                                binary.operator));
-            }
-        }
-        else {
-            binary.left.accept(this);
-        }
-
-        if( binary.right instanceof Name binaryName ) {
-            var binaryNameLocation = symbolTable.definitionFor(binaryName.name);
-
-            if( binaryNameLocation.isEmpty() )
-                Report.error(binaryName.position,
-                        String.format("ERROR: Unkown variable in binary operation: `%s`\n", binaryName.name));
-
-            definitions.store(binaryNameLocation.get(), binaryName);
-        }
-        else {
-            binary.right.accept(this);
-        }
-
-         */
     }
 
     @Override
@@ -236,11 +200,15 @@ public class NameChecker implements Visitor {
         funDef.parameters.stream()
                 .forEach(param -> {
                     if( param.type instanceof TypeName parameterType ) {
+                        parameterType.accept(this);
+                        /*
                         var parameterTypeDefinition = symbolTable.definitionFor(parameterType.identifier);
 
                         if( parameterTypeDefinition.isEmpty() )
                             Report.error(parameterType.position,
-                                    String.format("ERROR: Unknown parameter type `%s`\n", parameterType.identifier));
+                                    String.format("ERROR: Cannot find definition for paramter `%s` type `%s`\n",
+                                            param.name,
+                                            parameterType.identifier));
 
                         if( !(parameterTypeDefinition.get() instanceof TypeDef) )
                             Report.error(param.position,
@@ -248,6 +216,10 @@ public class NameChecker implements Visitor {
                                         parameterTypeDefinition.get().name));
 
                         definitions.store(parameterTypeDefinition.get(), parameterType);
+                         */
+                    }
+                    else if( param.type instanceof Array paramArray ) {
+                        paramArray.accept(this);
                     }
                 });
 

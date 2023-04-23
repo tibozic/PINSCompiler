@@ -359,6 +359,9 @@ public class TypeChecker implements Visitor {
         var paramsType = funDef.parameters.stream().map(param -> {
             var paramType = types.valueFor(param);
             if( paramType.isEmpty() )
+                param.type.accept(this);
+
+            if( paramType.isEmpty() )
                 Report.error(param.position,
                         String.format("ERROR: Unknown type `%s` for parameter `%s`\n", param.type, param.name));
             return paramType.get();

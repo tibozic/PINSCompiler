@@ -1,2 +1,2 @@
-[2:7-2:10]: ERROR: Paramter type `x` is not a valid type
+[2:14-2:15]: ERROR: Function return type `x` is not a valid type
 
