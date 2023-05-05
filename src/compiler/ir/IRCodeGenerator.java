@@ -59,6 +59,12 @@ public class IRCodeGenerator implements Visitor {
      */
     public List<Chunk> chunks = new ArrayList<>();
 
+	/**
+	 * Steje staticni nivo na katerem smo trenutno
+	 */
+	private int currentStaticLevel = 0;
+	
+
     public IRCodeGenerator(
         NodeDescription<IRNode> imcCode,
         NodeDescription<Frame> frames, 
@@ -78,12 +84,28 @@ public class IRCodeGenerator implements Visitor {
     public void visit(Call call) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'visit'");
-    }
+	}
 
     @Override
     public void visit(Binary binary) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
+		binary.left.accept(this);
+		binary.right.accept(this);
+
+		var leftIMC = imcCode.valueFor(binary.left);
+
+		assert leftIMC.isPresent(): String.format("ASSERT FAILED: No IMC found for left side of binary operation `%s`\n",
+												binary.toString());
+
+		var rightIMC = imcCode.valueFor(binary.right);
+		assert rightIMC.isPresent(): String.format("ASSERT FAILED: No IMC found for right side of binary operation `%s`\n",
+												 binary.toString());
+
+
+		var binaryIMC = new BinopExpr((IRExpr)leftIMC.get(),
+									  (IRExpr)rightIMC.get(),
+									  BinopExpr.convertOperator(binary.operator));
+
+		imcCode.store(binaryIMC, binary);
     }
 
     @Override
@@ -100,8 +122,39 @@ public class IRCodeGenerator implements Visitor {
 
     @Override
     public void visit(Name name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
+		var nameDef = definitions.valueFor(name);
+
+		assert nameDef.isPresent() : String.format("ASSERT FAILED: No definition found for name `%s`\n",
+												   name.name);
+
+		var nameAccess = accesses.valueFor(nameDef.get());
+
+		assert nameAccess.isPresent(): String.format("ASSERT FAILED: No access for name `%s`\n",
+													  name.name);
+
+		if( nameAccess.get() instanceof Access.Global nameAccessGlobal )
+		{
+			var nameIMC = new NameExpr(nameAccessGlobal.label);
+			imcCode.store(nameIMC, name);
+			return;
+		}
+
+		if( nameAccess.get() instanceof Access.Local nameAccessLocal ) {
+			int deltaSL = Math.abs(nameAccessLocal.staticLevel
+								   - this.currentStaticLevel);
+
+
+
+			IRExpr FPIMC = NameExpr.FP();
+
+			for(int i = 0; i < deltaSL; ++i) {
+				FPIMC = new MemExpr(FPIMC);
+			}
+
+			var binOp = new BinopExpr(FPIMC,
+									  new ConstantExpr(nameAccessLocal.offset),
+									  BinopExpr.Operator.ADD);
+		}
     }
 
     @Override
@@ -112,9 +165,35 @@ public class IRCodeGenerator implements Visitor {
 
     @Override
     public void visit(Literal literal) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
-    }
+		switch( literal.type ) {
+			case INT: {
+				imcCode.store(new ConstantExpr(Integer.valueOf(literal.value)),
+							  literal);
+				break;
+			}
+			case LOG: {
+				int value;
+
+				if (literal.value.equals("false"))
+					value = 0;
+				else
+					value = 1;
+
+				imcCode.store(new ConstantExpr(value), literal);
+				break;
+			}
+			case STR: {
+				// TODO
+				throw new UnsupportedOperationException("Unimplemented method literal for STR");
+				// break;
+			}
+			default: {
+				assert false : String.format("ASSERT FAILED: Unknown literal type `%s`\n",
+											 literal.type);
+				System.exit(99);
+			}
+		}
+	}
 
     @Override
     public void visit(Unary unary) {
@@ -136,14 +215,31 @@ public class IRCodeGenerator implements Visitor {
 
     @Override
     public void visit(Defs defs) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
+		defs.definitions.stream().forEach(def -> {
+				def.accept(this);
+			});
     }
 
     @Override
     public void visit(FunDef funDef) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
+		var funDefFrame = frames.valueFor(funDef);
+
+		assert funDefFrame.isPresent(): String.format("ASSERT FAILED: No frame found for function definition `%s`\n",
+													  funDef.name);
+
+		this.currentStaticLevel += 1;
+		funDef.body.accept(this);
+		this.currentStaticLevel -= 1;
+
+		var funBodyIMC = imcCode.valueFor(funDef.body);
+
+		assert funBodyIMC.isPresent(): String.format("ASSERT FAILED: No code found for body of founction `%s`\n",
+			funDef.name);
+
+		assert funBodyIMC.get() instanceof IRStmt: String.format("ASSERT FAILED: Body of function `%s` is not an expression.\n", funDef.name);
+
+		var funDefIMC = new Chunk.CodeChunk(funDefFrame.get(), (IRStmt)funBodyIMC.get());
+		chunks.add(funDefIMC);
     }
 
     @Override
@@ -154,8 +250,19 @@ public class IRCodeGenerator implements Visitor {
 
     @Override
     public void visit(VarDef varDef) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
+		accesses.printStorage();
+
+		var varDefAccess = accesses.valueFor(varDef);
+		System.out.println(varDefAccess.isPresent());
+
+		assert (varDefAccess.isPresent()): String.format("ASSERT FAILED: No access found for variable `%s`\n",
+													   varDef.name);
+
+		if( varDefAccess.get() instanceof Access.Global ) {
+			var varDefIMC = new Chunk.GlobalChunk((Access.Global)varDefAccess.get());
+			chunks.add(varDefIMC);
+		}
+
     }
 
     @Override

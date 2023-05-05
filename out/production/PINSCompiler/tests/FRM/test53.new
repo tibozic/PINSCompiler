@@ -1,7 +1,7 @@
 Defs [1:1-59:17]
   FunDef [1:1-55:2]: main
     # typed as: (ARR(100,int)) -> int
-    # framed as: FRAME [main]: level=0,locals_size=52,arguments_size=12,parameters_size=8,size=68
+    # framed as: FRAME [main]: level=1,locals_size=52,arguments_size=12,parameters_size=8,size=68
     Parameter [1:10-1:26]: args
       # typed as: ARR(100,int)
       # accessed as: Parameter: size[4],offset[4],sl[1]
@@ -46,7 +46,7 @@ Defs [1:1-59:17]
             # typed as: int
         FunDef [30:5-41:6]: najvecji
           # typed as: (ARR(10,int)) -> int
-          # framed as: FRAME [L[0]]: level=1,locals_size=8,arguments_size=0,parameters_size=8,size=16
+          # framed as: FRAME [L[0]]: level=2,locals_size=8,arguments_size=0,parameters_size=8,size=16
           Parameter [30:18-30:34]: array
             # typed as: ARR(10,int)
             # accessed as: Parameter: size[4],offset[4],sl[2]
@@ -127,7 +127,7 @@ Defs [1:1-59:17]
                 # typed as: int
         FunDef [43:5-54:6]: index
           # typed as: (ARR(10,int), int) -> int
-          # framed as: FRAME [L[1]]: level=1,locals_size=8,arguments_size=0,parameters_size=12,size=16
+          # framed as: FRAME [L[1]]: level=2,locals_size=8,arguments_size=0,parameters_size=12,size=16
           Parameter [43:15-43:31]: array
             # typed as: ARR(10,int)
             # accessed as: Parameter: size[4],offset[4],sl[2]

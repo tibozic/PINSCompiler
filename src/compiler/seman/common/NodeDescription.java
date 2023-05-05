@@ -29,4 +29,8 @@ public class NodeDescription<T> {
     public boolean store(T value, Ast forNode) {
         return storage.put(forNode, value) == null;
     }
+
+	public void printStorage() {
+		System.out.println(this.storage.toString());
+	}
 }

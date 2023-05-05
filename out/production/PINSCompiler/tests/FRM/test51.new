@@ -1,7 +1,7 @@
 Defs [1:1-15:17]
   FunDef [1:1-11:2]: main
     # typed as: (ARR(10,int)) -> int
-    # framed as: FRAME [main]: level=0,locals_size=8,arguments_size=0,parameters_size=8,size=16
+    # framed as: FRAME [main]: level=1,locals_size=8,arguments_size=0,parameters_size=8,size=16
     Parameter [1:10-1:25]: args
       # typed as: ARR(10,int)
       # accessed as: Parameter: size[4],offset[4],sl[1]
