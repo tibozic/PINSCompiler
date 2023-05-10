@@ -1,0 +1,50 @@
+FRAME [sum]: level=1,locals_size=8,arguments_size=0,parameters_size=8,size=16
+EXP:
+  ESEQ:
+    SEQ:
+      MOVE:
+        MEM:
+          MEM:
+            BINOP ADD:
+              NAME: {FP}
+              CONSTANT: -4
+        CONSTANT: 0
+      SEQ:
+        LABEL: L[0]
+        CJUMP:
+          BINOP LT:
+            MEM:
+              BINOP ADD:
+                NAME: {FP}
+                CONSTANT: -4
+            CONSTANT: 10
+          L[1]
+          L[2]
+        LABEL: L[1]
+        EXP:
+          ESEQ:
+            SEQ:
+            BINOP ADD:
+              MEM:
+                BINOP ADD:
+                  MEM:
+                    BINOP ADD:
+                      NAME: {FP}
+                      CONSTANT: 4
+                  BINOP MUL:
+                    MEM:
+                      BINOP ADD:
+                        NAME: {FP}
+                        CONSTANT: -4
+                    CONSTANT: 4
+              MEM:
+                BINOP ADD:
+                  NAME: {FP}
+                  CONSTANT: -8
+        JUMP:
+          L[0]
+        LABEL: L[2]
+    MEM:
+      BINOP ADD:
+        NAME: {FP}
+        CONSTANT: -8

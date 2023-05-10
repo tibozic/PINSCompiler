@@ -23,4 +23,8 @@ public class Name extends Expr {
     }
 
 	@Override public void accept(Visitor visitor) { visitor.visit(this); }
+
+	public String toString()  {
+		return this.name;
+	}
 }

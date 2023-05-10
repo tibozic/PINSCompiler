@@ -72,6 +72,9 @@ public class BinopExpr extends IRExpr {
 			case GEQ: {
 				return BinopExpr.Operator.GEQ;
 			}
+			case ARR: {
+				// return BinopExpr.Operator.ARR;
+			}
 			default: {
 				assert false : "Unknown operator in binary expr";
 				System.exit(99);

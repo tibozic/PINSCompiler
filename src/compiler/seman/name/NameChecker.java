@@ -309,9 +309,11 @@ public class NameChecker implements Visitor {
                         String.format("ERROR: Unknown type in array defintion `%s`\n", arrayType.identifier));
 
             definitions.store(arrayTypeDefinition.get(), arrayType);
+			return;
         }
         else if( array.type instanceof Array arrayType) {
             arrayType.accept(this);
+			assert false : "In array of type array";
         }
     }
 

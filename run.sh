@@ -1,7 +1,7 @@
-TEST_NUM="01"
+TEST_NUM="08"
 TEST_IN_DIR="IMC"
-#TEST_RUN="NAME"
-TEST_RUN="$TEST_IN_DIR"
+TEST_RUN="IMC"
+#TEST_RUN="$TEST_IN_DIR"
 # -ea enables assertions
 RUN_ARGS="-ea"
 

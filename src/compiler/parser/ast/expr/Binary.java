@@ -40,6 +40,18 @@ public class Binary extends Expr {
         visitor.visit(this); 
     }
 
+	public String toString() {
+		if( this.operator == Operator.ARR ) {
+			return String.format("%s[%s]",
+								 this.left.toString(),
+								 this.right.toString());
+		}
+		return String.format("%s%s%s",
+							 this.left.toString(),
+							 this.operator.toString(),
+							 this.right.toString());
+	}
+
     public static enum Operator {
         ADD,       // +
         SUB,       // -
