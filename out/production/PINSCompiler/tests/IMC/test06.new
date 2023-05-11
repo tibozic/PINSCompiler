@@ -11,6 +11,13 @@ EXP:
         CONSTANT: 0
       SEQ:
         LABEL: L[0]
+        EXP:
+          BINOP LT:
+            MEM:
+              BINOP ADD:
+                NAME: {FP}
+                CONSTANT: -4
+            CONSTANT: 10
         CJUMP:
           BINOP LT:
             MEM:
@@ -21,26 +28,6 @@ EXP:
           L[1]
           L[2]
         LABEL: L[1]
-        EXP:
-          ESEQ:
-            SEQ:
-            BINOP ADD:
-              MEM:
-                BINOP ADD:
-                  MEM:
-                    BINOP ADD:
-                      NAME: {FP}
-                      CONSTANT: 4
-                  BINOP MUL:
-                    MEM:
-                      BINOP ADD:
-                        NAME: {FP}
-                        CONSTANT: -4
-                    CONSTANT: 4
-              MEM:
-                BINOP ADD:
-                  NAME: {FP}
-                  CONSTANT: -8
         JUMP:
           L[0]
         LABEL: L[2]

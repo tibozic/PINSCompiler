@@ -84,8 +84,74 @@ public class IRCodeGenerator implements Visitor {
 
     @Override
     public void visit(Call call) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
+		/*
+		  Before we start the call of function we have to save the
+		  current FP into the space that is allocated in the frame
+		  of the next function (current SP - OLD_FP offset)
+		 */
+
+		// Get frame of the function that is getting called
+		// (so we can get the old FP offset)
+		var funDef = definitions.valueFor(call);
+		assert funDef.isPresent(): String.format("ASSERT FAILED: No definition found for function call `%s`\n",
+												 call.name);
+		var frame = frames.valueFor(funDef.get());
+		assert frame.isPresent(): String.format("ASSERT FAILED: No frame found for call `%s`\n",
+												call.name);
+
+		
+		var offset = new BinopExpr(NameExpr.SP(),
+									new ConstantExpr(frame.get().oldFPOffset()),
+									BinopExpr.Operator.SUB);
+
+		var memExpr = new MemExpr(offset);
+
+		var moveStmt = new MoveStmt(memExpr,
+									NameExpr.FP());
+
+		/*
+		  Calculate the static link
+		 */
+		IRExpr staticLink;
+		if( this.currentStaticLevel == 1 ) {
+			staticLink = new ConstantExpr(-1);
+		}
+		else {
+			int staticLinkDelta = (this.currentStaticLevel
+								   - frame.get().staticLevel);
+
+			var staticLinkMemExpr = new MemExpr(NameExpr.FP());
+
+			for(int i = 0; i < staticLinkDelta; ++i) {
+				staticLinkMemExpr = new MemExpr(staticLinkMemExpr);
+			}
+
+			staticLink = staticLinkMemExpr;
+		}
+
+		/*
+		  Translate all the args to IMC and pass them
+		 */
+		List<IRExpr> args = new ArrayList<>();
+
+		// the first argument is always static link
+		args.add(staticLink);
+
+		call.arguments.stream().forEach(arg -> {
+				arg.accept(this);
+
+				var argExpr = imcCode.valueFor(arg);
+
+				assert argExpr.isPresent(): "ASSERT FAILED";
+
+				args.add((IRExpr)argExpr.get());
+			});
+
+		var callLabel = Label.named(call.name);
+		var callExpr = new CallExpr(callLabel, args);
+
+		var eseq = new EseqExpr(moveStmt, callExpr);
+		imcCode.store(eseq, call);
 	}
 
     @Override
@@ -316,10 +382,6 @@ public class IRCodeGenerator implements Visitor {
 		// jump end
 		stmts.add(new JumpStmt(endLabel.label));
 
-
-		// JUMP END
-		stmts.add(new JumpStmt(endLabel.label));
-
 		if( elseIMC.isPresent() ) {
 			// else label
 			stmts.add(elseLabel);
@@ -380,8 +442,36 @@ public class IRCodeGenerator implements Visitor {
 
     @Override
     public void visit(Unary unary) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
+		unary.expr.accept(this);
+		var expr = imcCode.valueFor(unary.expr);
+
+		assert expr.isPresent(): "ASSERT FAILED";
+		
+		switch (unary.operator) {
+			case ADD: {
+				var addIMC = new BinopExpr(new ConstantExpr(0),
+										   (IRExpr)expr.get(),
+										   BinopExpr.Operator.ADD);
+				imcCode.store(addIMC, unary);
+				break;
+			}
+			case SUB: {
+				var subIMC = new BinopExpr(new ConstantExpr(0),
+										   (IRExpr)expr.get(),
+										   BinopExpr.Operator.SUB);
+				imcCode.store(subIMC, unary);
+				break;
+			}
+			case NOT: {
+				int value = ((ConstantExpr)expr.get()).constant;
+				var notIMC = new ConstantExpr(value);
+				imcCode.store(notIMC, unary);
+				break;
+			}
+			default: {
+				assert false: "ASSERT FAILED";
+			}
+		}
     }
 
     @Override
@@ -420,20 +510,6 @@ public class IRCodeGenerator implements Visitor {
 
 		stmts.add(condCheckJump);
 		stmts.add(labelInside);
-
-		/*
-		// Should the condition code be included also
-		if( bodyIMC.get() instanceof IRStmt ) {
-			stmts.add((IRStmt)bodyIMC.get());
-		}
-		else if( bodyIMC.get() instanceof IRExpr ) {
-			stmts.add(new ExpStmt((IRExpr)bodyIMC.get()));
-		}
-		else {
-			assert false : "Body of while is not Stmt or Expr";
-		}
-		*/
-
 		stmts.add(jumpBackToCondCheck);
 		stmts.add(labelAfter);
 
@@ -468,7 +544,11 @@ public class IRCodeGenerator implements Visitor {
 													  funDef.name);
 
 		this.currentStaticLevel += 1;
+		funDef.parameters.stream().forEach(param -> {
+				param.accept(this);
+			});
 		funDef.body.accept(this);
+		funDef.type.accept(this);
 		this.currentStaticLevel -= 1;
 
 		var funBodyIMC = imcCode.valueFor(funDef.body);
@@ -480,17 +560,29 @@ public class IRCodeGenerator implements Visitor {
 
 		var funBodyExprToStmt = new ExpStmt((IRExpr)funBodyIMC.get());
 
-		var funDefIMC = new Chunk.CodeChunk(funDefFrame.get(), (IRStmt)funBodyExprToStmt);
+		var saveResultToRV = new MoveStmt(NameExpr.FP(), (IRExpr)funBodyIMC.get());
+
+
+		List<IRStmt> functionStmts = new ArrayList<>();
+
+		functionStmts.add(funBodyExprToStmt);
+		functionStmts.add(saveResultToRV);
+		
+		var functionSeqStmt = new SeqStmt(functionStmts);
+
+		var funDefIMC = new Chunk.CodeChunk(funDefFrame.get(), (IRStmt)functionSeqStmt);
 		chunks.add(funDefIMC);
     }
 
     @Override
     public void visit(TypeDef typeDef) {
+		typeDef.type.accept(this);
 		return;
     }
 
     @Override
     public void visit(VarDef varDef) {
+		varDef.type.accept(this);
 		var varDefAccess = accesses.valueFor(varDef);
 
 		assert (varDefAccess.isPresent()): String.format("ASSERT FAILED: No access found for variable `%s`\n",
@@ -505,25 +597,23 @@ public class IRCodeGenerator implements Visitor {
 
     @Override
     public void visit(Parameter parameter) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
+		parameter.type.accept(this);
+		return;
     }
 
     @Override
     public void visit(Array array) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
+		array.type.accept(this);
+		return;
     }
 
     @Override
     public void visit(Atom atom) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
+		return;
     }
 
     @Override
     public void visit(TypeName name) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'visit'");
+		return;
     }
 }

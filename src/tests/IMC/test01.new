@@ -1,6 +1,12 @@
 Global: size[4],label[x]: 
 FRAME [f]: level=1,locals_size=0,arguments_size=0,parameters_size=8,size=8
-EXP:
-  BINOP ADD:
-    NAME: x
-    CONSTANT: 5
+SEQ:
+  EXP:
+    BINOP ADD:
+      NAME: x
+      CONSTANT: 5
+  MOVE:
+    NAME: {FP}
+    BINOP ADD:
+      NAME: x
+      CONSTANT: 5
