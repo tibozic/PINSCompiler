@@ -1,29 +1,105 @@
-Exception in thread "main" java.lang.UnsupportedOperationException: Unimplemented method 'visit'
-	at compiler.ir.IRCodeGenerator.visit(IRCodeGenerator.java:88)
-	at compiler.parser.ast.expr.Call.accept(Call.java:34)
-	at compiler.ir.IRCodeGenerator.visit(IRCodeGenerator.java:94)
-	at compiler.parser.ast.expr.Binary.accept(Binary.java:40)
-	at compiler.ir.IRCodeGenerator.lambda$visit$0(IRCodeGenerator.java:157)
-	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
-	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
-	at compiler.ir.IRCodeGenerator.visit(IRCodeGenerator.java:155)
-	at compiler.parser.ast.expr.Block.accept(Block.java:27)
-	at compiler.ir.IRCodeGenerator.visit(IRCodeGenerator.java:188)
-	at compiler.parser.ast.expr.For.accept(For.java:53)
-	at compiler.ir.IRCodeGenerator.lambda$visit$0(IRCodeGenerator.java:157)
-	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
-	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
-	at compiler.ir.IRCodeGenerator.visit(IRCodeGenerator.java:155)
-	at compiler.parser.ast.expr.Block.accept(Block.java:27)
-	at compiler.ir.IRCodeGenerator.visit(IRCodeGenerator.java:457)
-	at compiler.parser.ast.expr.Where.accept(Where.java:33)
-	at compiler.ir.IRCodeGenerator.visit(IRCodeGenerator.java:484)
-	at compiler.parser.ast.def.FunDef.accept(FunDef.java:44)
-	at compiler.ir.IRCodeGenerator.lambda$visit$1(IRCodeGenerator.java:469)
-	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
-	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
-	at compiler.ir.IRCodeGenerator.visit(IRCodeGenerator.java:468)
-	at compiler.parser.ast.def.Defs.accept(Defs.java:30)
-	at Main.run(Main.java:133)
-	at Main.run(Main.java:47)
-	at Main.main(Main.java:38)
+FRAME [sum]: level=1,locals_size=8,arguments_size=8,parameters_size=8,size=20
+SEQ:
+  EXP:
+    ESEQ:
+      SEQ:
+        SEQ:
+          LABEL: L[0]
+          LABEL: L[1]
+          EXP:
+            MEM:
+              BINOP ADD:
+                NAME: {FP}
+                CONSTANT: -4
+          EXP:
+            CONSTANT: 0
+          EXP:
+            CONSTANT: 10
+          EXP:
+            CONSTANT: 1
+          EXP:
+            ESEQ:
+              SEQ:
+              BINOP ADD:
+                MEM:
+                  BINOP ADD:
+                    MEM:
+                      BINOP ADD:
+                        NAME: {FP}
+                        CONSTANT: 4
+                    BINOP MUL:
+                      MEM:
+                        BINOP ADD:
+                          NAME: {FP}
+                          CONSTANT: -4
+                      CONSTANT: 4
+                ESEQ:
+                  MOVE:
+                    MEM:
+                      BINOP SUB:
+                        NAME: {SP}
+                        CONSTANT: 12
+                    NAME: {FP}
+                  CALL sum:
+                    CONSTANT: -1
+                    MEM:
+                      BINOP ADD:
+                        NAME: {FP}
+                        CONSTANT: 4
+          LABEL: L[2]
+      MEM:
+        BINOP ADD:
+          NAME: {FP}
+          CONSTANT: -8
+  MOVE:
+    NAME: {FP}
+    ESEQ:
+      SEQ:
+        SEQ:
+          LABEL: L[0]
+          LABEL: L[1]
+          EXP:
+            MEM:
+              BINOP ADD:
+                NAME: {FP}
+                CONSTANT: -4
+          EXP:
+            CONSTANT: 0
+          EXP:
+            CONSTANT: 10
+          EXP:
+            CONSTANT: 1
+          EXP:
+            ESEQ:
+              SEQ:
+              BINOP ADD:
+                MEM:
+                  BINOP ADD:
+                    MEM:
+                      BINOP ADD:
+                        NAME: {FP}
+                        CONSTANT: 4
+                    BINOP MUL:
+                      MEM:
+                        BINOP ADD:
+                          NAME: {FP}
+                          CONSTANT: -4
+                      CONSTANT: 4
+                ESEQ:
+                  MOVE:
+                    MEM:
+                      BINOP SUB:
+                        NAME: {SP}
+                        CONSTANT: 12
+                    NAME: {FP}
+                  CALL sum:
+                    CONSTANT: -1
+                    MEM:
+                      BINOP ADD:
+                        NAME: {FP}
+                        CONSTANT: 4
+          LABEL: L[2]
+      MEM:
+        BINOP ADD:
+          NAME: {FP}
+          CONSTANT: -8

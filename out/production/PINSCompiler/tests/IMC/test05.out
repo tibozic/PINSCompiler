@@ -1,10 +1,21 @@
 FRAME [neki]: level=1,locals_size=40,arguments_size=0,parameters_size=8,size=48
-EXP:
-  ESEQ:
-    SEQ:
-      EXP:
-        MEM:
-          BINOP ADD:
-            NAME: {FP}
-            CONSTANT: -40
-    CONSTANT: 1
+SEQ:
+  EXP:
+    ESEQ:
+      SEQ:
+        EXP:
+          MEM:
+            BINOP ADD:
+              NAME: {FP}
+              CONSTANT: -40
+      CONSTANT: 1
+  MOVE:
+    NAME: {FP}
+    ESEQ:
+      SEQ:
+        EXP:
+          MEM:
+            BINOP ADD:
+              NAME: {FP}
+              CONSTANT: -40
+      CONSTANT: 1
