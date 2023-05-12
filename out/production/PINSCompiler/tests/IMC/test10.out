@@ -13,11 +13,11 @@ MOVE:
                 NAME: {FP}
                 CONSTANT: -3600
               BINOP MUL:
-                CONSTANT: 4
                 CONSTANT: 12
+                CONSTANT: 120
             BINOP MUL:
-              CONSTANT: 4
               CONSTANT: 20
+              CONSTANT: 4
         CONSTANT: 12
       MEM:
         BINOP ADD:
@@ -26,8 +26,8 @@ MOVE:
               NAME: {FP}
               CONSTANT: -3600
             BINOP MUL:
-              CONSTANT: 4
               CONSTANT: 12
+              CONSTANT: 120
           BINOP MUL:
-            CONSTANT: 4
             CONSTANT: 20
+            CONSTANT: 4

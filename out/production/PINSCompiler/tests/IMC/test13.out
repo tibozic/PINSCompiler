@@ -1,0 +1,40 @@
+FRAME [L[1]]: level=3,locals_size=0,arguments_size=0,parameters_size=8,size=8
+MOVE:
+  MEM:
+    NAME: {FP}
+  MEM:
+    BINOP ADD:
+      NAME: {FP}
+      CONSTANT: 4
+FRAME [L[0]]: level=2,locals_size=0,arguments_size=8,parameters_size=8,size=12
+MOVE:
+  MEM:
+    NAME: {FP}
+  ESEQ:
+    MOVE:
+      MEM:
+        BINOP SUB:
+          NAME: {SP}
+          CONSTANT: 4
+      NAME: {FP}
+    CALL L[1]:
+      MEM:
+        NAME: {FP}
+      MEM:
+        BINOP ADD:
+          NAME: {FP}
+          CONSTANT: 4
+FRAME [f]: level=1,locals_size=0,arguments_size=8,parameters_size=8,size=12
+MOVE:
+  MEM:
+    NAME: {FP}
+  ESEQ:
+    MOVE:
+      MEM:
+        BINOP SUB:
+          NAME: {SP}
+          CONSTANT: 4
+      NAME: {FP}
+    CALL L[0]:
+      CONSTANT: 0
+      CONSTANT: 5

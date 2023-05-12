@@ -97,9 +97,9 @@ public class IRCodeGenerator implements Visitor {
     public void visit(Call call) {
 
 		if( is_std_function(call.name) ) {
-
-
 			List<IRExpr> args = new ArrayList<>();
+
+			args.add(new ConstantExpr(-1));
 
 			call.arguments.stream().forEach(arg -> {
 					arg.accept(this);
@@ -156,6 +156,7 @@ public class IRCodeGenerator implements Visitor {
 		var moveStmt = new MoveStmt(memExpr,
 									NameExpr.FP());
 
+
 		/*
 		  Calculate the static link
 		 */
@@ -164,7 +165,7 @@ public class IRCodeGenerator implements Visitor {
 			staticLink = new ConstantExpr(-1);
 		}
 		else {
-			int staticLinkDelta = (this.currentStaticLevel
+			int staticLinkDelta = Math.abs(this.currentStaticLevel
 								   - frame.get().staticLevel);
 
 			IRExpr staticLinkMemExpr = NameExpr.FP();
@@ -194,7 +195,7 @@ public class IRCodeGenerator implements Visitor {
 				args.add((IRExpr)argExpr.get());
 			});
 
-		var callLabel = Label.named(call.name);
+		var callLabel = frame.get().label;
 		var callExpr = new CallExpr(callLabel, args);
 
 		var eseq = new EseqExpr(moveStmt, callExpr);
@@ -370,20 +371,19 @@ public class IRCodeGenerator implements Visitor {
 			int deltaSL = Math.abs(nameAccessLocal.staticLevel
 								   - this.currentStaticLevel);
 
-
-			IRExpr FPIMC = NameExpr.FP();
+			IRExpr fpDereferenced = NameExpr.FP();
 
 			for(int i = 0; i < deltaSL; ++i) {
-				FPIMC = new MemExpr(FPIMC);
+				fpDereferenced = new MemExpr(fpDereferenced);
 			}
 
-			var binOp = new BinopExpr(FPIMC,
+			IRExpr binOpDerefrenced = new BinopExpr(fpDereferenced,
 									  new ConstantExpr(nameAccessLocal.offset),
 									  BinopExpr.Operator.ADD);
 
 			// var localRead = new MemExpr(binOp);
 
-			imcCode.store(binOp, name);
+			imcCode.store(binOpDerefrenced, name);
 			return;
 		}
 
