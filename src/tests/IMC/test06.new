@@ -1,75 +1,41 @@
 FRAME [sum]: level=1,locals_size=8,arguments_size=0,parameters_size=8,size=16
-SEQ:
-  EXP:
-    ESEQ:
-      SEQ:
-        MOVE:
-          MEM:
-            MEM:
-              BINOP ADD:
-                NAME: {FP}
-                CONSTANT: -4
-          CONSTANT: 0
-        SEQ:
-          LABEL: L[0]
-          EXP:
-            BINOP LT:
-              MEM:
-                BINOP ADD:
-                  NAME: {FP}
-                  CONSTANT: -4
-              CONSTANT: 10
-          CJUMP:
-            BINOP LT:
-              MEM:
-                BINOP ADD:
-                  NAME: {FP}
-                  CONSTANT: -4
-              CONSTANT: 10
-            L[1]
-            L[2]
-          LABEL: L[1]
-          JUMP:
-            L[0]
-          LABEL: L[2]
-      MEM:
-        BINOP ADD:
-          NAME: {FP}
-          CONSTANT: -8
-  MOVE:
+MOVE:
+  MEM:
     NAME: {FP}
-    ESEQ:
-      SEQ:
-        MOVE:
-          MEM:
+  ESEQ:
+    SEQ:
+      EXP:
+        ESEQ:
+          MOVE:
             MEM:
               BINOP ADD:
                 NAME: {FP}
                 CONSTANT: -4
-          CONSTANT: 0
-        SEQ:
-          LABEL: L[0]
-          EXP:
-            BINOP LT:
-              MEM:
-                BINOP ADD:
-                  NAME: {FP}
-                  CONSTANT: -4
-              CONSTANT: 10
-          CJUMP:
-            BINOP LT:
-              MEM:
-                BINOP ADD:
-                  NAME: {FP}
-                  CONSTANT: -4
-              CONSTANT: 10
-            L[1]
-            L[2]
-          LABEL: L[1]
-          JUMP:
-            L[0]
-          LABEL: L[2]
-      MEM:
-        BINOP ADD:
-          NAME: {FP}
-          CONSTANT: -8
+            CONSTANT: 0
+          MEM:
+            BINOP ADD:
+              NAME: {FP}
+              CONSTANT: -4
+      SEQ:
+        LABEL: L[0]
+        EXP:
+          BINOP LT:
+            BINOP ADD:
+              NAME: {FP}
+              CONSTANT: -4
+            CONSTANT: 10
+        CJUMP:
+          BINOP LT:
+            BINOP ADD:
+              NAME: {FP}
+              CONSTANT: -4
+            CONSTANT: 10
+          L[1]
+          L[2]
+        LABEL: L[1]
+        JUMP:
+          L[0]
+        LABEL: L[2]
+    BINOP ADD:
+      NAME: {FP}
+      CONSTANT: -8

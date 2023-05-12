@@ -1,0 +1,79 @@
+FRAME [main]: level=1,locals_size=3600,arguments_size=0,param	FRAME [main]: level=1,locals_size=3600,arguments_size=0,param
+MOVE:							      |	SEQ:
+  MEM:							      |	  EXP:
+    NAME: {FP}						      <
+  ESEQ:							      <
+    SEQ:						      <
+    ESEQ:							    ESEQ:
+      MOVE:						      |	      SEQ:
+							      >	      ESEQ:
+							      >	        MOVE:
+							      >	          MEM:
+							      >	            MEM:
+							      >	              BINOP ADD:
+							      >	                MEM:
+							      >	                  BINOP ADD:
+							      >	                    MEM:
+							      >	                      BINOP ADD:
+							      >	                        NAME: {FP}
+							      >	                        CONSTANT: -3600
+							      >	                    BINOP MUL:
+							      >	                      CONSTANT: 12
+							      >	                      CONSTANT: 120
+							      >	                BINOP MUL:
+							      >	                  CONSTANT: 20
+							      >	                  CONSTANT: 4
+							      >	          CONSTANT: 12
+        MEM:							        MEM:
+          BINOP ADD:					      |	          MEM:
+            BINOP ADD:						            BINOP ADD:
+              BINOP ADD:				      |	              MEM:
+                NAME: {FP}				      |	                BINOP ADD:
+                CONSTANT: -3600				      |	                  MEM:
+							      >	                    BINOP ADD:
+							      >	                      NAME: {FP}
+							      >	                      CONSTANT: -3600
+							      >	                  BINOP MUL:
+							      >	                    CONSTANT: 12
+							      >	                    CONSTANT: 120
+              BINOP MUL:					              BINOP MUL:
+							      >	                CONSTANT: 20
+                CONSTANT: 4					                CONSTANT: 4
+                CONSTANT: 12				      |	  MOVE:
+            BINOP MUL:					      |	    MEM:
+              CONSTANT: 4				      |	      NAME: {FP}
+              CONSTANT: 20				      |	    ESEQ:
+        CONSTANT: 12					      |	      SEQ:
+      MEM:						      |	      ESEQ:
+        BINOP ADD:					      |	        MOVE:
+          BINOP ADD:					      |	          MEM:
+							      >	            MEM:
+							      >	              BINOP ADD:
+							      >	                MEM:
+							      >	                  BINOP ADD:
+							      >	                    MEM:
+							      >	                      BINOP ADD:
+							      >	                        NAME: {FP}
+							      >	                        CONSTANT: -3600
+							      >	                    BINOP MUL:
+							      >	                      CONSTANT: 12
+							      >	                      CONSTANT: 120
+							      >	                BINOP MUL:
+							      >	                  CONSTANT: 20
+							      >	                  CONSTANT: 4
+							      >	          CONSTANT: 12
+							      >	        MEM:
+							      >	          MEM:
+            BINOP ADD:						            BINOP ADD:
+              NAME: {FP}				      |	              MEM:
+              CONSTANT: -3600				      |	                BINOP ADD:
+            BINOP MUL:					      |	                  MEM:
+              CONSTANT: 4				      |	                    BINOP ADD:
+              CONSTANT: 12				      |	                      NAME: {FP}
+          BINOP MUL:					      |	                      CONSTANT: -3600
+            CONSTANT: 4					      |	                  BINOP MUL:
+            CONSTANT: 20				      |	                    CONSTANT: 12
+							      >	                    CONSTANT: 120
+							      >	              BINOP MUL:
+							      >	                CONSTANT: 20
+							      >	                CONSTANT: 4

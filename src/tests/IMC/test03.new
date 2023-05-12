@@ -1,30 +1,14 @@
 Global: size[40],label[b]: 
 FRAME [elementAtIndex]: level=1,locals_size=0,arguments_size=0,parameters_size=12,size=8
-SEQ:
-  EXP:
-    MEM:
-      BINOP ADD:
-        MEM:
-          BINOP ADD:
-            NAME: {FP}
-            CONSTANT: 4
-        BINOP MUL:
-          MEM:
-            BINOP ADD:
-              NAME: {FP}
-              CONSTANT: 8
-          CONSTANT: 4
-  MOVE:
+MOVE:
+  MEM:
     NAME: {FP}
-    MEM:
+  BINOP ADD:
+    BINOP ADD:
+      NAME: {FP}
+      CONSTANT: 4
+    BINOP MUL:
       BINOP ADD:
-        MEM:
-          BINOP ADD:
-            NAME: {FP}
-            CONSTANT: 4
-        BINOP MUL:
-          MEM:
-            BINOP ADD:
-              NAME: {FP}
-              CONSTANT: 8
-          CONSTANT: 4
+        NAME: {FP}
+        CONSTANT: 8
+      CONSTANT: 4

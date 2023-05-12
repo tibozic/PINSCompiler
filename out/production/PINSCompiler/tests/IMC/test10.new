@@ -1,26 +1,33 @@
-Exception in thread "main" java.lang.AssertionError: In array of type array
-	at compiler.seman.name.NameChecker.visit(NameChecker.java:316)
-	at compiler.parser.ast.type.Array.accept(Array.java:32)
-	at compiler.seman.name.NameChecker.visit(NameChecker.java:287)
-	at compiler.parser.ast.def.VarDef.accept(VarDef.java:26)
-	at compiler.seman.name.NameChecker.lambda$visit$3(NameChecker.java:170)
-	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
-	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
-	at compiler.seman.name.NameChecker.lambda$visit$4(NameChecker.java:170)
-	at compiler.seman.name.env.SymbolTable.inNewScope(SymbolTable.java:47)
-	at compiler.seman.name.NameChecker.visit(NameChecker.java:156)
-	at compiler.parser.ast.expr.Where.accept(Where.java:33)
-	at compiler.seman.name.NameChecker.lambda$visit$10(NameChecker.java:250)
-	at compiler.seman.name.env.SymbolTable.inNewScope(SymbolTable.java:47)
-	at compiler.seman.name.NameChecker.visit(NameChecker.java:236)
-	at compiler.parser.ast.def.FunDef.accept(FunDef.java:44)
-	at compiler.seman.name.NameChecker.lambda$visit$6(NameChecker.java:193)
-	at java.base/java.util.ArrayList$ArrayListSpliterator.forEachRemaining(ArrayList.java:1625)
-	at java.base/java.util.stream.ReferencePipeline$Head.forEach(ReferencePipeline.java:762)
-	at compiler.seman.name.NameChecker.lambda$visit$7(NameChecker.java:193)
-	at compiler.seman.name.env.SymbolTable.inNewScope(SymbolTable.java:47)
-	at compiler.seman.name.NameChecker.visit(NameChecker.java:179)
-	at compiler.parser.ast.def.Defs.accept(Defs.java:30)
-	at Main.run(Main.java:93)
-	at Main.run(Main.java:50)
-	at Main.main(Main.java:41)
+FRAME [main]: level=1,locals_size=3600,arguments_size=0,parameters_size=8,size=3608
+MOVE:
+  MEM:
+    NAME: {FP}
+  ESEQ:
+    SEQ:
+    ESEQ:
+      MOVE:
+        MEM:
+          BINOP ADD:
+            BINOP ADD:
+              BINOP ADD:
+                NAME: {FP}
+                CONSTANT: -3600
+              BINOP MUL:
+                CONSTANT: 120
+                CONSTANT: 12
+            BINOP MUL:
+              CONSTANT: 4
+              CONSTANT: 20
+        CONSTANT: 12
+      MEM:
+        BINOP ADD:
+          BINOP ADD:
+            BINOP ADD:
+              NAME: {FP}
+              CONSTANT: -3600
+            BINOP MUL:
+              CONSTANT: 120
+              CONSTANT: 12
+          BINOP MUL:
+            CONSTANT: 4
+            CONSTANT: 20

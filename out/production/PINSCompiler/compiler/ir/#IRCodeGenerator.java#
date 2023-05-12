@@ -239,8 +239,8 @@ public class IRCodeGenerator implements Visitor {
 				// elementSize = (IRExpr)leftIMC.get();
 			}
 
-			var indexOffset = new BinopExpr((IRExpr)rightIMC.get(),
-											(IRExpr)elementSize,
+			var indexOffset = new BinopExpr(elementSize,
+											(IRExpr)rightIMC.get() (IRExpr),
 											BinopExpr.Operator.MUL);
 
 			var goToIndex = new BinopExpr((IRExpr)leftIMC.get(),
