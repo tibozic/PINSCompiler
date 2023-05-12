@@ -483,9 +483,14 @@ public class IRCodeGenerator implements Visitor {
 				break;
 			}
 			case STR: {
-				// TODO
-				throw new UnsupportedOperationException("Unimplemented method literal for STR");
-				// break;
+				var stringLabel = Label.nextAnonymous();
+				var stringAccess = new Chunk.DataChunk(new Access.Global(4, stringLabel),
+													   literal.value);
+
+				chunks.add(stringAccess);
+
+				imcCode.store(new NameExpr(stringLabel), literal);
+				break;
 			}
 			default: {
 				assert false : String.format("ASSERT FAILED: Unknown literal type `%s`\n",

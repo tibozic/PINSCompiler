@@ -226,10 +226,8 @@ public class Interpreter {
             return 0;
         } else if (call.label.name.equals(Constants.printStringLabel)) {
             if (call.args.size() != 2) { throw new RuntimeException("Invalid argument count!"); }
-            // var address = execute(call.args.get(1));
-            var address = call.args.get(1);
-            // var res = memory.ldM(toInt(memory.address(((TempExpr)address).temp.)));
-			var res = memory.ldT(((TempExpr)address).temp);
+            var address = execute(call.args.get(1));
+            var res = memory.ldM(toInt(address));
             outputStream.ifPresent(stream -> stream.println("\""+res+"\""));
             return 0;
         } else if (call.label.name.equals(Constants.printLogLabel)) {
