@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 import common.Constants;
 import compiler.frm.Frame;
 
+import java.util.Optional;
+
 public class Memory {
     /**
      * Velikost pomnilnika v bajtih.
@@ -50,7 +52,7 @@ public class Memory {
      */
     public void stM(Frame.Label label, Object value) {
         if (labelToAddressMapping.containsKey(label)) {
-            memory.put(address(label), value);
+            memory.put(address(label).get(), value);
         } else {
             throw new IllegalArgumentException("Unknown label!");
         }
@@ -106,8 +108,11 @@ public class Memory {
     /**
      * Pridobi naslov za podano poimenovano lokacijo.
      */
-    public int address(Frame.Label label) {
-        return labelToAddressMapping.get(label);
+    public Optional<Integer> address(Frame.Label label) {
+		var address = labelToAddressMapping.get(label);
+		if( address == null )
+			return Optional.empty();
+        return Optional.of(address);
     }
 
     @Override

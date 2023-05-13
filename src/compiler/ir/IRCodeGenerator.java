@@ -332,15 +332,30 @@ public class IRCodeGenerator implements Visitor {
 		var labelAfter = new LabelStmt(Label.nextAnonymous());
 
 		List<IRStmt> stmts = new ArrayList<>();
+
+		// initialization
+		stmts.add(new MoveStmt((IRExpr)counterIMC.get(),
+							   (IRExpr)lowIMC.get()));
+
 		stmts.add(labelBefore);
+		// comparison
+		var cond = new BinopExpr((IRExpr)counterIMC.get(),
+								 (IRExpr)highIMC.get(),
+								 BinopExpr.Operator.LT);
 		// CJUMP
+		stmts.add(new CJumpStmt(cond,
+								labelInside.label,
+								labelAfter.label));
+
 		stmts.add(labelInside);
-		stmts.add(counterExprStmt);
-		stmts.add(lowExprStmt);
-		stmts.add(highExprStmt);
-		stmts.add(stepExprStmt);
 		stmts.add(bodyExprStmt);
+		// Increment
+		stmts.add(new MoveStmt((IRExpr)counterIMC.get(),
+							   new BinopExpr((IRExpr)counterIMC.get(),
+											 (IRExpr)stepIMC.get(),
+											 BinopExpr.Operator.ADD)));
 		// Jump
+		stmts.add(new JumpStmt(labelBefore.label));
 		stmts.add(labelAfter);
 
 		var forSeqStmts = new SeqStmt(stmts);

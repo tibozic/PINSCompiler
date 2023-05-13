@@ -133,19 +133,8 @@ public class Interpreter {
     }
 
     private Object execute(MoveStmt move) {
-		var right = execute(move.src);
-
-		if( move.dst instanceof MemExpr memExpr ) {
-			memory.stM(toInt(execute(memExpr.expr)), right);
-			return null;
-		}
-		else if( move.dst instanceof TempExpr tempExpr ) {
-			memory.stT(tempExpr.temp, right);
-			return null;
-		}
-		else {
-            throw new IllegalArgumentException("Move can only contains MemExpr or TempExpr as a destination.");
-		}
+		memory_write(move);
+		return null;
     }
 
     private Object execute(IRExpr expr) {
@@ -158,11 +147,14 @@ public class Interpreter {
         } else if (expr instanceof EseqExpr eseqExpr) {
             throw new RuntimeException("Cannot execute ESEQ; linearize code!");
         } else if (expr instanceof MemExpr memExpr) {
-            return execute(memExpr);
+            // return execute(memExpr);
+			return memory_read(memExpr);
         } else if (expr instanceof NameExpr nameExpr) {
-            return execute(nameExpr);
+            // return execute(nameExpr);
+			return variable_read(nameExpr);
         } else if (expr instanceof TempExpr tempExpr) {
-            return execute(tempExpr);
+            // return execute(tempExpr);
+			return temp_read(tempExpr);
         } else {
             throw new IllegalArgumentException("Unknown expr type");
         }
@@ -229,7 +221,8 @@ public class Interpreter {
             // var address = execute(call.args.get(1));
             var address = call.args.get(1);
             // var res = memory.ldM(toInt(memory.address(((TempExpr)address).temp.)));
-			var res = memory.ldT(((TempExpr)address).temp);
+			// var res = memory.ldT(((TempExpr)address).temp);
+			var res = general_read(address);
             outputStream.ifPresent(stream -> stream.println("\""+res+"\""));
             return 0;
         } else if (call.label.name.equals(Constants.printLogLabel)) {
@@ -255,25 +248,30 @@ public class Interpreter {
         }
     }
 
+	/**
+	   Vrne vrednost konstante
+	 */
     private Object execute(ConstantExpr constant) {
         return constant.constant;
     }
 
+	/**
+	   Vrne naslov na katerega se nanasa MemExpr
+	 */
     private Object execute(MemExpr mem) {
-		return memory.ldM(toInt(execute(mem.expr)));
+        return execute(mem.expr);
     }
 
+	/**
+	   Vrne naslov spremenljivke
+	 */
     private Object execute(NameExpr name) {
-		if( name.label.name.equals(Constants.framePointer)  ) {
-			return this.framePointer;
-		}
-		if( name.label.name.equals(Constants.stackPointer)  ) {
-			return this.stackPointer;
-		}
-
-		return memory.ldM(name.label);
+		return memory.address(name.label).get();
     }
-
+	
+	/**
+	   Vrne vrednost, ki se nahaja v zacasni spremenljivki
+	 */
     private Object execute(TempExpr temp) {
 		return memory.ldT(temp.temp);
     }
@@ -313,4 +311,90 @@ public class Interpreter {
     private void prettyPrint(IRNode ir) {
         System.out.println(prettyDescription(ir));
     }
+
+
+	/**
+	   Iz pomnilnika prebere vrednost in jo vrne
+	 */
+    private Object memory_read(MemExpr mem) {
+        return memory.ldM(toInt(execute(mem.expr)));
+    }
+
+	/**
+	   Izvede MoveStmt kot pisanje v pomnilnik
+	 */
+    private void memory_write(MoveStmt move) {
+
+		assert (move.dst instanceof MemExpr || move.dst instanceof TempExpr)
+				: "ASSERT ERROR: Can only write to memory if destination of MoveStmt is MemExpr or TempExpr";
+
+		var src = execute(move.src);
+
+		if( move.dst instanceof MemExpr memExpr ) {
+			var addr = toInt(execute(memExpr.expr));
+			memory.stM(addr, src);
+		}
+		else if( move.dst instanceof TempExpr tempExpr ) {
+			memory.stT(tempExpr.temp, src);
+		}
+    }
+
+	/**
+	   Iz spremenljivke prebere vrednost in jo vrne
+	   Ce je spremenljivka SP ali FP vrne njuno vrednost
+	 */
+	private Object variable_read(NameExpr name) {
+		if( name.label.name.equals(Constants.framePointer)  ) {
+			return this.framePointer;
+		}
+		if( name.label.name.equals(Constants.stackPointer)  ) {
+			return this.stackPointer;
+		}
+	
+		return memory.ldM(toInt(execute(name)));
+	}
+
+	/**
+	   Na naslov spremenljivke zapise vrednost
+	 */
+	private void variable_write(NameExpr name, Object value) {
+		var address = memory.address(name.label);
+
+		// TODO: FIXME: How to get the offset
+		if( address.isEmpty() )
+			memory.registerLabel(name.label,
+								 0 /* Figure out how to get the offset here */);
+
+		memory.stM(name.label, value);
+	}
+
+	/**
+	   Prebere vrednost iz zacasne spremenljivke
+	 */
+	private Object temp_read(TempExpr temp) {
+		return memory.ldT(temp.temp);
+	}
+
+	/**
+	   V zacasno spremenljivko shrani vrednost
+	 */
+	private void temp_write(TempExpr temp, Object value) {
+		memory.stT(temp.temp, value);
+	}
+
+	/**
+	   Iz katerekoli lokacije v pomnilniku (zacasna spremenljivka,
+	   naslov, labela) prebere vrednost
+	 */
+	private Object general_read(IRExpr location) {
+		if( location instanceof MemExpr memExpr )
+			return memory_read(memExpr);
+		if( location instanceof TempExpr tempExpr )
+			return temp_read(tempExpr);
+		if( location instanceof NameExpr nameExpr )
+			return variable_read(nameExpr);
+
+		assert false : "ASSERT FAILED: Can't read from this location";
+		throw new RuntimeException("Can't read from this location (in general_read)");
+	}
 }
