@@ -160,33 +160,9 @@ public class Interpreter {
         }
     }
 
-	private Object execute(BinopExpr binop) {
-		var left1 = execute(binop.lhs);
-		var right1 = execute(binop.rhs);
-
-		Object left;
-		Object right;
-
-		if( binop.lhs instanceof MemExpr
-			|| binop.lhs instanceof NameExpr
-			|| binop.lhs instanceof TempExpr )
-		{
-			left = general_read(binop.lhs);
-		}
-		else {
-			left = left1;
-		}
-
-		if( binop.rhs instanceof MemExpr
-			|| binop.rhs instanceof NameExpr
-			|| binop.rhs instanceof TempExpr )
-		{
-			right = general_read(binop.rhs);
-		}
-		else {
-			right = right1;
-		}
-
+    private Object execute(BinopExpr binop) {
+		var left = memory_read((MemExpr)execute(binop.lhs));
+		var right = execute(binop.rhs);
 
 		switch( binop.op ) {
 			case ADD: {
@@ -234,7 +210,7 @@ public class Interpreter {
 		}
     }
 
-	private Object execute(CallExpr call) {
+    private Object execute(CallExpr call) {
         if (call.label.name.equals(Constants.printIntLabel)) {
             if (call.args.size() != 2) { throw new RuntimeException("Invalid argument count!"); }
             var arg = execute(call.args.get(1));
@@ -246,8 +222,7 @@ public class Interpreter {
             var address = call.args.get(1);
             // var res = memory.ldM(toInt(memory.address(((TempExpr)address).temp.)));
 			// var res = memory.ldT(((TempExpr)address).temp);
-			var addr_of_string = general_read(address);
-			var res = memory.ldM(toInt(addr_of_string));
+			var res = general_read(address);
             outputStream.ifPresent(stream -> stream.println("\""+res+"\""));
             return 0;
         } else if (call.label.name.equals(Constants.printLogLabel)) {
@@ -291,18 +266,7 @@ public class Interpreter {
 	   Vrne naslov spremenljivke
 	 */
     private Object execute(NameExpr name) {
-		if( name.label.name.equals(Constants.framePointer)  ) {
-			return this.framePointer;
-		}
-		if( name.label.name.equals(Constants.stackPointer)  ) {
-			return this.stackPointer;
-		}
-
-		var addr = memory.address(name.label);
-
-		assert(addr.isPresent()): "No addres found for this label.";
-
-		return addr.get();
+		return memory.address(name.label).get();
     }
 	
 	/**
@@ -400,26 +364,12 @@ public class Interpreter {
 	   Na naslov spremenljivke zapise vrednost
 	 */
 	private void variable_write(NameExpr name, Object value) {
-
-		if( name.label.name.equals(Constants.framePointer) )
-		{
-			memory.stM(this.framePointer, value);
-			return;
-		}
-
-		if( name.label.name.equals(Constants.stackPointer) ) {
-			memory.stM(this.stackPointer, value);
-			return;
-		}
-
 		var address = memory.address(name.label);
 
 		// TODO: FIXME: How to get the offset
-		int offset = 0;
-
 		if( address.isEmpty() )
 			memory.registerLabel(name.label,
-								 offset);
+								 0 /* Figure out how to get the offset here */);
 
 		memory.stM(name.label, value);
 	}
