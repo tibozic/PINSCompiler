@@ -61,8 +61,8 @@ public class Memory {
     /**
      * V podan register shrani vrednost.
      */
-    public void stT(Map<Frame.Temp, Object> temps, Frame.Temp temp, Object value) {
-        temps.put(temp, value);
+    public void stT(Map<Frame.Temp, Object> temporaries, Frame.Temp temp, Object value) {
+        temporaries.put(temp, value);
     }
 
     /**

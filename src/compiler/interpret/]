@@ -139,19 +139,11 @@ public class Interpreter {
 		var src = execute(move.src, temps);
 
         if( move.dst instanceof MemExpr memExpr) {
-			// FIXME: possibly have to check if the inside expr is also memory and in that case
-			// dont execute it (check github)
-			Object addr;
-			if( memExpr.expr instanceof MemExpr nestedMemExpr ) {
-				addr = execute(nestedMemExpr.expr, temps);
-			}
-			else {
-				addr = execute(memExpr.expr, temps);
-			}
-			memory.stM(toInt(addr), src);
+			var addr = execute(memExpr.expr, temps);
+			memory.stM(addr, src);
 		}
 		else if( move.dst instanceof TempExpr tempExpr) {
-			memory.stT(temps, tempExpr.temp, src);
+			
 		}
 		else {
             throw new IllegalArgumentException("ERROR: Left side of move expression has to be MemExpr or TempExpr");
@@ -181,54 +173,7 @@ public class Interpreter {
     }
 
     private Object execute(BinopExpr binop, Map<Frame.Temp, Object> temps) {
-		var left = execute(binop.lhs, temps);
-		var right = execute(binop.rhs, temps);
-
-
-		switch( binop.op ) {
-			case ADD: {
-				return toInt(left) + toInt(right);
-			}
-			case SUB: {
-				return toInt(left) - toInt(right);
-			}
-			case MUL: {
-				return toInt(left) * toInt(right);
-			}
-			case DIV: {
-				return toInt(left) / toInt(right);
-			}
-			case MOD: {
-				return toInt(left) % toInt(right);
-			}
-			case AND: {
-				return toBool(left) && toBool(right);
-			}
-			case OR: {
-				return toBool(left) || toBool(right);
-			}
-			case EQ: {
-				return toInt(left) == toInt(right);
-			}
-			case NEQ: {
-				return toInt(left) !=  toInt(right);
-			}
-			case GT: {
-				return toInt(left) > toInt(right);
-			}
-			case LT: {
-				return toInt(left) < toInt(right);
-			}
-			case GEQ: {
-				return toInt(left) >= toInt(right);
-			}
-			case LEQ: {
-				return toInt(left) <= toInt(right);
-			}
-			default: {
-				throw new IllegalArgumentException("Unknown operandd in binary expression");
-			}
-		}
+        throw new UnsupportedOperationException("Unimplemented method 'execute'");
     }
 
     private Object execute(CallExpr call, Map<Frame.Temp, Object> temps) {
@@ -245,8 +190,7 @@ public class Interpreter {
             return null;
         } else if (call.label.name.equals(Constants.printLogLabel)) {
             if (call.args.size() != 2) { throw new RuntimeException("Invalid argument count!"); }
-            // var arg = execute(call.args.get(1), temps);
-            var arg = call.args.get(1);
+            var arg = execute(call.args.get(1), temps);
             outputStream.ifPresent(stream -> stream.println(toBool(arg)));
             return null;
         } else if (call.label.name.equals(Constants.randIntLabel)) {
@@ -260,48 +204,30 @@ public class Interpreter {
             random = new Random(seed);
             return null;
         } else if (memory.ldM(call.label) instanceof CodeChunk chunk) {
-			for (int i = 0; i < call.args.size(); ++i) {
-				var value = execute(call.args.get(i), temps);
-				memory.stM((this.stackPointer + 4*(i)), value);
-			}
-            internalInterpret(chunk, new HashMap<>());
-			return memory.ldM(this.stackPointer);
+            // ...
+            // internalInterpret(chunk, new HashMap<>())
+            //                          ~~~~~~~~~~~~~ 'lokalni registri'
+            // ...
+            throw new UnsupportedOperationException("Unimplemented method 'execute'");
         } else {
             throw new RuntimeException("Only functions can be called!");
         }
     }
 
     private Object execute(ConstantExpr constant) {
-		return constant.constant;
+        throw new UnsupportedOperationException("Unimplemented method 'execute'");
     }
 
     private Object execute(MemExpr mem, Map<Frame.Temp, Object> temps) {
-		if( mem.expr instanceof NameExpr nameExpr && nameExpr.label.name.equals(Constants.framePointer))
-			return this.framePointer;
-
-		if( mem.expr instanceof NameExpr nameExpr && nameExpr.label.name.equals(Constants.stackPointer))
-			return this.stackPointer;
-
-		if( mem.expr instanceof MemExpr )
-			return memory.ldM(toInt(execute(mem.expr, temps)));
-		else {
-			return execute(mem.expr, temps);
-		}
-
+        throw new UnsupportedOperationException("Unimplemented method 'execute'");
     }
 
     private Object execute(NameExpr name) {
-		if( name.label.name.equals(Constants.framePointer) )
-			return this.framePointer;
-
-		if( name.label.name.equals(Constants.stackPointer) )
-			return this.stackPointer;
-
-		return memory.ldM(name.label);
+        throw new UnsupportedOperationException("Unimplemented method 'execute'");
     }
 
     private Object execute(TempExpr temp, Map<Frame.Temp, Object> temps) {
-		return memory.ldT(temps, temp.temp);
+        throw new UnsupportedOperationException("Unimplemented method 'execute'");
     }
 
     // ----------- pomožne funkcije -----------

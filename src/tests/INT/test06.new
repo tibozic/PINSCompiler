@@ -1,10 +1,9 @@
-0
-1
-2
-3
-4
-5
-6
-7
-8
-9
+Exception in thread "main" java.lang.IllegalArgumentException: Could not convert obj to integer!
+	at compiler.interpret.Interpreter.toInt(Interpreter.java:307)
+	at compiler.interpret.Interpreter.execute(Interpreter.java:151)
+	at compiler.interpret.Interpreter.execute(Interpreter.java:113)
+	at compiler.interpret.Interpreter.internalInterpret(Interpreter.java:83)
+	at compiler.interpret.Interpreter.interpret(Interpreter.java:69)
+	at Main.run(Main.java:157)
+	at Main.run(Main.java:50)
+	at Main.main(Main.java:41)
