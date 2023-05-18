@@ -9,10 +9,13 @@ MOVE:
         ESEQ:
           MOVE:
             MEM:
-              NAME: a
+              MEM:
+                NAME: a
             BINOP ADD:
-              NAME: {FP}
+              MEM:
+                NAME: {FP}
               CONSTANT: 4
           MEM:
-            NAME: a
+            MEM:
+              NAME: a
     CONSTANT: 0

@@ -109,6 +109,7 @@ public class NameChecker implements Visitor {
 
 			var funDef = new FunDef(funPosition, call.name, params, type, funBody);
 			definitions.store(funDef, call);
+			call.arguments.stream().forEach(arg -> arg.accept(this));
 			return;
 		}
 

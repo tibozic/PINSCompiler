@@ -1,0 +1,34 @@
+Global: size[4],label[i]: 
+FRAME [test]: level=1,locals_size=0,arguments_size=0,parameters_size=8,size=8
+MOVE:
+  MEM:
+    NAME: {FP}
+  ESEQ:
+    SEQ:
+      SEQ:
+        MOVE:
+          MEM:
+            NAME: i
+          CONSTANT: 0
+        LABEL: L[0]
+        CJUMP:
+          BINOP LT:
+            MEM:
+              NAME: i
+            CONSTANT: 10
+          L[1]
+          L[2]
+        LABEL: L[1]
+        EXP:
+          CONSTANT: 5
+        MOVE:
+          MEM:
+            NAME: i
+          BINOP ADD:
+            MEM:
+              NAME: i
+            CONSTANT: 1
+        JUMP:
+          L[0]
+        LABEL: L[2]
+    CONSTANT: 10

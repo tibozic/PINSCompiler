@@ -6,5 +6,6 @@ MOVE:
   ESEQ:
     SEQ:
       EXP:
-        NAME: a
+        MEM:
+          NAME: a
     CONSTANT: 1

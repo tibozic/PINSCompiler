@@ -4,5 +4,6 @@ MOVE:
   MEM:
     NAME: {FP}
   BINOP ADD:
-    NAME: x
+    MEM:
+      NAME: x
     CONSTANT: 5

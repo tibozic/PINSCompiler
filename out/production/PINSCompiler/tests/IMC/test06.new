@@ -9,25 +9,29 @@ MOVE:
           MOVE:
             MEM:
               BINOP ADD:
-                NAME: {FP}
+                MEM:
+                  NAME: {FP}
                 CONSTANT: -4
             CONSTANT: 0
           MEM:
             BINOP ADD:
-              NAME: {FP}
+              MEM:
+                NAME: {FP}
               CONSTANT: -4
       SEQ:
         LABEL: L[0]
         EXP:
           BINOP LT:
             BINOP ADD:
-              NAME: {FP}
+              MEM:
+                NAME: {FP}
               CONSTANT: -4
             CONSTANT: 10
         CJUMP:
           BINOP LT:
             BINOP ADD:
-              NAME: {FP}
+              MEM:
+                NAME: {FP}
               CONSTANT: -4
             CONSTANT: 10
           L[1]
@@ -37,5 +41,6 @@ MOVE:
           L[0]
         LABEL: L[2]
     BINOP ADD:
-      NAME: {FP}
+      MEM:
+        NAME: {FP}
       CONSTANT: -8

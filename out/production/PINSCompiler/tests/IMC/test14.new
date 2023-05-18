@@ -17,7 +17,8 @@ MOVE:
           BINOP ADD:
             MEM:
               MEM:
-                NAME: {FP}
+                MEM:
+                  NAME: {FP}
             CONSTANT: 4
       ESEQ:
         MOVE:
@@ -31,7 +32,8 @@ MOVE:
             NAME: {FP}
           BINOP ADD:
             MEM:
-              NAME: {FP}
+              MEM:
+                NAME: {FP}
             CONSTANT: 4
     ESEQ:
       MOVE:
@@ -44,7 +46,8 @@ MOVE:
         MEM:
           NAME: {FP}
         BINOP ADD:
-          NAME: {FP}
+          MEM:
+            NAME: {FP}
           CONSTANT: 4
 FRAME [L[0]]: level=2,locals_size=0,arguments_size=8,parameters_size=8,size=12
 MOVE:
@@ -62,7 +65,8 @@ MOVE:
         NAME: {FP}
       BINOP ADD:
         MEM:
-          NAME: {FP}
+          MEM:
+            NAME: {FP}
         CONSTANT: 4
 FRAME [f]: level=1,locals_size=0,arguments_size=8,parameters_size=8,size=12
 MOVE:

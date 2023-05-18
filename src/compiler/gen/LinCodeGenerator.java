@@ -138,9 +138,14 @@ public class LinCodeGenerator {
             allStatements.statements.add(move);
             args.add(temp);
         }
-        return new EseqExpr(
+        var resultTemp = new TempExpr(Frame.Temp.next());
+        allStatements.statements.add(new MoveStmt(
+            resultTemp, 
+            new CallExpr(call.label, args)));
+        var eseq = new EseqExpr(
             allStatements, 
-            new CallExpr(call.label, args));
+            resultTemp);
+        return eseq;
     }
 
     private EseqExpr linearize(ConstantExpr constant) {

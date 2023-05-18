@@ -12,6 +12,8 @@ import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.util.Optional;
 import java.util.Random;
+import java.util.Map;
+import java.util.HashMap;
 
 import common.Constants;
 import compiler.frm.Frame;
@@ -63,10 +65,10 @@ public class Interpreter {
     public void interpret(CodeChunk chunk) {
         memory.stM(framePointer + Constants.WordSize, 0); // argument v funkcijo main
         memory.stM(framePointer - chunk.frame.oldFPOffset(), framePointer); // oldFP
-        internalInterpret(chunk);
+        internalInterpret(chunk, new HashMap<>());
     }
 
-    private void internalInterpret(CodeChunk chunk) {
+    private void internalInterpret(CodeChunk chunk, Map<Frame.Temp, Object> temps) {
         // @TODO: Nastavi FP in SP na nove vrednosti!
 		int old_fp_address_in_new_function = this.framePointer - chunk.frame.oldFPOffset();
 		memory.stM(old_fp_address_in_new_function, this.framePointer);
@@ -77,7 +79,7 @@ public class Interpreter {
         if (chunk.code instanceof SeqStmt seq) {
             for (int pc = 0; pc < seq.statements.size(); pc++) {
                 var stmt = seq.statements.get(pc);
-                result = execute(stmt);
+                result = execute(stmt, temps);
                 if (result instanceof Frame.Label label) {
                     for (int q = 0; q < seq.statements.size(); q++) {
                         if (seq.statements.get(q) instanceof LabelStmt labelStmt && labelStmt.label.equals(label)) {
@@ -97,26 +99,26 @@ public class Interpreter {
 											 - chunk.frame.oldFPOffset()));
     }
 
-    private Object execute(IRStmt stmt) {
+    private Object execute(IRStmt stmt, Map<Frame.Temp, Object> temps) {
         if (stmt instanceof CJumpStmt cjump) {
-            return execute(cjump);
+            return execute(cjump, temps);
         } else if (stmt instanceof ExpStmt exp) {
-            return execute(exp);
+            return execute(exp, temps);
         } else if (stmt instanceof JumpStmt jump) {
-            return execute(jump);
+            return execute(jump, temps);
         } else if (stmt instanceof LabelStmt label) {
             return null;
         } else if (stmt instanceof MoveStmt move) {
-            return execute(move);
+            return execute(move, temps);
         } else {
             throw new RuntimeException("Cannot execute this statement!");
         }
     }
 
-    private Object execute(CJumpStmt cjump) {
-        var cond = execute(cjump.condition);
+    private Object execute(CJumpStmt cjump, Map<Frame.Temp, Object> temps) {
+        var cond = execute(cjump.condition, temps);
 
-		if( toInt(cond) > 0 ) {
+		if( (boolean)cond ) {
 			return cjump.thenLabel;
 		}
 		else {
@@ -124,45 +126,45 @@ public class Interpreter {
 		}
     }
 
-    private Object execute(ExpStmt exp) {
-        return execute(exp.expr);
+    private Object execute(ExpStmt exp, Map<Frame.Temp, Object> temps) {
+        return execute(exp.expr, temps);
     }
 
-    private Object execute(JumpStmt jump) {
+    private Object execute(JumpStmt jump, Map<Frame.Temp, Object> temps) {
         return jump.label;
     }
 
-    private Object execute(MoveStmt move) {
-		memory_write(move);
+    private Object execute(MoveStmt move, Map<Frame.Temp, Object> temps) {
+		memory_write(move, temps);
 		return null;
     }
 
-    private Object execute(IRExpr expr) {
+    private Object execute(IRExpr expr, Map<Frame.Temp, Object> temps) {
         if (expr instanceof BinopExpr binopExpr) {
-            return execute(binopExpr);
+            return execute(binopExpr, temps);
         } else if (expr instanceof CallExpr callExpr) {
-            return execute(callExpr);
+            return execute(callExpr, temps);
         } else if (expr instanceof ConstantExpr constantExpr) {
             return execute(constantExpr);
         } else if (expr instanceof EseqExpr eseqExpr) {
             throw new RuntimeException("Cannot execute ESEQ; linearize code!");
         } else if (expr instanceof MemExpr memExpr) {
-            // return execute(memExpr);
-			return memory_read(memExpr);
+			// return memory_read(memExpr);
+            return execute(memExpr, temps);
         } else if (expr instanceof NameExpr nameExpr) {
 			// return variable_read(nameExpr);
             return execute(nameExpr);
         } else if (expr instanceof TempExpr tempExpr) {
-            // return execute(tempExpr);
-			return temp_read(tempExpr);
+			// return temp_read(tempExpr);
+            return execute(tempExpr, temps);
         } else {
             throw new IllegalArgumentException("Unknown expr type");
         }
     }
 
-	private Object execute(BinopExpr binop) {
-		var left1 = execute(binop.lhs);
-		var right1 = execute(binop.rhs);
+	private Object execute(BinopExpr binop, Map<Frame.Temp, Object> temps) {
+		var left1 = execute(binop.lhs, temps);
+		var right1 = execute(binop.rhs, temps);
 
 		Object left;
 		Object right;
@@ -171,7 +173,7 @@ public class Interpreter {
 			|| binop.lhs instanceof NameExpr
 			|| binop.lhs instanceof TempExpr )
 		{
-			left = general_read(binop.lhs);
+			left = general_read(binop.lhs, temps);
 		}
 		else {
 			left = left1;
@@ -181,7 +183,7 @@ public class Interpreter {
 			|| binop.rhs instanceof NameExpr
 			|| binop.rhs instanceof TempExpr )
 		{
-			right = general_read(binop.rhs);
+			right = general_read(binop.rhs, temps);
 		}
 		else {
 			right = right1;
@@ -234,11 +236,21 @@ public class Interpreter {
 		}
     }
 
-	private Object execute(CallExpr call) {
+	private Object execute(CallExpr call, Map<Frame.Temp, Object> temps) {
         if (call.label.name.equals(Constants.printIntLabel)) {
             if (call.args.size() != 2) { throw new RuntimeException("Invalid argument count!"); }
-            var arg = execute(call.args.get(1));
-            outputStream.ifPresent(stream -> stream.println(arg));
+            var arg = execute(call.args.get(1), temps);
+
+			/*
+			if( call.args.get(1) instanceof TempExpr ) {
+				// This function was passed a variable
+				var res = memory.ldM(toInt(arg));
+				outputStream.ifPresent(stream -> stream.println(res));
+				return 0;
+			}
+			*/
+
+			outputStream.ifPresent(stream -> stream.println(arg));
             return 0;
         } else if (call.label.name.equals(Constants.printStringLabel)) {
             if (call.args.size() != 2) { throw new RuntimeException("Invalid argument count!"); }
@@ -246,27 +258,35 @@ public class Interpreter {
             var address = call.args.get(1);
             // var res = memory.ldM(toInt(memory.address(((TempExpr)address).temp.)));
 			// var res = memory.ldT(((TempExpr)address).temp);
-			var addr_of_string = general_read(address);
-			var res = memory.ldM(toInt(addr_of_string));
+
+			// var addr_of_string = general_read(address, temps);
+			// var res = memory.ldM(toInt(addr_of_string));
+
+			var res = general_read(address, temps);
+
             outputStream.ifPresent(stream -> stream.println("\""+res+"\""));
             return 0;
         } else if (call.label.name.equals(Constants.printLogLabel)) {
             if (call.args.size() != 2) { throw new RuntimeException("Invalid argument count!"); }
-            var arg = execute(call.args.get(1));
+            var arg = execute(call.args.get(1), temps);
             outputStream.ifPresent(stream -> stream.println(toBool(arg)));
             return 0;
         } else if (call.label.name.equals(Constants.randIntLabel)) {
             if (call.args.size() != 3) { throw new RuntimeException("Invalid argument count!"); }
-            var min = toInt(execute(call.args.get(1)));
-            var max = toInt(execute(call.args.get(2)));
+            var min = toInt(execute(call.args.get(1), temps));
+            var max = toInt(execute(call.args.get(2), temps));
             return random.nextInt(min, max);
         } else if (call.label.name.equals(Constants.seedLabel)) {
             if (call.args.size() != 2) { throw new RuntimeException("Invalid argument count!"); }
-            var seed = toInt(execute(call.args.get(1)));
+            var seed = toInt(execute(call.args.get(1), temps));
             random = new Random(seed);
             return 0;
         } else if (memory.ldM(call.label) instanceof CodeChunk chunk) {
-            internalInterpret(chunk);
+			for (int i = 0; i < call.args.size(); ++i) {
+				var value = execute(call.args.get(i), temps);
+				memory.stM((this.stackPointer + 4*(i)), value);
+			}
+            internalInterpret(chunk, new HashMap<>());
 			return memory.ldM(this.stackPointer);
         } else {
             throw new RuntimeException("Only functions can be called!");
@@ -281,11 +301,35 @@ public class Interpreter {
     }
 
 	/**
-	   Vrne naslov na katerega se nanasa MemExpr
+	   Prebere vrednost, ki se nahaja na naslovu na katerega se nanasa MemExpr
 	 */
-    private Object execute(MemExpr mem) {
-        return execute(mem.expr);
+    private Object execute(MemExpr mem, Map<Frame.Temp, Object> temps) {
+		if( mem.expr instanceof NameExpr nameExpr ) {
+			if( nameExpr.label.name.equals(Constants.framePointer) ) {
+				return this.framePointer;
+			}
+			if( nameExpr.label.name.equals(Constants.stackPointer) ) {
+				return this.stackPointer;
+			}
+		}
+        return memory.ldM(toInt(execute(mem.expr, temps)));
     }
+
+	/**
+	   Vrne naslov na katerega se nanasa MemExpr
+	   (Namenjeno da se uporablja pri pisanju (ko je MemExpr na levi strani MoveStmt))
+	 */
+    private Object get_addr(MemExpr mem, Map<Frame.Temp, Object> temps) {
+		if( mem.expr instanceof NameExpr nameExpr ) {
+			if( nameExpr.label.name.equals(Constants.framePointer) ) {
+				return this.framePointer;
+			}
+			if( nameExpr.label.name.equals(Constants.stackPointer) ) {
+				return this.stackPointer;
+			}
+		}
+        return execute(mem.expr, temps);
+	}
 
 	/**
 	   Vrne naslov spremenljivke
@@ -308,8 +352,8 @@ public class Interpreter {
 	/**
 	   Vrne vrednost, ki se nahaja v zacasni spremenljivki
 	 */
-    private Object execute(TempExpr temp) {
-		return memory.ldT(temp.temp);
+    private Object execute(TempExpr temp, Map<Frame.Temp, Object> temps) {
+		return memory.ldT(temps, temp.temp);
     }
 
     // ----------- pomožne funkcije -----------
@@ -352,23 +396,32 @@ public class Interpreter {
 	/**
 	   Iz pomnilnika prebere vrednost in jo vrne
 	 */
-    private Object memory_read(MemExpr mem) {
-        return memory.ldM(toInt(execute(mem.expr)));
+    private Object memory_read(MemExpr mem, Map<Frame.Temp, Object> temps) {
+        // return memory.ldM(toInt(execute(mem.expr, temps)));
+		// return memory.ldM(toInt(execute(mem.expr, temps)));
+		return execute(mem, temps);
     }
 
 	/**
 	   Izvede MoveStmt kot pisanje v pomnilnik
 	 */
-    private void memory_write(MoveStmt move) {
+    private void memory_write(MoveStmt move, Map<Frame.Temp, Object> temps) {
 
 		assert (move.dst instanceof MemExpr || move.dst instanceof TempExpr)
 				: "ASSERT ERROR: Can only write to memory if destination of MoveStmt is MemExpr or TempExpr";
 
-		var src = execute(move.src);
+		var src = execute(move.src, temps);
 
+		Object dst;
 		if( move.dst instanceof MemExpr memExpr ) {
-			// var dst = execute(move.dst);
-            var dst = execute(memExpr.expr);
+			// var dst = execute(move.dst, temps);
+			if( memExpr.expr instanceof MemExpr ) {
+				dst = get_addr((MemExpr)memExpr.expr, temps);
+			}
+			else {
+				dst = execute(memExpr.expr, temps);
+			}
+
 			if( memExpr.expr instanceof NameExpr nameExpr )
 				variable_write(nameExpr, src);
 			else {
@@ -377,7 +430,7 @@ public class Interpreter {
 			}
 		}
 		else if( move.dst instanceof TempExpr tempExpr ) {
-			memory.stT(tempExpr.temp, src);
+			memory.stT(temps, tempExpr.temp, src);
 		}
     }
 
@@ -427,26 +480,26 @@ public class Interpreter {
 	/**
 	   Prebere vrednost iz zacasne spremenljivke
 	 */
-	private Object temp_read(TempExpr temp) {
-		return memory.ldT(temp.temp);
+	private Object temp_read(TempExpr temp, Map<Frame.Temp, Object> temps) {
+		return memory.ldT(temps, temp.temp);
 	}
 
 	/**
 	   V zacasno spremenljivko shrani vrednost
 	 */
-	private void temp_write(TempExpr temp, Object value) {
-		memory.stT(temp.temp, value);
+	private void temp_write(Map<Frame.Temp, Object> temps, TempExpr temp, Object value) {
+		memory.stT(temps, temp.temp, value);
 	}
 
 	/**
 	   Iz katerekoli lokacije v pomnilniku (zacasna spremenljivka,
 	   naslov, labela) prebere vrednost
 	 */
-	private Object general_read(IRExpr location) {
+	private Object general_read(IRExpr location, Map<Frame.Temp, Object> temps) {
 		if( location instanceof MemExpr memExpr )
-			return memory_read(memExpr);
+			return memory_read(memExpr, temps);
 		if( location instanceof TempExpr tempExpr )
-			return temp_read(tempExpr);
+			return temp_read(tempExpr, temps);
 		if( location instanceof NameExpr nameExpr )
 			return variable_read(nameExpr);
 

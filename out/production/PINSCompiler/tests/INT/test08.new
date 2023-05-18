@@ -2,6 +2,8 @@ Exception in thread "main" java.lang.IllegalArgumentException: Empty address 101
 	at compiler.gen.Memory.ldM(Memory.java:76)
 	at compiler.interpret.Interpreter.execute(Interpreter.java:315)
 	at compiler.interpret.Interpreter.execute(Interpreter.java:153)
+	at compiler.interpret.Interpreter.execute(Interpreter.java:166)
+	at compiler.interpret.Interpreter.execute(Interpreter.java:144)
 	at compiler.interpret.Interpreter.memory_write(Interpreter.java:412)
 	at compiler.interpret.Interpreter.execute(Interpreter.java:138)
 	at compiler.interpret.Interpreter.execute(Interpreter.java:112)

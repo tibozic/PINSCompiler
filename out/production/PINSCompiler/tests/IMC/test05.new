@@ -6,6 +6,7 @@ MOVE:
     SEQ:
       EXP:
         BINOP ADD:
-          NAME: {FP}
+          MEM:
+            NAME: {FP}
           CONSTANT: -40
     CONSTANT: 1

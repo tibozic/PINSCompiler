@@ -108,7 +108,13 @@ public class IRCodeGenerator implements Visitor {
 
 					assert argExpr.isPresent(): "ASSERT FAILED";
 
-					args.add((IRExpr)argExpr.get());
+					if( argExpr.get() instanceof NameExpr ) {
+						args.add(new MemExpr((IRExpr)argExpr.get()));
+					}
+					else {
+						args.add((IRExpr)argExpr.get());
+					}
+
 				});
 
 			var callLabel = Label.named(call.name);
@@ -125,6 +131,9 @@ public class IRCodeGenerator implements Visitor {
 										NameExpr.FP());
 
 			var eseq = new EseqExpr(moveStmt, callExpr);
+
+			// var saveRes = new ExpStmt(new MoveStmt(new MemExpr(NameExpr.FP()), eseq));
+			
 			imcCode.store(eseq, call);
 
 
@@ -321,10 +330,6 @@ public class IRCodeGenerator implements Visitor {
 		assert stepIMC.isPresent() : "ASSERTION FAILED: ";
 		assert bodyIMC.isPresent() : "ASSERTION FAILED: ";
 
-		var counterExprStmt = new ExpStmt((IRExpr)counterIMC.get());
-		var lowExprStmt = new ExpStmt((IRExpr)lowIMC.get());
-		var highExprStmt = new ExpStmt((IRExpr)highIMC.get());
-		var stepExprStmt = new ExpStmt((IRExpr)stepIMC.get());
 		var bodyExprStmt = new ExpStmt((IRExpr)bodyIMC.get());
 
 		var labelBefore = new LabelStmt(Label.nextAnonymous());
@@ -334,7 +339,7 @@ public class IRCodeGenerator implements Visitor {
 		List<IRStmt> stmts = new ArrayList<>();
 
 		// initialization
-		stmts.add(new MoveStmt((IRExpr)counterIMC.get(),
+		stmts.add(new MoveStmt(new MemExpr((IRExpr)counterIMC.get()),
 							   (IRExpr)lowIMC.get()));
 
 		stmts.add(labelBefore);
@@ -350,7 +355,7 @@ public class IRCodeGenerator implements Visitor {
 		stmts.add(labelInside);
 		stmts.add(bodyExprStmt);
 		// Increment
-		stmts.add(new MoveStmt((IRExpr)counterIMC.get(),
+		stmts.add(new MoveStmt(new MemExpr((IRExpr)counterIMC.get()),
 							   new BinopExpr((IRExpr)counterIMC.get(),
 											 (IRExpr)stepIMC.get(),
 											 BinopExpr.Operator.ADD)));
@@ -386,19 +391,19 @@ public class IRCodeGenerator implements Visitor {
 			int deltaSL = Math.abs(nameAccessLocal.staticLevel
 								   - this.currentStaticLevel);
 
-			IRExpr fpDereferenced = NameExpr.FP();
+			IRExpr fpDereferenced = new MemExpr(NameExpr.FP());
 
 			for(int i = 0; i < deltaSL; ++i) {
 				fpDereferenced = new MemExpr(fpDereferenced);
 			}
 
 			IRExpr binOpDerefrenced = new BinopExpr(fpDereferenced,
-									  new ConstantExpr(nameAccessLocal.offset),
-									  BinopExpr.Operator.ADD);
+													new ConstantExpr(nameAccessLocal.offset),
+													BinopExpr.Operator.ADD);
 
-			// var localRead = new MemExpr(binOp);
+			var localRead = new MemExpr(binOpDerefrenced);
 
-			imcCode.store(binOpDerefrenced, name);
+			imcCode.store(localRead, name);
 			return;
 		}
 

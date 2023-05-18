@@ -5,29 +5,36 @@ MOVE:
   ESEQ:
     SEQ:
       SEQ:
-        LABEL: L[0]
-        LABEL: L[1]
-        EXP:
+        MOVE:
           BINOP ADD:
-            NAME: {FP}
+            MEM:
+              NAME: {FP}
             CONSTANT: -4
-        EXP:
           CONSTANT: 0
-        EXP:
-          CONSTANT: 10
-        EXP:
-          CONSTANT: 1
+        LABEL: L[0]
+        CJUMP:
+          BINOP LT:
+            BINOP ADD:
+              MEM:
+                NAME: {FP}
+              CONSTANT: -4
+            CONSTANT: 10
+          L[1]
+          L[2]
+        LABEL: L[1]
         EXP:
           ESEQ:
             SEQ:
             BINOP ADD:
               BINOP ADD:
                 BINOP ADD:
-                  NAME: {FP}
+                  MEM:
+                    NAME: {FP}
                   CONSTANT: 4
                 BINOP MUL:
                   BINOP ADD:
-                    NAME: {FP}
+                    MEM:
+                      NAME: {FP}
                     CONSTANT: -4
                   CONSTANT: 4
               ESEQ:
@@ -40,9 +47,24 @@ MOVE:
                 CALL sum:
                   CONSTANT: -1
                   BINOP ADD:
-                    NAME: {FP}
+                    MEM:
+                      NAME: {FP}
                     CONSTANT: 4
+        MOVE:
+          BINOP ADD:
+            MEM:
+              NAME: {FP}
+            CONSTANT: -4
+          BINOP ADD:
+            BINOP ADD:
+              MEM:
+                NAME: {FP}
+              CONSTANT: -4
+            CONSTANT: 1
+        JUMP:
+          L[0]
         LABEL: L[2]
     BINOP ADD:
-      NAME: {FP}
+      MEM:
+        NAME: {FP}
       CONSTANT: -8

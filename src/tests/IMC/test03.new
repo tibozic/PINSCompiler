@@ -5,10 +5,12 @@ MOVE:
     NAME: {FP}
   BINOP ADD:
     BINOP ADD:
-      NAME: {FP}
+      MEM:
+        NAME: {FP}
       CONSTANT: 4
     BINOP MUL:
       BINOP ADD:
-        NAME: {FP}
+        MEM:
+          NAME: {FP}
         CONSTANT: 8
       CONSTANT: 4

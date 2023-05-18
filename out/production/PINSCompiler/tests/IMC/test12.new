@@ -3,7 +3,8 @@ MOVE:
   MEM:
     NAME: {FP}
   BINOP ADD:
-    NAME: {FP}
+    MEM:
+      NAME: {FP}
     CONSTANT: 4
 FRAME [f]: level=1,locals_size=0,arguments_size=12,parameters_size=12,size=16
 MOVE:
@@ -29,7 +30,8 @@ MOVE:
           CONSTANT: -1
           BINOP ADD:
             BINOP ADD:
-              NAME: {FP}
+              MEM:
+                NAME: {FP}
               CONSTANT: 4
             CONSTANT: 1
       CONSTANT: 1
