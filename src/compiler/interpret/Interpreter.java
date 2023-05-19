@@ -71,7 +71,7 @@ public class Interpreter {
 
     private void internalInterpret(CodeChunk chunk, Map<Frame.Temp, Object> temps) {
         // @TODO: Nastavi FP in SP na nove vrednosti!
-		int old_fp_address_in_new_function = this.framePointer - chunk.frame.oldFPOffset();
+		int old_fp_address_in_new_function = this.stackPointer - chunk.frame.oldFPOffset();
 		memory.stM(old_fp_address_in_new_function, this.framePointer);
 		this.framePointer = this.stackPointer;
 		this.stackPointer = this.framePointer - chunk.frame.size();
@@ -95,9 +95,9 @@ public class Interpreter {
         }
       
         // @TODO: Ponastavi FP in SP na stare vrednosti!
+		var old_fp_address = this.framePointer - chunk.frame.oldFPOffset();
 		this.stackPointer = this.framePointer;
-		this.framePointer = toInt(memory.ldM(this.framePointer
-											 - chunk.frame.oldFPOffset()));
+		this.framePointer = toInt(memory.ldM(old_fp_address));
     }
 
     private Object execute(IRStmt stmt, Map<Frame.Temp, Object> temps) {
@@ -141,14 +141,35 @@ public class Interpreter {
         if( move.dst instanceof MemExpr memExpr) {
 			// FIXME: possibly have to check if the inside expr is also memory and in that case
 			// dont execute it (check github)
-			Object addr;
 			if( memExpr.expr instanceof MemExpr nestedMemExpr ) {
-				addr = execute(nestedMemExpr.expr, temps);
+				var addr = execute(nestedMemExpr.expr, temps);
+				memory.stM(toInt(addr), src);
+			}
+			else if( memExpr.expr instanceof NameExpr nameExpr ) {
+				int addr;
+				if( nameExpr.label.name.equals(Constants.framePointer)  ) {
+					addr = this.framePointer;
+				}
+				else if( nameExpr.label.name.equals(Constants.stackPointer)  ) {
+					addr = this.stackPointer;
+				}
+				else {
+					addr = memory.address(nameExpr.label).get();
+				}
+
+				memory.stM(addr, src);
+			}
+			else if( memExpr.expr instanceof TempExpr tempExpr ) {
+				memory.stT(temps, tempExpr.temp, src);
 			}
 			else {
-				addr = execute(memExpr.expr, temps);
+				var addr = execute(memExpr.expr, temps);
+				memory.stM(toInt(addr), src);
 			}
+			/*
+			var addr = execute(memExpr.expr, temps);
 			memory.stM(toInt(addr), src);
+			*/
 		}
 		else if( move.dst instanceof TempExpr tempExpr) {
 			memory.stT(temps, tempExpr.temp, src);
@@ -236,19 +257,19 @@ public class Interpreter {
             if (call.args.size() != 2) { throw new RuntimeException("Invalid argument count!"); }
             var arg = execute(call.args.get(1), temps);
             outputStream.ifPresent(stream -> stream.println(arg));
-            return null;
+            return arg;
         } else if (call.label.name.equals(Constants.printStringLabel)) {
             if (call.args.size() != 2) { throw new RuntimeException("Invalid argument count!"); }
             var address = execute(call.args.get(1), temps);
-            var res = memory.ldM(toInt(address));
+            // var res = memory.ldM(toInt(address));
+			var res = address;
             outputStream.ifPresent(stream -> stream.println("\""+res+"\""));
-            return null;
+            return res;
         } else if (call.label.name.equals(Constants.printLogLabel)) {
             if (call.args.size() != 2) { throw new RuntimeException("Invalid argument count!"); }
-            // var arg = execute(call.args.get(1), temps);
-            var arg = call.args.get(1);
+            var arg = execute(call.args.get(1), temps);
             outputStream.ifPresent(stream -> stream.println(toBool(arg)));
-            return null;
+            return arg;
         } else if (call.label.name.equals(Constants.randIntLabel)) {
             if (call.args.size() != 3) { throw new RuntimeException("Invalid argument count!"); }
             var min = toInt(execute(call.args.get(1), temps));
@@ -258,7 +279,7 @@ public class Interpreter {
             if (call.args.size() != 2) { throw new RuntimeException("Invalid argument count!"); }
             var seed = toInt(execute(call.args.get(1), temps));
             random = new Random(seed);
-            return null;
+            return seed;
         } else if (memory.ldM(call.label) instanceof CodeChunk chunk) {
 			for (int i = 0; i < call.args.size(); ++i) {
 				var value = execute(call.args.get(i), temps);
@@ -282,13 +303,26 @@ public class Interpreter {
 		if( mem.expr instanceof NameExpr nameExpr && nameExpr.label.name.equals(Constants.stackPointer))
 			return this.stackPointer;
 
+		/*
 		if( mem.expr instanceof MemExpr )
 			return memory.ldM(toInt(execute(mem.expr, temps)));
 		else {
 			return execute(mem.expr, temps);
 		}
+		*/
 
-    }
+		if( mem.expr instanceof NameExpr nameExpr ) {
+			return execute(nameExpr);
+		}
+
+		var value = execute(mem.expr, temps);
+		if( value instanceof String ) {
+			return value;
+		}
+		else {
+			return memory.ldM(toInt(value));
+		}
+	}
 
     private Object execute(NameExpr name) {
 		if( name.label.name.equals(Constants.framePointer) )
@@ -298,6 +332,7 @@ public class Interpreter {
 			return this.stackPointer;
 
 		return memory.ldM(name.label);
+		// return memory.address(name.label);
     }
 
     private Object execute(TempExpr temp, Map<Frame.Temp, Object> temps) {

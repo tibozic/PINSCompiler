@@ -10,4 +10,4 @@ fun fib(n:integer) : integer = (
     result
 ) { where var result : integer };
 
-# fun main(argc : integer) : integer = print_int(fib(6))
+fun main(argc : integer) : integer = print_int(fib(6))

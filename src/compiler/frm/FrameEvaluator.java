@@ -159,12 +159,12 @@ public class FrameEvaluator implements Visitor {
             funLabel = Frame.Label.nextAnonymous();
         }
 
-        level++;
 
         var funBuilder = new Frame.Builder(funLabel, level);
         builderStack.push(funBuilder);
         // ^^^ setup
 
+        level++;
 
         funDef.parameters.stream().forEach(param -> {
             param.accept(this);

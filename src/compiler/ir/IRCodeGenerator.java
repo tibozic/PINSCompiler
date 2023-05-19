@@ -122,7 +122,7 @@ public class IRCodeGenerator implements Visitor {
 
 		
 			var offset = new BinopExpr(NameExpr.SP(),
-										new ConstantExpr(0),
+										new ConstantExpr(Constants.WordSize),
 										BinopExpr.Operator.SUB);
 
 			var memExpr = new MemExpr(offset);
@@ -170,7 +170,7 @@ public class IRCodeGenerator implements Visitor {
 		  Calculate the static link
 		 */
 		IRExpr staticLink;
-		if( this.currentStaticLevel == 1 ) {
+		if( this.currentStaticLevel == 0 ) {
 			staticLink = new ConstantExpr(-1);
 		}
 		else {
@@ -201,7 +201,13 @@ public class IRCodeGenerator implements Visitor {
 
 				assert argExpr.isPresent(): "ASSERT FAILED";
 
-				args.add((IRExpr)argExpr.get());
+				if( argExpr.get() instanceof NameExpr ) {
+					args.add(new MemExpr((IRExpr)argExpr.get()));
+				}
+				else {
+					args.add((IRExpr)argExpr.get());
+				}
+
 			});
 
 		var callLabel = frame.get().label;
@@ -262,7 +268,14 @@ public class IRCodeGenerator implements Visitor {
 			return;
 		}
 		else if( binary.operator == Operator.ASSIGN ) {
-			var memExpr = new MemExpr((IRExpr)leftIMC.get());
+
+			// FIXME: NOTE: This is a hack
+			// var memExpr = new MemExpr((IRExpr)leftIMC.get());
+			var memExpr = (IRExpr)leftIMC.get();
+			if( !(memExpr instanceof MemExpr) ) {
+				memExpr = new MemExpr(memExpr);
+			}
+
 			var moveStmt = new MoveStmt(memExpr, (IRExpr) rightIMC.get());
 
 			var eseqExpr = new EseqExpr(moveStmt, memExpr);
@@ -344,7 +357,7 @@ public class IRCodeGenerator implements Visitor {
 
 		stmts.add(labelBefore);
 		// comparison
-		var cond = new BinopExpr((IRExpr)counterIMC.get(),
+		var cond = new BinopExpr(new MemExpr((IRExpr)counterIMC.get()),
 								 (IRExpr)highIMC.get(),
 								 BinopExpr.Operator.LT);
 		// CJUMP
@@ -356,7 +369,7 @@ public class IRCodeGenerator implements Visitor {
 		stmts.add(bodyExprStmt);
 		// Increment
 		stmts.add(new MoveStmt(new MemExpr((IRExpr)counterIMC.get()),
-							   new BinopExpr((IRExpr)counterIMC.get(),
+							   new BinopExpr(new MemExpr((IRExpr)counterIMC.get()),
 											 (IRExpr)stepIMC.get(),
 											 BinopExpr.Operator.ADD)));
 		// Jump

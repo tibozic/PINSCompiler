@@ -1,6 +1,8 @@
 Exception in thread "main" java.lang.IllegalArgumentException: Could not convert obj to integer!
-	at compiler.interpret.Interpreter.toInt(Interpreter.java:307)
-	at compiler.interpret.Interpreter.execute(Interpreter.java:151)
+	at compiler.interpret.Interpreter.toInt(Interpreter.java:348)
+	at compiler.interpret.Interpreter.execute(Interpreter.java:211)
+	at compiler.interpret.Interpreter.execute(Interpreter.java:186)
+	at compiler.interpret.Interpreter.execute(Interpreter.java:166)
 	at compiler.interpret.Interpreter.execute(Interpreter.java:113)
 	at compiler.interpret.Interpreter.internalInterpret(Interpreter.java:83)
 	at compiler.interpret.Interpreter.interpret(Interpreter.java:69)

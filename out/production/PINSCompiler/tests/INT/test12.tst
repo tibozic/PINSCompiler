@@ -5,6 +5,7 @@ fun pozdrav(ura: integer): integer = (
 			{ sporocilo = 'Dober dan' }
 		else
 			{ sporocilo = 'Dobro jutro' }
-		},
+	},
 		print_str(sporocilo),
-		0) { where var sporocilo: string }
+		0
+) { where var sporocilo: string }
