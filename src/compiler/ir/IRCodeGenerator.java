@@ -603,6 +603,7 @@ public class IRCodeGenerator implements Visitor {
 
 		stmts.add(condCheckJump);
 		stmts.add(labelInside);
+		stmts.add(new ExpStmt((IRExpr)bodyIMC.get()));
 		stmts.add(jumpBackToCondCheck);
 		stmts.add(labelAfter);
 
