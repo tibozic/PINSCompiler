@@ -450,9 +450,16 @@ public class IRCodeGenerator implements Visitor {
 		List<IRStmt> stmts = new ArrayList<>();
 
 		// CJUMP
-		stmts.add(new CJumpStmt((IRExpr)condIMC.get(),
+		if( elseIMC.isPresent() ) {
+			stmts.add(new CJumpStmt((IRExpr)condIMC.get(),
 								thenLabel.label,
 								elseLabel.label));
+		}
+		else {
+				stmts.add(new CJumpStmt((IRExpr)condIMC.get(),
+								thenLabel.label,
+								endLabel.label));
+		}
 
 		// then label
 		stmts.add(thenLabel);
