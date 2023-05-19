@@ -119,7 +119,8 @@ public class Interpreter {
     private Object execute(CJumpStmt cjump, Map<Frame.Temp, Object> temps) {
         var cond = execute(cjump.condition, temps);
 
-		if( (boolean)cond ) {
+		// if( (boolean)cond ) {
+		if( toBool(cond) ) {
 			return cjump.thenLabel;
 		}
 		else {
@@ -223,28 +224,36 @@ public class Interpreter {
 				return toInt(left) % toInt(right);
 			}
 			case AND: {
-				return toBool(left) && toBool(right);
+				// return toBool(left) && toBool(right);
+				return (toBool(left) && toBool(right)) ? 1 : 0;
 			}
 			case OR: {
-				return toBool(left) || toBool(right);
+				// return toBool(left) || toBool(right);
+				return (toBool(left) || toBool(right)) ? 1 : 0;
 			}
 			case EQ: {
-				return toInt(left) == toInt(right);
+				// return toInt(left) == toInt(right);
+				return (toInt(left) == toInt(right)) ? 1 : 0;
 			}
 			case NEQ: {
-				return toInt(left) !=  toInt(right);
+				// return toInt(left) !=  toInt(right);
+				return (toInt(left) != toInt(right)) ? 1 : 0;
 			}
 			case GT: {
-				return toInt(left) > toInt(right);
+				// return toInt(left) > toInt(right);
+				return (toInt(left) > toInt(right)) ? 1 : 0;
 			}
 			case LT: {
-				return toInt(left) < toInt(right);
+				// return toInt(left) < toInt(right);
+				return (toInt(left) < toInt(right)) ? 1 : 0;
 			}
 			case GEQ: {
-				return toInt(left) >= toInt(right);
+				// return toInt(left) >= toInt(right);
+				return (toInt(left) >= toInt(right)) ? 1 : 0;
 			}
 			case LEQ: {
-				return toInt(left) <= toInt(right);
+				// return toInt(left) <= toInt(right);
+				return (toInt(left) <= toInt(right)) ? 1 : 0;
 			}
 			default: {
 				throw new IllegalArgumentException("Unknown operandd in binary expression");

@@ -563,8 +563,10 @@ public class IRCodeGenerator implements Visitor {
 				break;
 			}
 			case NOT: {
-				int value = ((ConstantExpr)expr.get()).constant;
-				var notIMC = new ConstantExpr(value);
+				var value = expr.get();
+				var notIMC = new BinopExpr(new ConstantExpr(1),
+										   (IRExpr)value,
+										   BinopExpr.Operator.SUB);
 				imcCode.store(notIMC, unary);
 				break;
 			}
