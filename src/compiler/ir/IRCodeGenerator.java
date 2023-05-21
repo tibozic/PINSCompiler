@@ -423,7 +423,7 @@ public class IRCodeGenerator implements Visitor {
 		if( nameAccess.get() instanceof Access.Global nameAccessGlobal )
 		{
 			var nameIMC = new NameExpr(nameAccessGlobal.label);
-			imcCode.store(nameIMC, name);
+			imcCode.store(new MemExpr(nameIMC), name);
 			return;
 		}
 
