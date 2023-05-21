@@ -1,14 +1,8 @@
-Exception in thread "main" java.lang.IllegalArgumentException: Address 1 not aligned!
-	at compiler.gen.Memory.validateAddress(Memory.java:148)
-	at compiler.gen.Memory.ldM(Memory.java:72)
-	at compiler.interpret.Interpreter.execute(Interpreter.java:332)
-	at compiler.interpret.Interpreter.execute(Interpreter.java:195)
-	at compiler.interpret.Interpreter.execute(Interpreter.java:206)
-	at compiler.interpret.Interpreter.execute(Interpreter.java:187)
-	at compiler.interpret.Interpreter.execute(Interpreter.java:120)
-	at compiler.interpret.Interpreter.execute(Interpreter.java:105)
-	at compiler.interpret.Interpreter.internalInterpret(Interpreter.java:83)
-	at compiler.interpret.Interpreter.interpret(Interpreter.java:69)
-	at Main.run(Main.java:157)
-	at Main.run(Main.java:50)
-	at Main.main(Main.java:41)
+1
+2
+4
+8
+16
+32
+64
+128

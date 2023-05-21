@@ -156,12 +156,15 @@ public class IRCodeGenerator implements Visitor {
 												call.name);
 
 		
+		// this is the oldFP location
 		var offset = new BinopExpr(NameExpr.SP(),
 									new ConstantExpr(frame.get().oldFPOffset()),
 									BinopExpr.Operator.SUB);
 
+		// MoveStmt has to have MemExpr on the left (where we are writing)
 		var memExpr = new MemExpr(offset);
 
+		// write the FP to oldFP location
 		var moveStmt = new MoveStmt(memExpr,
 									NameExpr.FP());
 
@@ -352,14 +355,29 @@ public class IRCodeGenerator implements Visitor {
 		List<IRStmt> stmts = new ArrayList<>();
 
 		// initialization
+		/*
+		// this should be wrong, as counterIMC should always be
+		// a Name, which always returns MemExpr
 		stmts.add(new MoveStmt(new MemExpr((IRExpr)counterIMC.get()),
 							   (IRExpr)lowIMC.get()));
+		*/
+		stmts.add(new MoveStmt((IRExpr)counterIMC.get(),
+							   (IRExpr)lowIMC.get()));
+
 
 		stmts.add(labelBefore);
 		// comparison
+		/*
+		// same logic as with initialization
 		var cond = new BinopExpr(new MemExpr((IRExpr)counterIMC.get()),
 								 (IRExpr)highIMC.get(),
 								 BinopExpr.Operator.LT);
+		*/
+		var cond = new BinopExpr((IRExpr)counterIMC.get(),
+								 (IRExpr)highIMC.get(),
+								 BinopExpr.Operator.LT);
+
+
 		// CJUMP
 		stmts.add(new CJumpStmt(cond,
 								labelInside.label,
@@ -368,10 +386,19 @@ public class IRCodeGenerator implements Visitor {
 		stmts.add(labelInside);
 		stmts.add(bodyExprStmt);
 		// Increment
+		/*
+		// same logic as with initialization
 		stmts.add(new MoveStmt(new MemExpr((IRExpr)counterIMC.get()),
 							   new BinopExpr(new MemExpr((IRExpr)counterIMC.get()),
 											 (IRExpr)stepIMC.get(),
 											 BinopExpr.Operator.ADD)));
+		*/
+		stmts.add(new MoveStmt((IRExpr)counterIMC.get(),
+							   new BinopExpr((IRExpr)counterIMC.get(),
+											 (IRExpr)stepIMC.get(),
+											 BinopExpr.Operator.ADD)));
+
+
 		// Jump
 		stmts.add(new JumpStmt(labelBefore.label));
 		stmts.add(labelAfter);

@@ -1,8 +1,5 @@
-Exception in thread "main" java.lang.IllegalArgumentException: Could not convert obj to integer!
-	at compiler.interpret.Interpreter.toInt(Interpreter.java:357)
-	at compiler.interpret.Interpreter.execute(Interpreter.java:212)
-	at compiler.interpret.Interpreter.execute(Interpreter.java:187)
-	at compiler.interpret.Interpreter.execute(Interpreter.java:167)
+Exception in thread "main" java.lang.IllegalArgumentException: ERROR: Left side of move expression has to be MemExpr or TempExpr
+	at compiler.interpret.Interpreter.execute(Interpreter.java:179)
 	at compiler.interpret.Interpreter.execute(Interpreter.java:113)
 	at compiler.interpret.Interpreter.internalInterpret(Interpreter.java:83)
 	at compiler.interpret.Interpreter.interpret(Interpreter.java:69)
