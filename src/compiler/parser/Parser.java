@@ -718,6 +718,31 @@ public class Parser {
 
                 return new While(newPosition, cond, body);
             }
+            case KW_UNTIL: {
+                dump("atom_expression2 -> until expression : expression }");
+                skip();
+
+                var cond = parseExpression();
+
+				// we will just use  the WHILE logic, where the
+				// condition is negated
+				var condNegated = new Unary(cond.position,
+											cond,
+											Unary.Operator.NOT);
+
+                if( check() != OP_COLON ) Report.error(currentSymbol.position, String.format("Expected `OP_COLON`, got %s\n", check()));
+                skip();
+
+                var body = parseExpression();
+
+                if( check() != OP_RBRACE ) Report.error(currentSymbol.position, String.format("Expected `OP_RBRACE`, got %s\n", check()));
+                Position.Location end = currentSymbol.position.end;
+                skip();
+
+                Position newPosition = new Position(start, end);
+
+                return new While(newPosition, condNegated, body);
+            }
             case KW_FOR: {
                 dump("atom_expression2 -> for identifier = expression , expression , expression : expression }");
                 skip();

@@ -1,7 +1,7 @@
-TEST_NUM="23"
+TEST_NUM="25"
 TEST_IN_DIR="INT"
-TEST_RUN="INT"
-#TEST_RUN="$TEST_IN_DIR"
+#TEST_RUN="INT"
+TEST_RUN="$TEST_IN_DIR"
 # -ea enables assertions
 RUN_ARGS="-ea"
 
