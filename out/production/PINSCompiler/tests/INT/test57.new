@@ -1,6 +1,6 @@
-"5 is larger than 10"
+"5 is not larger than 10"
 "20 is larger than 10"
 "x1 < x2"
 true
-"x1 < x2"
+"x1 >= x2"
 true
