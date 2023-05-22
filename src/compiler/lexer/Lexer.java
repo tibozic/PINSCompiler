@@ -73,14 +73,16 @@ public class Lexer {
     public List<Symbol> scan() {
         var symbols = new ArrayList<Symbol>();
 
-       current_column = 0;
-       current_line = 1;
-       token_start_column = 1;
-       token_start_line = 1;
+		current_column = 0;
+		current_line = 1;
+		token_start_column = 1;
+		token_start_line = 1;
 
-       StringBuilder token = new StringBuilder();
+		int comment_length = 0;
 
-        LexerStates currentState = LexerStates.Lex_Default;
+		StringBuilder token = new StringBuilder();
+
+		LexerStates currentState = LexerStates.Lex_Default;
 
         for( int i = 0; i < this.source.length(); ++i ) {
             current_column++;
@@ -99,6 +101,7 @@ public class Lexer {
                         currentState = LexerStates.Lex_INT;
                         token.append(ch);
                     } else if (ch == '#') {
+						comment_length = 0;
                         currentState = LexerStates.Lex_Comment;
                     } else if (ch == '\'') {
                         currentState = LexerStates.Lex_String;
@@ -151,10 +154,19 @@ public class Lexer {
                     break;
                 }
                 case Lex_Comment: {
-                    if (ch == 10 || ch == 13) {
+					comment_length++;
+
+					if (ch == 10 || ch == 13) {
                         currentState = LexerStates.Lex_Default;
                         checkWhitespace(ch);
+						break;
                     }
+
+					if( comment_length > 10 ) {
+						System.out.println("ERROR: Maximum comment length is 10 characters");
+						System.exit(99);
+					}
+					
                     break;
                 }
                 case Lex_String: {
