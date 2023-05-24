@@ -63,6 +63,8 @@ public class IRCodeGenerator implements Visitor {
      */
     public List<Chunk> chunks = new ArrayList<>();
 
+	public int memory_usage;
+
 	/**
 	 * Steje staticni nivo na katerem smo trenutno
 	 */
@@ -82,6 +84,7 @@ public class IRCodeGenerator implements Visitor {
         this.frames = frames;
         this.accesses = accesses;
         this.definitions = definitions;
+		this.memory_usage = 0;
     }
 
 	public boolean is_std_function(String function) {
@@ -95,7 +98,6 @@ public class IRCodeGenerator implements Visitor {
 
     @Override
     public void visit(Call call) {
-
 		if( is_std_function(call.name) ) {
 			List<IRExpr> args = new ArrayList<>();
 
@@ -139,6 +141,17 @@ public class IRCodeGenerator implements Visitor {
 
 			return;
 		}
+
+		/* Memory usage calculation */
+
+		{
+			var funDef = definitions.valueFor(call).get();
+			var funFrame = frames.valueFor(funDef);
+
+			this.memory_usage += funFrame.get().size();
+		}
+
+		/* End of memory usage calculation */
 
 		/*
 		  Before we start the call of function we have to save the

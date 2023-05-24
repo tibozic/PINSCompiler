@@ -20,6 +20,8 @@ import compiler.gen.Memory;
 import compiler.interpret.Interpreter;
 import compiler.ir.IRCodeGenerator;
 import compiler.ir.IRPrettyPrint;
+import compiler.ir.chunk.Chunk.DataChunk;
+import compiler.ir.chunk.Chunk.GlobalChunk;
 import compiler.lexer.Lexer;
 import compiler.parser.Parser;
 import compiler.parser.ast.def.Def;
@@ -140,6 +142,25 @@ public class Main {
         if (cli.execPhase == Phase.IMC) {
             return;
         }
+
+		/* Memory usage calculation */
+		// account for all inner function frames (these can get called mutliple times)
+		int memory_usage = generator.memory_usage;
+
+
+		// account for all global variables and strings
+		for( var chunk : generator.chunks ) {
+			if( chunk instanceof GlobalChunk globalChunk ) {
+				memory_usage += globalChunk.access.size;
+			}
+
+			if( chunk instanceof DataChunk dataChunk ) {
+				memory_usage += dataChunk.access.size;
+			}
+		}
+
+		/* End of memory usage calculation */
+
         /**
          * Linearizacija vmesne kode.
          */
@@ -148,6 +169,12 @@ public class Main {
         if (!cli.dumpPhases.contains(Phase.INT)) {
             return;
         }
+
+		// account for the first main frame
+		memory_usage += mainCodeChunk.get().frame.size();
+		System.out.printf("Kolicina porabljenega spomina: %d bytov\n",
+						  memory_usage);
+
         /**
          * Izvajanje vmesne kode.
          */

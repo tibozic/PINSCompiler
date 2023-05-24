@@ -13,7 +13,7 @@ import java.util.Optional;
 import compiler.parser.ast.Ast;
 
 public class NodeDescription<T> {
-    private Map<Ast, T> storage = new HashMap<>();
+    public Map<Ast, T> storage = new HashMap<>();
 
     /**
      * Vrne vrednost za podano vozlišče, če je le-ta

@@ -24,7 +24,7 @@ public class FrameEvaluator implements Visitor {
     /**
      * Opis definicij funkcij in njihovih klicnih zapisov.
      */
-    private NodeDescription<Frame> frames;
+    public NodeDescription<Frame> frames;
 
     /**
      * Opis definicij spremenljivk in njihovih dostopov.
