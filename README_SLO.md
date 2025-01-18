@@ -25,7 +25,7 @@ fun swap(tab : arr[20] integer, i : integer, j : integer) : integer = (
 ) {where var tmp : integer}
 ```
 
-### Implementaicja quicksort
+### Implementacija quicksort
 ```
 fun partition (tab: arr[100] integer, low: integer, high: integer) : integer = (
     {pivot = tab[high]},
