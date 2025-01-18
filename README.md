@@ -1,4 +1,4 @@
-# PINS Compiler  
+# PINS Compiler - [Slovenian README](README_SLO.md)
 A compiler for an imaginary language, written in Java. <br>  
 Developed as part of the PINS (Compiler and Virtual Machines) course in the undergraduate study at FRI.
 
